@@ -1,0 +1,42 @@
+database
+    -   user: {
+        id,
+        name,
+        email,
+        sdt,
+        isAdmin,
+        isManagement
+    }
+    -   categogy: {
+        id,
+        name
+    }
+    -   post: {
+        id,
+        userId,
+        categogyId,
+        title,
+        desc,
+        images,
+        isShow
+    }
+    -   request:{
+        id,
+        userId,
+        postId,
+        desc,
+        addressLost,
+        datetimeLost
+    }
+    -   comment :{
+        id,
+        postId,
+        content,
+        replyId
+    }
+    -   Message : {
+        id,
+        userId,
+        destinationId,
+        content
+    }
