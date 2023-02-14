@@ -1,73 +1,31 @@
+const { createError } = require("../utils/createError");
 const jwt = require("jsonwebtoken");
 
-exports.verifyUser = function (req, res, next) {
+const verifyToken = (req, res, next) => {
   const authToken = req.headers["authorization"];
   const token = authToken && authToken.split(" ")[1];
   if (!token) {
-    const err = new Error("Người dùng chưa đăng nhập");
-    err.statusCode = 401;
-    return next(err);
+    return next(createError(401, "Người dùng chưa đăng nhập"));
   }
   try {
-    const { iduser } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    req.userId = iduser;
+    req.user = user;
 
     next();
   } catch (error) {
     next(error);
   }
 };
-exports.verifyAdmin = function (req, res, next) {
-  const authToken = req.headers["authorization"];
-  const token = authToken && authToken.split(" ")[1];
-
-  if (!token) {
-    const err = new Error("Người dùng chưa đăng nhập");
-    err.statusCode = 401;
-    return next(err);
-  }
-  try {
-    const { isAdmin, iduser } = jwt.verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET
-    );
-    if (!isAdmin) {
-      const err = new Error("Người dùng không có quyền");
-      err.statusCode = 402;
-      return next(err);
+const verifyTokenAdmin = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (!req.user.isAdmin) {
+      return next(createError(402, "Không có quyền quản trị viên"));
     }
-
-    req.userId = iduser;
     next();
-  } catch (error) {
-    next(error);
-  }
+  });
 };
-exports.verifyManagement = function (req, res, next) {
-  const authToken = req.headers["authorization"];
-  const token = authToken && authToken.split(" ")[1];
-
-  if (!token) {
-    const err = new Error("Người dùng chưa đăng nhập");
-    err.statusCode = 401;
-    return next(err);
-  }
-  try {
-    const { iduser, isManagement } = jwt.verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET
-    );
-
-    if (!isManagement) {
-      const err = new Error("Người dùng không có quyền");
-      err.statusCode = 402;
-      return next(err);
-    }
-    req.userId = iduser;
-
-    next();
-  } catch (error) {
-    next(error);
-  }
+module.exports = {
+  verifyToken,
+  verifyTokenAdmin,
 };
