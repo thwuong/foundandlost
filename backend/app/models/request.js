@@ -7,16 +7,14 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      this.belongsTo(models.User);
-    }
+    static associate(models) {}
   }
   Request.init(
     {
-      userId: DataTypes.UUID,
-      postId: DataTypes.UUID,
+      userId: DataTypes.INTEGER,
+      postId: DataTypes.INTEGER,
       desc: DataTypes.STRING,
-      status: DataTypes.ENUM("Đang chờ duyệt", "Đã Duyệt", "Từ Chối"),
+      status: DataTypes.ENUM("pending", "accepted", "refused"),
     },
     {
       sequelize,

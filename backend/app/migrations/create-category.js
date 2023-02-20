@@ -6,14 +6,13 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        // type: Sequelize.UUID,
-        // defaultValue: Sequelize.UUIDV4,
         autoIncrement: true,
         type: Sequelize.INTEGER,
       },
       typeName: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
     });
   },

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const db = require("../models/index");
 const { createError } = require("../utils/createError");
-const argon2 = require("argon2");
+const Cryptr = require("cryptr");
 const jwt = require("jsonwebtoken");
 class AuthController {
   async login(req, res, next) {
@@ -18,33 +18,62 @@ class AuthController {
       if (!user) {
         return next(createError(401, "Người dùng không có trong hệ thống!"));
       }
-      const invalidPassword = await argon2.verify(user.password, password);
+      const cryptr = new Cryptr(process.env.HASH_KEY);
+      const invalidPassword = cryptr.decrypt(user.password) === password;
       if (!invalidPassword) {
         return next(createError(401, "Mật khẩu không đúng!"));
       }
-      const token = jwt.sign(
-        {
-          userId: user.userId,
-          isAdmin: user.isAdmin,
-        },
+      const accessToken = jwt.sign(
+        { userId: user.id, isAdmin: user.isAdmin },
         process.env.ACCESS_TOKEN_SECRET,
-        {
-          expiresIn: "1h",
-        }
+        { expiresIn: "10m" }
       );
+      const refeshToken = jwt.sign(
+        { userId: user.id, isAdmin: user.isAdmin },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "1d" }
+      );
+      res.cookie("jwt", refeshToken, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
       res.status(200).json({
         success: true,
         message: `Đăng nhập thành công!`,
-        token,
+        accessToken,
       });
     } catch (error) {
       next(error);
     }
   }
   refeshToken(req, res, next) {
-    res.json({
+    const refeshToken = req.cookies.jwt;
+    if (!refeshToken) {
+      return next(createError(400, "Người dùng chưa đăng nhập"));
+    }
+    try {
+      const user = jwt.verify(refeshToken, process.env.ACCESS_TOKEN_SECRET);
+      const accessToken = jwt.sign(
+        { userId: user.userId, isAdmin: user.isAdmin },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+          expiresIn: "10m",
+        }
+      );
+      res.status(200).json({
+        success: true,
+        message: "refesh token successfully!",
+        accessToken,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  logout(req, res, next) {
+    res.cookie("jwt", "");
+    res.status(200).json({
       success: true,
-      message: "thong diep",
+      message: "Đăng xuất thành công!",
     });
   }
 }

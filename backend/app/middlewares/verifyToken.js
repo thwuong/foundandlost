@@ -19,7 +19,8 @@ const verifyToken = (req, res, next) => {
 };
 const verifyTokenAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (!req.user.isAdmin) {
+    if (!req.user) return next(createError(401, "Người dùng chưa đăng nhập"));
+    if (!req.user?.isAdmin) {
       return next(createError(402, "Không có quyền quản trị viên"));
     }
     next();

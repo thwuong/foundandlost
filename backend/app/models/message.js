@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
   Message.init(
     {
       message: DataTypes.STRING,
-      serder: DataTypes.UUID,
-      receiver: DataTypes.UUID,
+      serder: DataTypes.INTEGER,
+      receiver: DataTypes.INTEGER,
     },
     {
       sequelize,

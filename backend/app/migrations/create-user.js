@@ -27,8 +27,13 @@ module.exports = {
         validate: {
           isEmail: true,
         },
+        allowNull: false,
       },
       fullName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      address: {
         type: Sequelize.STRING,
       },
       phone: {
@@ -36,6 +41,7 @@ module.exports = {
         validate: {
           is: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
         },
+        allowNull: false,
       },
       avatar: {
         type: Sequelize.STRING,

@@ -6,8 +6,6 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        // type: Sequelize.UUID,
-        // defaultValue: Sequelize.UUIDV4,
         autoIncrement: true,
         type: Sequelize.INTEGER,
       },
@@ -39,10 +37,19 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      location: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      postType: {
+        type: Sequelize.ENUM,
+        values: ["Found item", "Lost item"],
+        allowNull: false,
+      },
       status: {
         type: Sequelize.ENUM,
-        defaultValue: "Đang chờ xác nhận",
-        values: ["Đang chờ xác nhận", "Đã xác nhận", "Hết hạn"],
+        defaultValue: "pending",
+        values: ["pending", "confirmed", "expired"],
       },
       createdAt: {
         allowNull: false,

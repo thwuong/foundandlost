@@ -2,14 +2,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Requests", {
+    await queryInterface.createTable("Comments", {
       id: {
         allowNull: false,
         autoIncrement: true,
         type: Sequelize.INTEGER,
         primaryKey: true,
-        // type: Sequelize.UUID,
-        // defaultValue: Sequelize.UUIDV4,
       },
       postId: {
         type: Sequelize.INTEGER,
@@ -31,14 +29,9 @@ module.exports = {
         },
         allowNull: false,
       },
-      desc: {
+      content: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-      status: {
-        type: Sequelize.ENUM,
-        defaultValue: "pending",
-        values: ["pending", "accepted", "refused"],
       },
       createdAt: {
         allowNull: false,
@@ -51,6 +44,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Requests");
+    await queryInterface.dropTable("Comments");
   },
 };

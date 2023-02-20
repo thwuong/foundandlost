@@ -13,11 +13,30 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      code: DataTypes.STRING,
-      password: DataTypes.STRING,
-      email: DataTypes.STRING,
+      code: {
+        type: DataTypes.STRING,
+        validate: { is: /([A-Z])+([0-9]{7})\b/ },
+      },
+      password: {
+        type: DataTypes.STRING,
+        validate: {
+          min: 8,
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
+        validate: {
+          isEmail: true,
+        },
+      },
       fullName: DataTypes.STRING,
-      phone: DataTypes.STRING,
+      address: DataTypes.STRING,
+      phone: {
+        type: DataTypes.STRING,
+        validate: {
+          is: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
+        },
+      },
       avatar: DataTypes.STRING,
       isAdmin: DataTypes.BOOLEAN,
     },
