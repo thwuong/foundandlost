@@ -1,5 +1,8 @@
 import axios from "axios";
-
+import jwtDecode from "jwt-decode";
+import { updateNewToken } from "../stores/AuthSlice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 const axiosClient = axios.create({
   baseURL: "http://localhost:5000/api",
   headers: {
@@ -8,8 +11,33 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(async (config) => {
-  const token = window.localStorage.getItem("token");
+  if (
+    config.url.indexOf("/auth/login") >= 0 ||
+    config.url.indexOf("/auth/refesh")
+  ) {
+    return config;
+  }
+  const token = useSelector((state) => state.auth.token);
+  // const token = window.localStorage.getItem("token");
+  let date = new Date();
+
   if (token) {
+    const decodedToken = jwtDecode(token);
+
+    if (decodedToken.iat < date.getTime() / 1000) {
+      try {
+        const data = await axiosClient.post("/auth/refesh");
+        if (data) {
+          // window.localStorage.setItem("token", data.accessToken);
+          const dispatch = useDispatch();
+          dispatch(updateNewToken(data));
+          config.headers.Authorization = `Bearer ${data.accessToken}`;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     config.headers.Authorization = `Bearer ${token}`;
   }
 
