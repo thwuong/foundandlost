@@ -18,6 +18,8 @@ connectDB();
 app.use("/api/user", require("./app/routes/userRouter"));
 app.use("/api/auth", require("./app/routes/authRouter"));
 app.use("/api/category", require("./app/routes/categoryRouter"));
+app.use("/api/post", require("./app/routes/postRouter"));
+app.use("/api/request", require("./app/routes/requestRouter"));
 // End Routes
 app.all("*", (req, res, next) => {
   next(createError(404, "Không tìm thấy nguồn!"));

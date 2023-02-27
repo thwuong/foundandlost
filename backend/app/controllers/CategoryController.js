@@ -34,6 +34,8 @@ class CategoryController {
     const id = req.params.id;
     const typeName = req.body.typeName;
     try {
+      if (!typeName)
+        return next(createError(400, "Thiếu trường tên danh mục!"));
       const category = await db.Category.update(
         { typeName },
         { where: { id } }
@@ -64,7 +66,7 @@ class CategoryController {
       const categories = await db.Category.findAll({});
       res.status(200).json({
         success: true,
-        message: "Tạo danh mục mới thành công!",
+        message: "Lấy danh sách danh mục thành công!",
         categories,
       });
     } catch (error) {

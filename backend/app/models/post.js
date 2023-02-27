@@ -9,12 +9,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Category, {
+        foreignKey: "categoryId",
+        as: "category",
+      });
+      this.belongsTo(models.User, { foreignKey: "ownerId", as: "author" });
     }
   }
   Post.init(
     {
-      userId: DataTypes.INTEGER,
-      categogyId: DataTypes.INTEGER,
+      ownerId: DataTypes.INTEGER,
+      categoryId: DataTypes.INTEGER,
       title: DataTypes.STRING,
       desc: DataTypes.STRING,
       location: DataTypes.STRING,

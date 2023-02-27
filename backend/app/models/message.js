@@ -9,13 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Conversation, {
+        foreignKey: "conversationId",
+        as: "conversation",
+      });
+      this.belongsTo(models.User, { foreignKey: "serderId", as: "serder" });
     }
   }
   Message.init(
     {
       message: DataTypes.STRING,
-      serder: DataTypes.INTEGER,
-      receiver: DataTypes.INTEGER,
+      conversationId: DataTypes.INTEGER,
+      serderId: DataTypes.INTEGER,
     },
     {
       sequelize,

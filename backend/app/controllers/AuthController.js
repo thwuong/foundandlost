@@ -13,7 +13,11 @@ class AuthController {
       );
     }
     try {
-      const user = await db.User.findOne({ where: { code } });
+      const user = await db.User.findOne({
+        where: { code },
+        raw: true,
+        attributes: { include: ["password"] },
+      });
 
       if (!user) {
         return next(createError(401, "Người dùng không có trong hệ thống!"));
@@ -37,10 +41,12 @@ class AuthController {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
       });
+      delete user.password;
       res.status(200).json({
         success: true,
         message: `Đăng nhập thành công!`,
         accessToken,
+        user,
       });
     } catch (error) {
       next(error);
@@ -70,7 +76,7 @@ class AuthController {
     }
   }
   logout(req, res, next) {
-    res.cookie("jwt", "");
+    res.clearCookie("jwt");
     res.status(200).json({
       success: true,
       message: "Đăng xuất thành công!",

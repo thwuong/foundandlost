@@ -2,24 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Messages", {
+    await queryInterface.createTable("Conversations", {
       id: {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
         type: Sequelize.INTEGER,
       },
-      conversationId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: "Conversations",
-          },
-          key: "id",
-        },
-        allowNull: false,
-      },
-      senderId: {
+      firstUserId: {
         type: Sequelize.INTEGER,
         references: {
           model: {
@@ -29,8 +19,14 @@ module.exports = {
         },
         allowNull: false,
       },
-      message: {
-        type: Sequelize.STRING,
+      secondUserId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: "Users",
+          },
+          key: "id",
+        },
         allowNull: false,
       },
       createdAt: {
@@ -44,6 +40,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Messages");
+    await queryInterface.dropTable("Conversations");
   },
 };

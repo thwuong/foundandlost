@@ -9,7 +9,7 @@ module.exports = {
         autoIncrement: true,
         type: Sequelize.INTEGER,
       },
-      categogyId: {
+      categoryId: {
         type: Sequelize.INTEGER,
         references: {
           model: {
@@ -19,7 +19,7 @@ module.exports = {
         },
         allowNull: false,
       },
-      userId: {
+      ownerId: {
         type: Sequelize.INTEGER,
         references: {
           model: {
@@ -41,10 +41,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      images: {
+        type: Sequelize.JSON(Sequelize.STRING),
+        defaultValue: [],
+      },
       postType: {
         type: Sequelize.ENUM,
         values: ["Found item", "Lost item"],
-        allowNull: false,
       },
       status: {
         type: Sequelize.ENUM,

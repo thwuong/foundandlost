@@ -13,7 +13,9 @@ class UserController {
       return next(createError(401, "Trường mật khẩu bị thiếu!"));
     }
     try {
-      const oldUser = await db.User.findOne({ where: { code } });
+      const oldUser = await db.User.findOne({
+        where: { code },
+      });
       if (oldUser) {
         return next(createError(401, `Người dùng ${code} đã tồn tại!`));
       }
@@ -46,9 +48,11 @@ class UserController {
         where: {
           isAdmin: false,
         },
+        attributes: { include: ["password"] },
+        raw: true,
       });
       let convertUsers = users.map((user) => {
-        let { password, ...rest } = user.dataValues;
+        let { password, ...rest } = user;
         const cryptr = new Cryptr(process.env.HASH_KEY);
         password = cryptr.decrypt(password);
         return { ...rest, password };
@@ -94,12 +98,14 @@ class UserController {
         phone,
         address,
       };
-      updatedUser = await db.User.update(updatedUser, { where: { id } });
+      updatedUser = await db.User.update(updatedUser, {
+        where: { id },
+        raw: true,
+      });
 
       res.status(200).json({
         success: true,
-        message: `Cập nhật ${updatedUser.code} sinh viên thành công!`,
-        updatedUser,
+        message: `Cập nhật sinh viên thành công!`,
       });
     } catch (error) {
       next(error);
@@ -108,8 +114,12 @@ class UserController {
   async getUser(req, res, next) {
     const id = req.params.id;
     try {
-      const user = await db.User.findOne({ where: { id } });
-      const { password, ...userCurrent } = user.dataValues;
+      const user = await db.User.findOne({
+        where: { id },
+        attributes: { exclude: ["password"] },
+        raw: true,
+      });
+      const { password, ...userCurrent } = user;
       res.status(200).json({
         success: true,
         message: `Lấy thông tin sinh viên thành công!`,
@@ -122,12 +132,16 @@ class UserController {
   async getProfile(req, res, next) {
     const userId = req.user.userId;
     try {
-      const user = await db.User.findOne({ where: { id: userId } });
-      const { password, ...userCurrent } = user.dataValues;
+      const user = await db.User.findOne({
+        where: { id: userId },
+        attributes: { exclude: ["password"] },
+        raw: true,
+      });
+
       res.status(200).json({
         success: true,
         message: `Lấy thông tin sinh viên thành công!`,
-        userCurrent,
+        user,
       });
     } catch (error) {
       next(error);
@@ -148,6 +162,7 @@ class UserController {
       };
       userUpdated = await db.User.update(userUpdated, {
         where: { id: userId },
+        raw: true,
       });
       res.status(200).json({
         success: true,
