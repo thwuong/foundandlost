@@ -1,29 +1,12 @@
-function Pagination() {
-  const items = [
-    {
-      id: 1,
-      title: "Back End Developer",
-      department: "Engineering",
-      type: "Full-time",
-      location: "Remote",
-    },
-    {
-      id: 2,
-      title: "Front End Developer",
-      department: "Engineering",
-      type: "Full-time",
-      location: "Remote",
-    },
-    {
-      id: 3,
-      title: "User Interface Designer",
-      department: "Design",
-      type: "Full-time",
-      location: "Remote",
-    },
-  ];
+function Pagination(props) {
+  const { onPageChange, pagination } = props;
+  const { _page, _limit, _totalRows } = pagination;
+  const lastPage = Math.ceil(_totalRows / _limit);
+  const handlePageChange = (newPage) => {
+    onPageChange(newPage);
+  };
   return (
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+    <div className="flex items-center justify-between bg-transparent px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
         <a
           href="#"
@@ -51,61 +34,34 @@ function Pagination() {
             className="isolate inline-flex -space-x-px rounded-md shadow-sm"
             aria-label="Pagination"
           >
-            <a
-              href="#"
+            <button
+              disabled={_page <= 1}
+              onClick={() => {
+                handlePageChange(_page - 1);
+              }}
               className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
             >
               <span className="sr-only">Previous</span>
-              <box-icon name="chevron-left" type="solid"></box-icon>
-            </a>
-            {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
-            <a
-              href="#"
-              aria-current="page"
-              className="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
-            >
-              1
-            </a>
-            <a
-              href="#"
-              className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-            >
-              2
-            </a>
-            <a
-              href="#"
-              className="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex"
-            >
-              3
-            </a>
-            <span className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">
-              ...
-            </span>
-            <a
-              href="#"
-              className="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex"
-            >
-              8
-            </a>
-            <a
-              href="#"
-              className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-            >
-              9
-            </a>
-            <a
-              href="#"
-              className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-            >
-              10
-            </a>
-            <a
-              href="#"
+              <box-icon
+                name="chevron-left"
+                type="solid"
+                color="gray"
+              ></box-icon>
+            </button>
+            <button
+              disabled={_page === lastPage}
+              onClick={() => {
+                handlePageChange(_page + 1);
+              }}
               className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
             >
               <span className="sr-only">Next</span>
-              <box-icon type="solid" name="chevron-right"></box-icon>
-            </a>
+              <box-icon
+                type="solid"
+                name="chevron-right"
+                color="gray"
+              ></box-icon>
+            </button>
           </nav>
         </div>
       </div>

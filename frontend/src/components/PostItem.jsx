@@ -23,11 +23,10 @@ function PostItem() {
         <box-icon type="solid" name="map" size="sm" color="gray"></box-icon>
         <span className="text-paragarph-black/50 font-medium">Đà nẵng</span>
       </div>
-      <div className="w-full py-2 bg-primary/90 hover:bg-primary rounded flex items-center justify-center">
+      <div className="w-full py-2 bg-primary/90 hover:bg-primary rounded flex items-center justify-center cursor-pointer">
         <span className="text-paragarph-white font-bold">Chi tiết</span>
         <box-icon type="solid" name="right-arrow-alt" color="white"></box-icon>
       </div>
-      <div className="mt-6"></div>
     </div>
   );
 }
