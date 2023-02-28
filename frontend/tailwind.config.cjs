@@ -7,10 +7,14 @@ module.exports = {
         primary: "#2457C5",
         secondary: "#F3F3F3",
         title: "#000000",
-        paragarch: "#333333",
-        caption: "#CCCCCC",
+        "paragarph-black": "#333333",
+        "paragarph-white": "#FEFEFE",
+        caption: "#424680",
+      },
+      backgroundImage: {
+        main: "url('/src/assets/Bg.png')",
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 };
