@@ -2,6 +2,7 @@ function Pagination(props) {
   const { onPageChange, pagination } = props;
   const { _page, _limit, _totalRows } = pagination;
   const lastPage = Math.ceil(_totalRows / _limit);
+  console.log(lastPage);
   const handlePageChange = (newPage) => {
     onPageChange(newPage);
   };
@@ -39,7 +40,7 @@ function Pagination(props) {
               onClick={() => {
                 handlePageChange(_page - 1);
               }}
-              className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+              className="relative inline-flex items-center disabled:bg-white/40 rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
             >
               <span className="sr-only">Previous</span>
               <box-icon
@@ -53,7 +54,7 @@ function Pagination(props) {
               onClick={() => {
                 handlePageChange(_page + 1);
               }}
-              className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+              className="relative inline-flex items-center rounded-r-md border disabled:bg-white/40 border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
             >
               <span className="sr-only">Next</span>
               <box-icon

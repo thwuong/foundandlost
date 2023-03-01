@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import Search from "../components/Home/Search";
+import Pagination from "../components/Home/Pagination";
+import SelectCategory from "../components/Home/SelectCategory";
 import Header from "../components/Header";
 import PostItem from "../components/PostItem";
-import Search from "../components/Search";
-import Pagination from "../components/Pagination";
-import SelectCategory from "../components/SelectCategory";
+import TabTypePost from "../components/Home/TabTypePost";
 
 function HomePage() {
   const [pagination, setPagination] = useState({
@@ -18,15 +19,17 @@ function HomePage() {
     _page: 1,
     text: "",
     category: null,
-    typePost: null,
+    postType: null,
   });
-  const [tab, setTab] = useState("all");
-
+  const handleTabChange = (tabSelected) => {
+    console.log(tabSelected);
+  };
   const handlePageChange = (newPage) => {
     console.log(newPage);
+    setPagination({ ...pagination, _page: newPage });
   };
-  const handleSelecting = (selectedCategory) => {
-    console.log(selectedCategory);
+  const handleSelecting = (categorySelected) => {
+    console.log(categorySelected);
   };
   const handleSearching = (newKeyWord) => {
     console.log(newKeyWord);
@@ -43,46 +46,8 @@ function HomePage() {
             Found & Lost List
           </h1>
           <div className="mt-8 grid xl:grid-cols-12 gap-5">
-            <div className="xl:col-span-3 flex gap-3">
-              <button
-                className={
-                  (tab === "all"
-                    ? "bg-primary text-paragarph-white"
-                    : "bg-transparent text-paragarph-black border-2 border-primary") +
-                  " text-center px-4 py-2 rounded-lg font-bold"
-                }
-                onClick={() => {
-                  setTab("all");
-                }}
-              >
-                Tất cả
-              </button>
-              <button
-                onClick={() => {
-                  setTab("lost");
-                }}
-                className={
-                  (tab === "lost"
-                    ? "bg-primary text-paragarph-white"
-                    : "bg-transparent text-paragarph-black border-2 border-primary") +
-                  " text-center px-4 py-2 rounded-lg font-bold"
-                }
-              >
-                Bị mất
-              </button>
-              <button
-                onClick={() => {
-                  setTab("found");
-                }}
-                className={
-                  (tab === "found"
-                    ? "bg-primary text-paragarph-white"
-                    : "bg-transparent text-paragarph-black border-2 border-primary") +
-                  " text-center px-4 py-2 rounded-lg font-bold"
-                }
-              >
-                Tìm thấy
-              </button>
+            <div className="xl:col-span-3">
+              <TabTypePost onTabChange={handleTabChange} />
             </div>
             <div className="xl:col-span-5">
               <Search onSearch={handleSearching} />
@@ -90,11 +55,16 @@ function HomePage() {
             <div className="xl:col-span-2">
               <SelectCategory onSelect={handleSelecting} />
             </div>
-            <div className="xl:col-span-2 flex justify-center items-center gap-2 px-4 py-2 rounded-lg cursor-pointer bg-primary hover:bg-primary/90">
-              <box-icon name="plus-circle" color="white"></box-icon>
-              <span className="font-bold text-paragarph-white">
-                Đăng đồ vật
-              </span>
+            <div className="xl:col-span-2 ">
+              <Link
+                to={"/post/create-post"}
+                className="flex justify-center items-center gap-2 px-4 py-2 rounded-lg cursor-pointer bg-primary hover:bg-primary/90"
+              >
+                <box-icon name="plus-circle" color="white"></box-icon>
+                <span className="font-bold text-paragarph-white">
+                  Đăng đồ vật
+                </span>
+              </Link>
             </div>
           </div>
           <div className="py-8 grid xl:grid-cols-4 gap-5">
