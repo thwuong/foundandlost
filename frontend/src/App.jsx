@@ -6,8 +6,9 @@ import LoginPage from "./pages/LoginPage";
 import PostDetail from "./pages/PostDetail";
 import ProfilePage from "./pages/ProfilePage";
 import ManageAccount from "./pages/ManageAccount";
+import ManagePost from "./pages/ManagePost";
 import CreatePost from "./pages/CreatePost";
-import NotFound from "./pages/NotFoundPage";
+import NotFound from "./pages/NotFound";
 import PrivateRoutes from "./utils/PrivateRoutes";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/post/:id" element={<PostDetail />}></Route>
         <Route path="/profile" element={<ProfilePage />}></Route>
         <Route path="/manage/account" element={<ManageAccount />}></Route>
+        <Route path="/manage/post" element={<ManagePost />}></Route>
         {/* </Route> */}
         <Route path="*" element={<NotFound />}></Route>
       </Routes>

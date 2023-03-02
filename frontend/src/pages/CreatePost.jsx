@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-import imageUpload from "../assets/image-upload.jpg";
+import * as Yup from "yup";
 import {
   Button,
   FormControl,
@@ -9,7 +10,7 @@ import {
   Textarea,
   Select,
 } from "@chakra-ui/react";
-import * as Yup from "yup";
+import imageUpload from "../assets/image-upload.jpg";
 import Header from "../components/Header";
 import PreviewImage from "../components/PreviewImage";
 import { validationMultipleImage } from "../utils/validationImage";
@@ -206,9 +207,11 @@ function CreatePost() {
           >
             Đăng bài
           </Button>
-          <Button colorScheme="pink" className="ml-4 mt-4">
-            Hủy bỏ
-          </Button>
+          <Link to={"/"}>
+            <Button colorScheme="pink" className="ml-4 mt-4">
+              Hủy bỏ
+            </Button>
+          </Link>
         </form>
       </div>
     </div>

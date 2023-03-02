@@ -12,7 +12,8 @@ module.exports = {
         caption: "#424680",
       },
       backgroundImage: {
-        main: "url('/src/assets/Bg.png')",
+        main: "url('/src/assets/systemImage2.jpg')",
+        extra: "url('/src/assets/systemImage.jpg')",
       },
     },
   },

@@ -5,7 +5,7 @@ import Search from "../components/Home/Search";
 import Pagination from "../components/Home/Pagination";
 import SelectCategory from "../components/Home/SelectCategory";
 import Header from "../components/Header";
-import PostItem from "../components/PostItem";
+import CardItem from "../components/CardItem";
 import TabTypePost from "../components/Home/TabTypePost";
 
 function HomePage() {
@@ -41,7 +41,7 @@ function HomePage() {
     <div className="bg-main bg-no-repeat bg-cover">
       <div className="w-[80%] xl:min-h-screen mx-auto">
         <div className="container">
-          <Header />
+          <Header activeTab="home" />
           <h1 className="text-5xl text-primary font-bold text-center">
             Found & Lost List
           </h1>
@@ -68,14 +68,14 @@ function HomePage() {
             </div>
           </div>
           <div className="py-8 grid xl:grid-cols-4 gap-5">
-            <PostItem />
-            <PostItem />
-            <PostItem />
-            <PostItem />
-            <PostItem />
-            <PostItem />
-            <PostItem />
-            <PostItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
+            <CardItem />
           </div>
           <Pagination onPageChange={handlePageChange} pagination={pagination} />
         </div>
