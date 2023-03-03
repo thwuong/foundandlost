@@ -1,4 +1,4 @@
-import Comment from "../components/Comment";
+import Comment from "../components/Comment/Comment";
 import Header from "../components/Header";
 import PostItem from "../components/PostItem";
 import RelatedPost from "../components/RelatedPost";

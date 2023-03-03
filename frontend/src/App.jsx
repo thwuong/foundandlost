@@ -5,10 +5,11 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import PostDetail from "./pages/PostDetail";
 import ProfilePage from "./pages/ProfilePage";
-import ManageAccount from "./pages/ManageAccount";
-import ManagePost from "./pages/ManagePost";
 import CreatePost from "./pages/CreatePost";
 import NotFound from "./pages/NotFound";
+import ManageAccount from "./pages/ManageAccount";
+import ManagePost from "./pages/ManagePost";
+import ManageCategory from "./pages/ManageCategory";
 import PrivateRoutes from "./utils/PrivateRoutes";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />}></Route>
         <Route path="/manage/account" element={<ManageAccount />}></Route>
         <Route path="/manage/post" element={<ManagePost />}></Route>
+        <Route path="/manage/category" element={<ManageCategory />}></Route>
         {/* </Route> */}
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
