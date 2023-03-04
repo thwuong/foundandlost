@@ -14,6 +14,7 @@ module.exports = {
       backgroundImage: {
         main: "url('/src/assets/systemImage2.jpg')",
         extra: "url('/src/assets/systemImage.jpg')",
+        // profile: "url('/src/assets/bgProfile.jpg')",
       },
     },
   },

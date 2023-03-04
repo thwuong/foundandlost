@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -22,6 +21,7 @@ function App() {
         <Route path="/post/create-post" element={<CreatePost />}></Route>
         <Route path="/post/:id" element={<PostDetail />}></Route>
         <Route path="/profile" element={<ProfilePage />}></Route>
+        {/* Admin */}
         <Route path="/manage/account" element={<ManageAccount />}></Route>
         <Route path="/manage/post" element={<ManagePost />}></Route>
         <Route path="/manage/category" element={<ManageCategory />}></Route>

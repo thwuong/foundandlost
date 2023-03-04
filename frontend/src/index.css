@@ -23,3 +23,7 @@
     border: 3px solid white;
   }
 }
+/* Profile tab */
+.after-active {
+  @apply after:w-full after:h-1 after:absolute after:bottom-0 after:left-0 after:bg-primary;
+}

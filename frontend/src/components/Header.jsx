@@ -13,20 +13,24 @@ function Header(props) {
       </figure>
       <div className="flex items-center">
         <ul className="mr-20 flex gap-10">
-          <li
-            className={`text-lg font-bold  ${
-              activeTab === "manage" ? "text-primary" : "text-white"
-            }`}
-          >
-            <Link to={"/manage/account"}>Quản lý tài khoản</Link>
-          </li>
-          <li
-            className={`text-lg font-bold ${
-              activeTab === "home" ? "text-primary" : "text-white"
-            }`}
-          >
-            <Link to={"/"}>Trang chủ</Link>
-          </li>
+          <Link to={"/manage/account"}>
+            <li
+              className={`text-lg font-medium  ${
+                activeTab === "manage" ? "text-primary" : "text-black"
+              }`}
+            >
+              Quản lý tài khoản
+            </li>
+          </Link>
+          <Link to={"/"}>
+            <li
+              className={`text-lg font-medium ${
+                activeTab === "home" ? "text-primary" : "text-black"
+              }`}
+            >
+              Trang chủ
+            </li>
+          </Link>
         </ul>
         <div className="flex items-center relative group">
           <figure>
@@ -38,28 +42,34 @@ function Header(props) {
             {/* <img src={user.avatar} alt="Ảnh đại diện" className="h-full" /> */}
           </figure>
           <div className="ml-2">
-            <p className="text-primary font-medium">
+            <p className="text-primary font-bold">
               Dương Anh Thương B1906585
               {/* {user.fullName} {user.code} */}
             </p>
-            <p className="text-sm text-paragarph-white">
+            <p className="text-sm text-gray-500">
               Sinh viên
               {/* {user.isAdmin ? "Quản trị viên" : "Sinh viên"} */}
             </p>
           </div>
           <ul className="absolute overflow-hidden duration-300 top-6 w-full bg-white  rounded shadow-md opacity-0 invisible group-hover:top-12 group-hover:opacity-100 group-hover:visible">
-            <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
-              <box-icon type="solid" name="user-account"></box-icon>
-              <Link to={"/"}>Thông tin cá nhân</Link>
-            </li>
-            <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
-              <box-icon name="receipt"></box-icon>
-              <Link to={"/"}>Quản lý yêu cầu</Link>
-            </li>
-            <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
-              <box-icon name="exit"></box-icon>
-              <Link to={"/"}>Đăng xuất</Link>
-            </li>
+            <Link to={"/profile"}>
+              <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
+                <box-icon type="solid" name="user-account"></box-icon>
+                <span>Thông tin cá nhân</span>
+              </li>
+            </Link>
+            <Link to={"/"}>
+              <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
+                <box-icon name="receipt"></box-icon>
+                <span>Quản lý yêu cầu</span>
+              </li>
+            </Link>
+            <Link to={"/"}>
+              <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
+                <box-icon name="exit"></box-icon>
+                <span>Đăng xuất</span>
+              </li>
+            </Link>
           </ul>
         </div>
       </div>

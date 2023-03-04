@@ -7,12 +7,12 @@ export const validationMultipleImage = (files) => {
 
   [...files].forEach((file) => {
     if (!["image/jpg", "image/jpeg", "image/png"].includes(file.type)) {
-      error = "Loại tập tin không được hỗ trợ";
+      error = "Loại tập tin không được hỗ trợ!";
     }
   });
   if (!error) {
     if (totalSize > 5242880) {
-      error = "Tệp tin quá lớn";
+      error = "Tệp tin quá lớn!";
     }
   }
 
