@@ -80,7 +80,7 @@ function ManagePost() {
                 <option value="option2">Option 2</option>
               </Select>
             </div>
-            <div className="py-8 px-4 bg-white/20 rounded-lg h-[350px] overflow-y-scroll">
+            <div className="py-8 px-4 bg-white/20 rounded-lg h-[350px] overflow-y-auto">
               <PostTable dataList={posts} />
             </div>
           </div>

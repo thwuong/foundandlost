@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import InfoPane from "../components/Profile/InfoPane";
 import IntroPane from "../components/Profile/IntroPane";
 import CardList from "../components/Profile/CardList";
+import Request from "../components/Profile/Request";
 function ProfilePage() {
   const [activeTab, setActiveTab] = useState("post");
   return (
@@ -46,7 +47,14 @@ function ProfilePage() {
               <IntroPane />
             </div>
             <div className="w-[70%] h-[380px] overflow-y-auto">
-              <CardList />
+              {activeTab === "post" ? (
+                <CardList />
+              ) : (
+                <>
+                  <Request me={true} />
+                  <Request me={true} />
+                </>
+              )}
             </div>
           </div>
         </div>

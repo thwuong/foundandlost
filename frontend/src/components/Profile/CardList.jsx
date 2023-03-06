@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionItem,
@@ -8,10 +8,11 @@ import {
   Box,
 } from "@chakra-ui/react";
 import CardItem from "../CardItem";
+import Request from "./Request";
 function CardList() {
   return (
     <>
-      <div className="bg-white p-4 mb-4 rounded-lg">
+      <div className="bg-white px-6 py-4 mb-4 rounded-lg">
         <CardItem />
         <Accordion allowToggle>
           <AccordionItem border={"none"}>
@@ -22,11 +23,7 @@ function CardList() {
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel pb={4}>
-              <div className="">
-                <div>
-                  <span>tôi muốn nhận lại cái này</span>
-                </div>
-              </div>
+              <Request />
             </AccordionPanel>
           </AccordionItem>
         </Accordion>

@@ -1,8 +1,10 @@
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 const PrivateRoutes = () => {
-  const token = useSelector((state) => state.auth.token);
-  return token ? <Outlet /> : <Navigate to="/login" />;
+  const user = useSelector((state) => state.auth.user);
+  const location = useLocation();
+  console.log(location);
+  return user.isAdmin ? <Outlet /> : <Navigate to={location} />;
 };
 
 export default PrivateRoutes;

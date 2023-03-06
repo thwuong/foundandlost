@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Badge } from "@chakra-ui/react";
+import { renderTypePost } from "../utils/renderColorStatus";
 function PostItem(props) {
   const [imageActive, setImageActive] = useState(0);
-  const renderColorType = (type) => {
-    return type === "Found item" ? "blue" : "purple";
-  };
   return (
     <div className="flex gap-5 p-4 bg-black/10 rounded-lg">
       <div className="w-[50%]">
@@ -16,23 +14,23 @@ function PostItem(props) {
           />
         </figure>
         <div className="mt-6 flex justify-center items-center gap-5">
-          <figure>
+          <figure className="border-2">
             <img
-              className="w-16 h-16 object-cover"
+              className="w-16 h-16 object-cover cursor-pointer"
               src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
               alt=""
             />
           </figure>
           <figure>
             <img
-              className="w-16 h-16 object-cover"
+              className="w-16 h-16 object-cover cursor-pointer"
               src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
               alt=""
             />
           </figure>
           <figure>
             <img
-              className="w-16 h-16 object-cover"
+              className="w-16 h-16 object-cover cursor-pointer"
               src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
               alt=""
             />
@@ -72,7 +70,7 @@ function PostItem(props) {
           </span>
         </div>
         <div className="mt-2 flex items-center justify-between">
-          <Badge variant="outline" colorScheme={renderColorType("Found item")}>
+          <Badge variant="outline" colorScheme={renderTypePost("Found item")}>
             Found item
           </Badge>
           <span className="text-primary text-sm font-bold">#{"Công nghệ"}</span>

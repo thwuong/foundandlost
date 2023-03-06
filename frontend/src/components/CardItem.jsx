@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Badge } from "@chakra-ui/react";
+import { renderTypePost } from "../utils/renderColorStatus";
 function PostItem(props) {
   const [option, setOption] = useState(false);
   return (
@@ -13,8 +14,7 @@ function PostItem(props) {
               className="w-28 rounded"
             />
           </figure>
-          {/* Yellow = thất lạc, messenger = tìm thấy */}
-          <Badge variant="outline" colorScheme="messenger">
+          <Badge variant="outline" colorScheme={renderTypePost("Found item")}>
             Tìm thấy
           </Badge>
         </div>
