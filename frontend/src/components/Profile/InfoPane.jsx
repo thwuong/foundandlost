@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 function InfoPane() {
   return (
     <div className="flex gap-4">
@@ -25,10 +25,12 @@ function InfoPane() {
           <box-icon name="pencil" type="solid"></box-icon>
           <span>Chỉnh sửa thông tin</span>
         </div>
-        <div className="px-3 py-2 rounded text-white bg-primary flex gap-1 items-center justify-center cursor-pointer duration-300 hover:bg-primary/90">
-          <box-icon type="logo" name="messenger" color="white"></box-icon>
-          <span>Nhắn tin</span>
-        </div>
+        <Link to={"/chat"}>
+          <div className="px-3 py-2 rounded text-white bg-primary flex gap-1 items-center justify-center cursor-pointer duration-300 hover:bg-primary/90">
+            <box-icon type="logo" name="messenger" color="white"></box-icon>
+            <span>Nhắn tin</span>
+          </div>
+        </Link>
       </div>
     </div>
   );

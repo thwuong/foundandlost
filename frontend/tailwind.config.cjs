@@ -11,6 +11,9 @@ module.exports = {
         "paragarph-white": "#FEFEFE",
         caption: "#424680",
       },
+      fontSize: {
+        s: "12px",
+      },
       backgroundImage: {
         main: "url('/src/assets/systemImage2.jpg')",
         extra: "url('/src/assets/systemImage.jpg')",

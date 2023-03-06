@@ -69,18 +69,18 @@ function ManagePost() {
         <h1 className="my-6 text-primary text-3xl text-center font-bold">
           QUẢN LÝ ĐỒ VẬT
         </h1>
-        <div className="flex gap-5 mt-6">
+        <div className="w-[15%] ml-auto mb-4">
+          <Select placeholder="Ngày đăng" bgColor={"white"}>
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+          </Select>
+        </div>
+        <div className="flex gap-5 mt-6 h-[60%]">
           <div className="w-[20%]">
             <Navigate activeNav="post" />
           </div>
-          <div className="w-[80%] ">
-            <div className="w-[20%] ml-auto mb-4">
-              <Select placeholder="Ngày đăng" bgColor={"white"}>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-              </Select>
-            </div>
-            <div className="py-8 px-4 bg-white/20 rounded-lg h-[350px] overflow-y-auto">
+          <div className="w-[80%]">
+            <div className="py-8 px-4 bg-white/20 rounded-lg overflow-y-auto">
               <PostTable dataList={posts} />
             </div>
           </div>

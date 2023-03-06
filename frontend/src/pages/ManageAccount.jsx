@@ -38,12 +38,12 @@ function ManageAccount() {
           <span className="font-bold text-white">Tạo tài khoản</span>
           <box-icon name="user-plus" color="white"></box-icon>
         </div>
-        <div className="flex gap-5 mt-6">
+        <div className="flex gap-5 mt-4 h-[55%]">
           <div className="w-[20%]">
             <Navigate activeNav="account" />
           </div>
           <div className="w-[80%]">
-            <div className="py-8 px-4 bg-white/20 rounded-lg h-[350px] overflow-y-auto">
+            <div className="py-8 px-4 bg-white/20 rounded-lg  overflow-y-auto">
               <AccountTable dataList={users} />
             </div>
           </div>

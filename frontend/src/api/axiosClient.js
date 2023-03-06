@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { updateNewToken } from "../stores/AuthSlice";
+import { updateToken } from "../stores/AuthSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 const axiosClient = axios.create({
@@ -30,7 +30,7 @@ axiosClient.interceptors.request.use(async (config) => {
         if (data) {
           // window.localStorage.setItem("token", data.accessToken);
           const dispatch = useDispatch();
-          dispatch(updateNewToken(data));
+          dispatch(updateToken(data));
           config.headers.Authorization = `Bearer ${data.accessToken}`;
         }
       } catch (error) {

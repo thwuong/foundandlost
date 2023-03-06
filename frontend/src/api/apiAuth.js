@@ -1,13 +1,11 @@
 import axiosClient from "./axiosClient";
-import { loginStart, loginSuccess, loginFailure } from "../stores/AuthSlice";
-export const login = async (user, dispatch, navigate) => {
-  dispatch(loginStart());
+import { login } from "../stores/AuthSlice";
+export const signin = async (user, dispatch, navigate) => {
   try {
     const data = await axiosClient.post("/auth/login", user);
-    // window.localStorage.setItem("token", data.accessToken);
-    dispatch(loginSuccess(data));
+    dispatch(login(data));
     navigate("/");
   } catch (error) {
-    dispatch(loginFailure());
+    console.log(error);
   }
 };
