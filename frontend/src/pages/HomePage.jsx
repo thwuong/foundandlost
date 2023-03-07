@@ -42,7 +42,7 @@ function HomePage() {
       <div className="w-[80%] xl:min-h-screen mx-auto">
         <div className="container">
           <Header activeTab="home" />
-          <h1 className="text-5xl text-primary font-bold text-center">
+          <h1 className="text-5xl mt-8 text-primary font-bold text-center">
             Found & Lost List
           </h1>
           <div className="mt-8 grid xl:grid-cols-12 gap-5">

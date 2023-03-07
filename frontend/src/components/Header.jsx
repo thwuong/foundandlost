@@ -1,25 +1,25 @@
-import logo from "../assets/header-logo1.png";
+import logo from "../assets/header-logo_500_500.png";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 function Header(props) {
   const { activeTab } = props;
   const user = useSelector((state) => state.auth.user);
   return (
-    <div className="flex justify-between items-center">
-      <figure className="scale-110">
-        <Link to={"/"}>
-          <img src={logo} alt="logo" className="w-36" />
-        </Link>
-      </figure>
+    <div className="h-28 flex justify-between items-center">
+      <Link to={"/"} className="h-full w-28">
+        <figure className="block">
+          <img src={logo} alt="logo" />
+        </figure>
+      </Link>
       <div className="flex items-center">
-        <ul className="mr-20 flex gap-10">
+        <ul className="mr-10 flex gap-10">
           <Link to={"/manage/account"}>
             <li
               className={`text-lg font-medium  ${
                 activeTab === "manage" ? "text-primary" : "text-black"
               }`}
             >
-              Quản lý tài khoản
+              Quản Trị viên
             </li>
           </Link>
           <Link to={"/"}>
@@ -58,7 +58,7 @@ function Header(props) {
                 <span>Thông tin cá nhân</span>
               </li>
             </Link>
-            <Link to={"/profile"}>
+            <Link to={"/profile/request"}>
               <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
                 <box-icon name="receipt"></box-icon>
                 <span>Quản lý yêu cầu</span>

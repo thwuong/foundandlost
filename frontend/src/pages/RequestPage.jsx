@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../components/Header";
 import InfoPane from "../components/Profile/InfoPane";
 import IntroPane from "../components/Profile/IntroPane";
-import CardList from "../components/Profile/CardList";
 import ProfileNav from "../components/Profile/ProfileNav";
-function ProfilePage() {
+import Request from "../components/Profile/Request";
+function RequestPage() {
   return (
     <div className="bg-[#F0F2F5]">
       <div className="w-[80%] mx-auto ">
@@ -14,14 +14,16 @@ function ProfilePage() {
             <InfoPane />
           </div>
           <div className="mt-6">
-            <ProfileNav activeTab="post" />
+            <ProfileNav activeTab="request" />
           </div>
           <div className="flex gap-5 mt-6">
             <div className="w-[30%]">
               <IntroPane />
             </div>
-            <div className="w-[70%] max-h-[760px] overflow-y-auto">
-              <CardList />
+            <div className="w-[70%] max-h-[420px] min-h-[320px] overflow-y-auto">
+              <Request me={true} />
+              <Request me={true} />
+              <Request me={true} />
             </div>
           </div>
         </div>
@@ -30,4 +32,4 @@ function ProfilePage() {
   );
 }
 
-export default ProfilePage;
+export default RequestPage;

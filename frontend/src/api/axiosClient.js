@@ -3,6 +3,7 @@ import jwtDecode from "jwt-decode";
 import { updateToken } from "../stores/AuthSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+
 const axiosClient = axios.create({
   baseURL: "http://localhost:5000/api",
   headers: {
@@ -18,17 +19,15 @@ axiosClient.interceptors.request.use(async (config) => {
     return config;
   }
   const token = useSelector((state) => state.auth.token);
-  // const token = window.localStorage.getItem("token");
   let date = new Date();
 
   if (token) {
     const decodedToken = jwtDecode(token);
 
-    if (decodedToken.iat < date.getTime() / 1000) {
+    if (decodedToken.exp < date.getTime() / 1000) {
       try {
         const data = await axiosClient.post("/auth/refesh");
         if (data) {
-          // window.localStorage.setItem("token", data.accessToken);
           const dispatch = useDispatch();
           dispatch(updateToken(data));
           config.headers.Authorization = `Bearer ${data.accessToken}`;

@@ -12,7 +12,7 @@ import Request from "./Request";
 function CardList() {
   return (
     <>
-      <div className="bg-white px-6 py-4 mb-4 rounded-lg">
+      <div className="bg-white px-6 py-2 mb-4 rounded-lg">
         <CardItem />
         <Accordion allowToggle>
           <AccordionItem border={"none"}>
@@ -22,7 +22,7 @@ function CardList() {
               </Box>
               <AccordionIcon />
             </AccordionButton>
-            <AccordionPanel pb={4}>
+            <AccordionPanel pb={2}>
               <Request />
             </AccordionPanel>
           </AccordionItem>

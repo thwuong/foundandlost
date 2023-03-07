@@ -65,7 +65,7 @@ function ManagePost() {
   return (
     <div className="bg-main bg-no-repeat bg-cover">
       <div className="w-[80%] h-screen mx-auto">
-        <Header activeTab="post" />
+        <Header activeTab="manage" />
         <h1 className="my-6 text-primary text-3xl text-center font-bold">
           QUẢN LÝ ĐỒ VẬT
         </h1>

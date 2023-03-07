@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import PostDetail from "./pages/PostDetail";
 import ProfilePage from "./pages/ProfilePage";
+import RequestPage from "./pages/RequestPage";
 import CreatePost from "./pages/CreatePost";
 import ChatPage from "./pages/ChatPage";
 import ManageAccount from "./pages/ManageAccount";
@@ -23,6 +24,7 @@ function App() {
         <Route path="/post/create-post" element={<CreatePost />}></Route>
         <Route path="/post/:id" element={<PostDetail />}></Route>
         <Route path="/profile" element={<ProfilePage />}></Route>
+        <Route path="/profile/request" element={<RequestPage />}></Route>
         <Route path="/chat" element={<ChatPage />}></Route>
         {/* Admin */}
         {/* <Route element={<PrivateRoutes />}> */}

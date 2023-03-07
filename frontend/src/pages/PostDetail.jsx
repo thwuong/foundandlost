@@ -1,6 +1,6 @@
 import Comment from "../components/Comment/Comment";
 import Header from "../components/Header";
-import PostItem from "../components/PostItem";
+import PostDetailItem from "../components/PostDetailItem";
 import RelatedPost from "../components/RelatedPost";
 function PostDetail() {
   return (
@@ -12,7 +12,7 @@ function PostDetail() {
         </h1>
         <div className="flex gap-5 mt-6 ">
           <div className="w-[75%]">
-            <PostItem />
+            <PostDetailItem />
           </div>
           <div className="w-[25%]">
             <RelatedPost />

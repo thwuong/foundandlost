@@ -6,9 +6,9 @@ import Header from "../components/Header";
 function ChatPage() {
   return (
     <div className="w-[80%] mx-auto">
-      <div className="container mx-auto">
+      <div className="container mx-auto h-screen">
         <Header />
-        <div className="flex max-h-[565px] h-screen relative bg-gray-100">
+        <div className="flex h-[83%] relative bg-gray-100 pb-2 shadow-2xl rounded-lg">
           <div className="w-[75%]">
             <Conversation />
           </div>

@@ -9,7 +9,7 @@ function Request(props) {
 
   return (
     <>
-      <div className="bg-white px-6 py-4 rounded-lg">
+      <div className="bg-white px-6 py-4 rounded-lg mb-4">
         <div className="flex justify-between">
           <div className="flex gap-2 items-start">
             <figure>
