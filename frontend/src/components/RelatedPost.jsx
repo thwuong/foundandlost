@@ -2,10 +2,10 @@ import React from "react";
 
 function RelatedPost(props) {
   return (
-    <div className="bg-black/10 p-4 rounded-lg">
+    <div className="bg-black/10 p-4 rounded-lg h-[93.5%]">
       <h3 className="text-xl text-center font-bold">Bài viết liên quan</h3>
       <p className="mt-2 ml-2 text-sm text-primary font-bold">#Công nghệ</p>
-      <ul className="overflow-y-auto h-[380px] mt-4">
+      <ul className="overflow-y-auto h-5/6 mt-4">
         <li className="mt-2 flex items-center px-2 py-1 bg-primary/20 rounded gap-2">
           <figure>
             <img

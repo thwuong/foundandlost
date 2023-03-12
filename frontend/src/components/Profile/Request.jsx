@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Button, Badge } from "@chakra-ui/react";
+import { Button, Badge, useDisclosure } from "@chakra-ui/react";
 import { renderStatusRequest } from "../../utils/renderColorStatus";
+import ModalInstance from "../../components/Modal/ModalInstance";
+import VerifyModal from "../../components/Modal/VerifyModal";
 function Request(props) {
   const { me } = props;
   const [option, setOption] = useState(false);
-
+  const {
+    isOpen: isOpenVerifyModal,
+    onOpen: onOpenVerifyModal,
+    onClose: onCloseVefiryModal,
+  } = useDisclosure();
+  const handleRemove = (status) => {
+    console.log(status);
+  };
   return (
     <>
       <div className="bg-white px-6 py-4 rounded-lg mb-4">
@@ -46,10 +55,17 @@ function Request(props) {
               </p>
               {option && (
                 <ul className="absolute top-full right-0 bg-white p-1 rounded-lg flex gap-2 z-10">
-                  <li className="flex items-center cursor-pointer">
+                  <li
+                    className="flex items-center cursor-pointer"
+                    title="Chỉnh sửa"
+                  >
                     <box-icon name="pencil" color="#3364C9"></box-icon>
                   </li>
-                  <li className="flex items-center cursor-pointer">
+                  <li
+                    className="flex items-center cursor-pointer"
+                    title="Xóa"
+                    onClick={onOpenVerifyModal}
+                  >
                     <box-icon name="trash" color="#3364C9"></box-icon>
                   </li>
                 </ul>
@@ -83,6 +99,18 @@ function Request(props) {
           </div>
         )}
       </div>
+      <ModalInstance
+        show={isOpenVerifyModal}
+        modalName={"Xác nhận"}
+        hide={onCloseVefiryModal}
+        content={
+          <VerifyModal
+            hide={onCloseVefiryModal}
+            title={"Chắc chắn xóa yêu cầu này!"}
+            handleVerify={handleRemove}
+          />
+        }
+      />
     </>
   );
 }
