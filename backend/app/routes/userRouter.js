@@ -10,7 +10,7 @@ Router.put(
 );
 Router.get("/profile", verifyToken, UserController.getProfile);
 
-Router.post("/", verifyToken, adminPermision, UserController.createUser);
+Router.post("/", UserController.createUser);
 Router.delete(
   "/:userId",
   verifyToken,

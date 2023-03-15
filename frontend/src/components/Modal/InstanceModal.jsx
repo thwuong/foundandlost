@@ -8,7 +8,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 
-function ModalInstance(props) {
+function InstanceModal(props) {
   const { show, hide, modalName, content } = props;
   return (
     <Modal isOpen={show} onClose={hide}>
@@ -22,4 +22,4 @@ function ModalInstance(props) {
   );
 }
 
-export default ModalInstance;
+export default InstanceModal;

@@ -9,7 +9,7 @@ class UserController {
   // @URL [POST] /api/user/
   // body : [password, email, fullName, phone, address]
   async createUser(req, res, next) {
-    const { idNumber, password, fullName, phone, address } = req.body;
+    const { idNumber, password, fullName, phone, email } = req.body;
     if (!idNumber) {
       return next(createError(401, "Trường mã số sinh viên bị bỏ trống!"));
     }
@@ -29,11 +29,10 @@ class UserController {
       const cryptr = new Cryptr(process.env.HASH_KEY);
       const hashPassword = cryptr.encrypt(password);
       const newUser = {
-        idNumber,
+        idNumber: idNumber.toLowerCase(),
         password: hashPassword,
-        email: `${fullName} + ${idNumber}@gmail.com`,
+        email,
         fullName,
-        address,
         phone,
         avatar:
           "https://res.cloudinary.com/dmf8jfmss/image/upload/v1676877734/avatar/graduate-student-avatar_tf7dwq.png",

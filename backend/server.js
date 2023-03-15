@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const errorHandler = require("./app/middlewares/errorHandler");
@@ -10,6 +11,7 @@ const { connectDB } = require("./app/utils/connectDB");
 const { createRoute } = require("./app/routes/index");
 // Middleware
 app.use(cors());
+app.use(morgan("tiny"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

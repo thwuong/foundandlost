@@ -1,11 +1,9 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { updateToken } from "../stores/AuthSlice";
+import { store } from "../stores/index";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-
 const axiosClient = axios.create({
-  baseURL: "http://localhost:5000/api",
   headers: {
     "content-type": "application/json",
   },
@@ -18,7 +16,7 @@ axiosClient.interceptors.request.use(async (config) => {
   ) {
     return config;
   }
-  const token = useSelector((state) => state.auth.token);
+  const token = store.getState().auth.token;
   let date = new Date();
 
   if (token) {
@@ -53,7 +51,7 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     // Handle errors
-    throw error;
+    throw error.response.data;
   }
 );
 

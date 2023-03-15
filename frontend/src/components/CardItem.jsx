@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Badge, useDisclosure } from "@chakra-ui/react";
 import { renderTypePost } from "../utils/renderColorStatus";
-import ModalInstance from "../components/Modal/ModalInstance";
+import InstanceModal from "../components/Modal/InstanceModal";
 import VerifyModal from "../components/Modal/VerifyModal";
 function CardItem(props) {
   const [option, setOption] = useState(false);
@@ -67,7 +67,7 @@ function CardItem(props) {
           <box-icon name="expand-alt" color="white"></box-icon>
         </div>
       </div>
-      <ModalInstance
+      <InstanceModal
         show={isOpenVerifyModal}
         modalName={"Xác nhận"}
         hide={onCloseVefiryModal}

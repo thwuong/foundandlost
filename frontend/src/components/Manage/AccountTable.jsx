@@ -9,7 +9,7 @@ import {
   TableContainer,
   useDisclosure,
 } from "@chakra-ui/react";
-import ModalInstance from "../Modal/ModalInstance";
+import InstanceModal from "../Modal/InstanceModal";
 import VerifyModal from "../Modal/VerifyModal";
 function TableContent(props) {
   const { dataList } = props;
@@ -83,7 +83,7 @@ function TableContent(props) {
           </Tbody>
         </Table>
       </TableContainer>
-      <ModalInstance
+      <InstanceModal
         show={isOpenVerifyModal}
         modalName={"Xác nhận"}
         hide={onCloseVefiryModal}

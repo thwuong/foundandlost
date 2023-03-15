@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
 
-import ModalInstance from "../Modal/ModalInstance";
+import InstanceModal from "../Modal/InstanceModal";
 import UpdateAvatar from "../Modal/UpdateAvatar";
 import UpdateInfo from "../Modal/UpdateInfo";
 function InfoPane() {
@@ -56,13 +56,13 @@ function InfoPane() {
           </Link>
         </div>
       </div>
-      <ModalInstance
+      <InstanceModal
         show={isOpenUpdateAvatar}
         modalName={"Cập nhật ảnh đại diện"}
         hide={onCloseUpdateAvatar}
         content={<UpdateAvatar hide={onCloseUpdateAvatar} />}
       />
-      <ModalInstance
+      <InstanceModal
         show={isOpenUpdateInfo}
         modalName={"Cập nhật thông tin"}
         hide={onCloseUpdateInfo}

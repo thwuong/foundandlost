@@ -4,6 +4,8 @@ import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 
 import AuthSlice from "./AuthSlice";
+import UserSlice from "./UserSlice";
+import AccountSlice from "./AccountSlice";
 
 const persistConfig = {
   key: "root",
@@ -12,6 +14,8 @@ const persistConfig = {
 };
 const rootReducer = combineReducers({
   auth: AuthSlice,
+  user: UserSlice,
+  account: AccountSlice,
   // slice
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);

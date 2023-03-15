@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
-        validate: { is: /([A-Z])+([0-9]{7})\b/ },
+        validate: { is: /([a-z])+([0-9]{7})\b/ },
       },
       password: {
         type: Sequelize.STRING,

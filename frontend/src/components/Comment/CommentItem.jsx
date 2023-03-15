@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 
 import CommentInput from "./CommentInput";
-import ModalInstance from "../../components/Modal/ModalInstance";
+import InstanceModal from "../../components/Modal/InstanceModal";
 import VerifyModal from "../../components/Modal/VerifyModal";
 function CommentItem(props) {
   const { children, me } = props;
@@ -80,7 +80,7 @@ function CommentItem(props) {
           {showInput && <CommentInput idInput={"idInput"} />}
         </div>
       </li>
-      <ModalInstance
+      <InstanceModal
         show={isOpenVerifyModal}
         modalName={"Xác nhận"}
         hide={onCloseVefiryModal}

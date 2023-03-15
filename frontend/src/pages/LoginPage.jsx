@@ -1,7 +1,7 @@
 import systemImage from "../assets/system-image.png";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signin } from "../api/apiAuth";
+import { login } from "../api/authAPI";
 import { useNavigate } from "react-router-dom";
 function LoginPage() {
   const auth = useSelector((state) => state.auth);
@@ -11,7 +11,10 @@ function LoginPage() {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signin({ code, password }, dispatch, navigate);
+    const { success } = await login({ code, password }, dispatch);
+    if (success) {
+      navigate("/");
+    }
   };
   useEffect(() => {
     if (auth.token) {

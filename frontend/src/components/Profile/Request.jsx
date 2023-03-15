@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Button, Badge, useDisclosure } from "@chakra-ui/react";
 import { renderStatusRequest } from "../../utils/renderColorStatus";
-import ModalInstance from "../../components/Modal/ModalInstance";
+import InstanceModal from "../../components/Modal/InstanceModal";
 import VerifyModal from "../../components/Modal/VerifyModal";
 function Request(props) {
   const { me } = props;
@@ -99,7 +99,7 @@ function Request(props) {
           </div>
         )}
       </div>
-      <ModalInstance
+      <InstanceModal
         show={isOpenVerifyModal}
         modalName={"Xác nhận"}
         hide={onCloseVefiryModal}
