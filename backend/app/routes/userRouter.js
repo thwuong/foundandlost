@@ -1,19 +1,24 @@
 const Router = require("express").Router();
 const UserController = require("../controllers/UserController");
-const { verifyTokenAdmin, verifyToken } = require("../middlewares/verifyToken");
+const { adminPermision, verifyToken } = require("../middlewares/verifyToken");
 const upload = require("../utils/multer");
 Router.put(
-  "/profile/update",
+  "/profile",
   verifyToken,
   upload.single("avatar"),
   UserController.updateProfile
 );
 Router.get("/profile", verifyToken, UserController.getProfile);
 
-Router.post("/create", verifyTokenAdmin, UserController.createUser);
-Router.delete("/:id/delete", verifyTokenAdmin, UserController.removeUser);
-Router.put("/:id/edit", verifyTokenAdmin, UserController.editUser);
-Router.get("/:id", verifyToken, UserController.getUser);
-Router.get("/", verifyTokenAdmin, UserController.getAllUser);
+Router.post("/", verifyToken, adminPermision, UserController.createUser);
+Router.delete(
+  "/:userId",
+  verifyToken,
+  adminPermision,
+  UserController.removeUser
+);
+Router.put("/", verifyToken, UserController.changePassword);
+Router.get("/:userId", verifyToken, UserController.getUser);
+Router.get("/", verifyToken, UserController.getAllUser);
 
 module.exports = Router;

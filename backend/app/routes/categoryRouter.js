@@ -1,15 +1,21 @@
 const Router = require("express").Router();
 const CategoryController = require("../controllers/CategoryController");
-const { verifyTokenAdmin } = require("../middlewares/verifyToken");
+const { verifyToken, adminPermision } = require("../middlewares/verifyToken");
 
-Router.post("/add", verifyTokenAdmin, CategoryController.addCategory);
+Router.post("/", verifyToken, adminPermision, CategoryController.addCategory);
 Router.delete(
-  "/:id/delete",
-  verifyTokenAdmin,
+  "/:categoryId",
+  verifyToken,
+  adminPermision,
   CategoryController.deleteCategory
 );
-Router.put("/:id/edit", verifyTokenAdmin, CategoryController.editCategory);
-Router.get("/:id", CategoryController.getCategory);
+Router.put(
+  "/:categoryId",
+  verifyToken,
+  adminPermision,
+  CategoryController.editCategory
+);
+Router.get("/:categoryId", CategoryController.getCategory);
 Router.get("/", CategoryController.getAllCategory);
 
 module.exports = Router;

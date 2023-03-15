@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      code: {
+      idNumber: {
         type: DataTypes.STRING,
         validate: { is: /([A-Z])+([0-9]{7})\b/ },
       },

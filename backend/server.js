@@ -7,6 +7,7 @@ const cors = require("cors");
 const errorHandler = require("./app/middlewares/errorHandler");
 const { createError } = require("./app/utils/createError");
 const { connectDB } = require("./app/utils/connectDB");
+const { createRoute } = require("./app/routes/index");
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -14,13 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 connectDB();
-// Start Routes
-app.use("/api/user", require("./app/routes/userRouter"));
-app.use("/api/auth", require("./app/routes/authRouter"));
-app.use("/api/category", require("./app/routes/categoryRouter"));
-app.use("/api/post", require("./app/routes/postRouter"));
-app.use("/api/request", require("./app/routes/requestRouter"));
-// End Routes
+createRoute(app);
 app.all("*", (req, res, next) => {
   next(createError(404, "Không tìm thấy nguồn!"));
 });

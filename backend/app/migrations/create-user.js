@@ -9,7 +9,7 @@ module.exports = {
         autoIncrement: true,
         type: Sequelize.INTEGER,
       },
-      code: {
+      idNumber: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,

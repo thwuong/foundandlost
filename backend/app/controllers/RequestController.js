@@ -1,13 +1,12 @@
 const db = require("../models/index");
 const { createError } = require("../utils/createError");
 class RequestController {
-  //  Route /api/request/create
-  //  Params postId
-  //  Body
+  // DESC [post a request]
+  // @URL [POST] /api/request/
+  // body : [desc,postId]
   async postRequest(req, res, next) {
     const userId = req.user.userId;
-    const postId = req.params.postId;
-    const desc = req.body.desc;
+    const { desc, postId } = req.body;
 
     if (!desc) return next(createError(400, "Trường mô tả yêu cầu bị trống!"));
     try {
@@ -25,13 +24,16 @@ class RequestController {
       next(error);
     }
   }
+  // DESC [put request]
+  // @URL [PUT] /api/request/:requestId
+  // body : [status,postId]
   async updateStatusRequest(req, res, next) {
-    const { id, postId } = req.params;
-    const status = req.body.status;
+    const { requestId } = req.params;
+    const { status, postId } = req.body;
     try {
       const updatedRequest = await db.Request.update({
         where: {
-          id,
+          id: requestId,
         },
         status,
       });
@@ -48,8 +50,11 @@ class RequestController {
       next(error);
     }
   }
+  // DESC [delete a request]
+  // @URL [PUT] /api/request/:requestId
+  // param requestId
   async deleteRequest(req, res, next) {
-    const { id } = req.params;
+    const id = req.params.requestId;
     try {
       const deletedRequest = await db.Request.destroy({
         where: {
@@ -66,9 +71,9 @@ class RequestController {
     }
   }
   async getRequest(req, res, next) {
-    const id = req.params.id;
+    const id = req.params.requestId;
     try {
-      const request = await db.Request.findAll({
+      const request = await db.Request.findOne({
         where: {
           id,
         },
@@ -85,7 +90,11 @@ class RequestController {
   async getMyRequests(req, res, next) {
     const userId = req.user.userId;
     try {
-      const myRequest = await db.Request.findAll({ where: { userId } });
+      const myRequest = await db.Request.findAll({
+        where: { userId },
+        raw: true,
+        next: true,
+      });
       res.status(200).json({
         success: true,
         message: "Láy danh sách yêu cầu của tôi thành công!",
@@ -95,13 +104,15 @@ class RequestController {
       next(error);
     }
   }
-  async getRequestByMyPost(req, res, next) {
+  async getRequests(req, res, next) {
     const postId = req.params.postId;
     try {
       const requestPost = await db.Request.findAll({
         where: {
           postId,
         },
+        raw: true,
+        next: true,
       });
       res.status(200).json({
         success: true,

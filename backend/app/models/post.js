@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       location: DataTypes.STRING,
       postType: DataTypes.ENUM("Found item", "Lost item"),
       images: DataTypes.ARRAY(DataTypes.STRING),
-      status: DataTypes.ENUM("pending", "confirmed", "expired"),
+      status: DataTypes.ENUM("pending", "confirmed"),
     },
     {
       sequelize,

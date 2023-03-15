@@ -29,6 +29,15 @@ module.exports = {
         },
         allowNull: false,
       },
+      parentId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: "Users",
+          },
+          key: "id",
+        },
+      },
       content: {
         type: Sequelize.STRING,
         allowNull: false,

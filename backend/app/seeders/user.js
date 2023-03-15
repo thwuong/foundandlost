@@ -2,7 +2,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("Users", [
       {
-        code: "A1906585",
+        idNumber: "A1906585",
         fullName: "admin",
         address: "3/2, Xuân khánh, Ninh kiều, Cần Thơ",
         phone: "0794290085",

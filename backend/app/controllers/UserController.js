@@ -3,28 +3,35 @@ const db = require("../models/index");
 const { uploadSingle } = require("../utils/cloudinary");
 const { createError } = require("../utils/createError");
 const Cryptr = require("cryptr");
+
 class UserController {
+  // DESC [add a user]
+  // @URL [POST] /api/user/
+  // body : [password, email, fullName, phone, address]
   async createUser(req, res, next) {
-    const { code, password, email, fullName, phone, address } = req.body;
-    if (!code) {
-      return next(createError(401, "Trường mã số sinh viên bị thiếu!"));
+    const { idNumber, password, fullName, phone, address } = req.body;
+    if (!idNumber) {
+      return next(createError(401, "Trường mã số sinh viên bị bỏ trống!"));
     }
     if (!password) {
-      return next(createError(401, "Trường mật khẩu bị thiếu!"));
+      return next(createError(401, "Trường mật khẩu bị bỏ trống!"));
+    }
+    if (!fullName) {
+      return next(createError(401, "Trường họ và tên bị bỏ trống!"));
     }
     try {
       const oldUser = await db.User.findOne({
-        where: { code },
+        where: { idNumber },
       });
       if (oldUser) {
-        return next(createError(401, `Người dùng ${code} đã tồn tại!`));
+        return next(createError(401, `Người dùng ${idNumber} đã tồn tại!`));
       }
       const cryptr = new Cryptr(process.env.HASH_KEY);
       const hashPassword = cryptr.encrypt(password);
       const newUser = {
-        code,
+        idNumber,
         password: hashPassword,
-        email,
+        email: `${fullName} + ${idNumber}@gmail.com`,
         fullName,
         address,
         phone,
@@ -42,33 +49,29 @@ class UserController {
       next(error);
     }
   }
+  // DESC [get all user]
+  // @URL [GET] /api/user/
   async getAllUser(req, res, next) {
     try {
       const users = await db.User.findAll({
         where: {
           isAdmin: false,
         },
-        attributes: { include: ["password"] },
         raw: true,
       });
-      let convertUsers = users.map((user) => {
-        let { password, ...rest } = user;
-        const cryptr = new Cryptr(process.env.HASH_KEY);
-        password = cryptr.decrypt(password);
-        return { ...rest, password };
-      });
-
       res.status(200).json({
         success: true,
         message: "Lấy danh sách sinh viên thành công!",
-        convertUsers,
+        users,
       });
     } catch (error) {
       next(error);
     }
   }
+  // DESC [delete a user]
+  // @URL [DELETE] /api/user/:userId
   async removeUser(req, res, next) {
-    const id = req.params.id;
+    const id = req.params.userId;
     try {
       const deletedUser = await db.User.destroy({ where: { id } });
 
@@ -81,22 +84,35 @@ class UserController {
       next(error);
     }
   }
-  async editUser(req, res, next) {
-    const id = req.params.id;
-    const { code, password, email, fullName, phone, address } = req.body;
+  // DESC [change user password]
+  // @URL [PUT] /api/user/
+  // body : [currentPassword, newPassword, comfirmPassword]
+  async changePassword(req, res, next) {
+    const userId = req.user.userId;
+    const { currentPassword, newPassword, comfirmPassword } = req.body;
+    const cryptr = new Cryptr(process.env.HASH_KEY);
     try {
-      let hashPassword;
-      if (password) {
-        const cryptr = new Cryptr(process.env.HASH_KEY);
-        hashPassword = cryptr.encrypt(password);
+      const user = db.User.findOne({
+        where: { id: userId },
+        attributes: {
+          include: ["password"],
+        },
+      });
+      if (!currentPassword || !newPassword || !comfirmPassword) {
+        return next(createError(401, "Vui lòng không được bỏ trống!"));
       }
+
+      if (cryptr.decrypt(user.password) !== currentPassword) {
+        return next(createError(401, "Mật khẩu hiện tại không đúng!"));
+      }
+      if (newPassword !== comfirmPassword) {
+        return next(createError(401, "Mật khẩu không khớp!"));
+      }
+
+      const hashPassword = cryptr.encrypt(newPassword);
+
       let updatedUser = {
-        code,
         password: hashPassword,
-        email,
-        fullName,
-        phone,
-        address,
       };
       updatedUser = await db.User.update(updatedUser, {
         where: { id },
@@ -111,31 +127,31 @@ class UserController {
       next(error);
     }
   }
+  // DESC [get a user]
+  // @URL [GET] /api/user/:userId
   async getUser(req, res, next) {
-    const id = req.params.id;
+    const id = req.params.userId;
     try {
       const user = await db.User.findOne({
         where: { id },
-        attributes: { exclude: ["password"] },
         raw: true,
       });
-      const { password, ...userCurrent } = user;
       res.status(200).json({
         success: true,
         message: `Lấy thông tin sinh viên thành công!`,
-        userCurrent,
+        user,
       });
     } catch (error) {
       next(error);
     }
   }
+  // DESC [get user profile]
+  // @URL [GET] /api/user/profile
   async getProfile(req, res, next) {
     const userId = req.user.userId;
     try {
       const user = await db.User.findOne({
         where: { id: userId },
-        attributes: { exclude: ["password"] },
-        raw: true,
       });
 
       res.status(200).json({
@@ -147,6 +163,8 @@ class UserController {
       next(error);
     }
   }
+  // DESC [update user profile]
+  // @URL [PUT] /api/user/profile
   async updateProfile(req, res, next) {
     const userId = req.user.userId;
     const { phone, address } = req.body;
@@ -162,7 +180,6 @@ class UserController {
       };
       userUpdated = await db.User.update(userUpdated, {
         where: { id: userId },
-        raw: true,
       });
       res.status(200).json({
         success: true,
