@@ -11,6 +11,7 @@ import ManageAccount from "./pages/ManageAccount";
 import ManagePost from "./pages/ManagePost";
 import ManageCategory from "./pages/ManageCategory";
 import NotFound from "./pages/NotFound";
+import UnAuthorized from "./pages/UnAuthorized";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import RequireAuth from "./utils/RequireAuth";
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/manage/post" element={<ManagePost />}></Route>
         <Route path="/manage/category" element={<ManageCategory />}></Route>
         {/* </Route> */}
+        <Route path="/unauthorized" element={<UnAuthorized />}></Route>
         {/* </Route> */}
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
