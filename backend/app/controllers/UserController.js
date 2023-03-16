@@ -135,6 +135,8 @@ class UserController {
         where: { id },
         raw: true,
       });
+      if (!user)
+        return next(createError(404, "Sinh viên không có trong hệ thông!"));
       res.status(200).json({
         success: true,
         message: `Lấy thông tin sinh viên thành công!`,
@@ -180,9 +182,11 @@ class UserController {
       userUpdated = await db.User.update(userUpdated, {
         where: { id: userId },
       });
+      const newUser = await db.User.findByPk(userId);
       res.status(200).json({
         success: true,
         message: `Cập nhật thông tin thành công!`,
+        newUser,
       });
     } catch (error) {
       next(error);

@@ -12,8 +12,11 @@ const userSlice = createSlice({
     saveProfile: (state, actions) => {
       state.profile = actions.payload.user;
     },
+    changeProfile: (state, actions) => {
+      state.profile = actions.payload.newUser;
+    },
   },
 });
 
-export const { saveProfile } = userSlice.actions;
+export const { saveProfile, changeProfile } = userSlice.actions;
 export default userSlice.reducer;

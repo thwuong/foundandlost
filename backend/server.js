@@ -10,10 +10,10 @@ const { createError } = require("./app/utils/createError");
 const { connectDB } = require("./app/utils/connectDB");
 const { createRoute } = require("./app/routes/index");
 // Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("tiny"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 connectDB();

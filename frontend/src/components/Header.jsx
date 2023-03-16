@@ -44,7 +44,7 @@ function Header(props) {
             <img
               src={user?.avatar}
               alt="Ảnh đại diện"
-              className="w-8 h-8 overflow-hidden rounded-full cursor-pointer "
+              className="w-8 h-8 object-cover overflow-hidden rounded-full cursor-pointer "
             />
           </figure>
           <div className="ml-2">

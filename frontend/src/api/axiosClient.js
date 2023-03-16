@@ -2,10 +2,10 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { updateToken } from "../stores/AuthSlice";
 import { store } from "../stores/index";
-import { useDispatch } from "react-redux";
 const axiosClient = axios.create({
   headers: {
     "Content-Type": "application/json",
+    "Content-Type": "application/x-www-form-urlencoded",
   },
 });
 
@@ -17,25 +17,21 @@ axiosClient.interceptors.request.use(async (config) => {
     return config;
   }
   const token = store.getState().auth.token;
-  let date = new Date();
 
   if (token) {
     const decodedToken = jwtDecode(token);
-
+    let date = new Date();
     if (decodedToken.exp < date.getTime() / 1000) {
       try {
-        const data = await axiosClient.post("/api/auth/refesh");
-        if (data) {
-          const dispatch = useDispatch();
-          dispatch(updateToken(data));
-          config.headers.Authorization = `Bearer ${data.accessToken}`;
-        }
+        const { data } = await axios.post("/api/auth/refresh");
+        store.dispatch(updateToken(data));
+        config.headers.authorization = `Bearer ${data.accessToken}`;
       } catch (error) {
         console.log(error);
       }
+    } else {
+      config.headers.authorization = `Bearer ${token}`;
     }
-
-    config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;
@@ -50,6 +46,7 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
+    console.log("axiosClient", error);
     // Handle errors
     throw error.response.data;
   }

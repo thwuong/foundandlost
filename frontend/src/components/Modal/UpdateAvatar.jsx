@@ -6,14 +6,16 @@ import {
   Input,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateProfile } from "../../api/userAPI";
 
 function UpdateAvatar(props) {
   const { hide } = props;
   const [avatar, setAvatar] = useState("");
   const [err, setError] = useState("");
   const [preview, setPreview] = useState("");
+  const dispatch = useDispatch();
   const handleChange = (e) => {
-    console.log(e.target.files[0]);
     if (!e.target.files[0]) return;
     const { size, name } = e.target.files[0];
     if (size >= 5242880) return setError("Tệp tin quá lớn");
@@ -23,12 +25,14 @@ function UpdateAvatar(props) {
 
     setAvatar(e.target.files[0]);
   };
-  const hanldeSubmit = (e) => {
+  const hanldeSubmit = async (e) => {
     e.preventDefault();
-    if (err) {
-      // Không submit
+    if (!err) {
+      const formData = new FormData();
+      formData.append("avatar", avatar);
+      await updateProfile(formData, dispatch);
+      hide();
     }
-    //callApi;
   };
   useEffect(() => {
     if (!avatar) return;

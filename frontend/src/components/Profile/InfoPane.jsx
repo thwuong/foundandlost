@@ -5,10 +5,11 @@ import { useDisclosure } from "@chakra-ui/react";
 import InstanceModal from "../Modal/InstanceModal";
 import UpdateAvatar from "../Modal/UpdateAvatar";
 import UpdateInfo from "../Modal/UpdateInfo";
+import ChangePassword from "../Modal/ChangePassword";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyProfile, getUser } from "../../api/userAPI";
 function InfoPane() {
-  const params = useParams();
+  const { userId } = useParams();
   const profile = useSelector((state) => state.user.profile);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
@@ -22,6 +23,11 @@ function InfoPane() {
     onOpen: onOpenUpdateInfo,
     onClose: onCloseUpdateInfo,
   } = useDisclosure();
+  const {
+    isOpen: isOpenChangePassword,
+    onOpen: onOpenChangePassword,
+    onClose: onCloseChangePassword,
+  } = useDisclosure();
   useEffect(() => {
     const fetchProfile = async () => {
       await getMyProfile(dispatch);
@@ -29,14 +35,11 @@ function InfoPane() {
     const fetchProfileById = async (userId) => {
       await getUser(userId, dispatch);
     };
-
-    // if (params?.id) {
-    //   fetchProfileById(id);
-    // } else {
-    //   fetchProfile();
-    // }
-
-    // console.log(user.id, profile.id);
+    if (userId) {
+      fetchProfileById(userId);
+    } else {
+      fetchProfile();
+    }
   }, []);
   return (
     <>
@@ -64,6 +67,15 @@ function InfoPane() {
           </p>
         </div>
         <div className="ml-auto flex flex-row-reverse items-end justify-end gap-4">
+          {user?.id === profile?.id ? (
+            <div
+              onClick={onOpenChangePassword}
+              className="px-3 py-2 rounded bg-gray-300 flex gap-1 items-center cursor-pointer duration-300 hover:bg-gray-300/75"
+            >
+              <box-icon name="lock-alt"></box-icon>
+              <span>Thay đổi mật khẩu</span>
+            </div>
+          ) : null}
           {user?.id === profile?.id ? (
             <div
               onClick={onOpenUpdateInfo}
@@ -94,6 +106,12 @@ function InfoPane() {
         modalName={"Cập nhật thông tin"}
         hide={onCloseUpdateInfo}
         content={<UpdateInfo hide={onCloseUpdateInfo} />}
+      />
+      <InstanceModal
+        show={isOpenChangePassword}
+        modalName={"Thay đổi mật khẩu"}
+        hide={onCloseChangePassword}
+        content={<ChangePassword hide={onCloseChangePassword} />}
       />
     </>
   );

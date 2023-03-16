@@ -23,9 +23,9 @@ function App() {
         <Route element={<RequireAuth />}>
           <Route index path="/" element={<HomePage />}></Route>
           <Route path="/post/create-post" element={<CreatePost />}></Route>
-          <Route path="/post/:id" element={<PostDetail />}></Route>
+          <Route path="/post/:postId" element={<PostDetail />}></Route>
           <Route path="/profile" element={<ProfilePage />}></Route>
-          <Route path="/profile/:id" element={<ProfilePage />}></Route>
+          <Route path="/profile/:userId" element={<ProfilePage />}></Route>
           <Route path="/profile/request" element={<RequestPage />}></Route>
           <Route path="/chat" element={<ChatPage />}></Route>
           {/* Admin */}

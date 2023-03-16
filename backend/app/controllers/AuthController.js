@@ -15,7 +15,6 @@ class AuthController {
     try {
       const user = await db.User.findOne({
         where: { idNumber },
-        raw: true,
         attributes: { include: ["password"] },
       });
 
@@ -32,13 +31,15 @@ class AuthController {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "10m" }
       );
-      const refeshToken = jwt.sign(
+      const refreshToken = jwt.sign(
         { userId: user.id, isAdmin: user.isAdmin },
-        process.env.ACCESS_TOKEN_SECRET,
+        process.env.ACCESS_REFRESH_TOKEN_SECRET,
         { expiresIn: "1d" }
       );
-      res.cookie("jwt", refeshToken, {
+      res.cookie("jwt", refreshToken, {
         httpOnly: true,
+        secure: false,
+        sameSite: "strict",
         maxAge: 24 * 60 * 60 * 1000,
       });
       delete user.password;
@@ -52,13 +53,17 @@ class AuthController {
       next(error);
     }
   }
-  refeshToken(req, res, next) {
-    const refeshToken = req.cookies.jwt;
-    if (!refeshToken) {
-      return next(createError(400, "Người dùng chưa đăng nhập"));
-    }
+  refreshToken(req, res, next) {
     try {
-      const user = jwt.verify(refeshToken, process.env.ACCESS_TOKEN_SECRET);
+      const refreshToken = req.cookies.jwt;
+      if (!refreshToken) {
+        return next(createError(401, "Người dùng chưa đăng nhập"));
+      }
+
+      const user = jwt.verify(
+        refreshToken,
+        process.env.ACCESS_REFRESH_TOKEN_SECRET
+      );
       const accessToken = jwt.sign(
         { userId: user.userId, isAdmin: user.isAdmin },
         process.env.ACCESS_TOKEN_SECRET,
@@ -68,7 +73,7 @@ class AuthController {
       );
       res.status(200).json({
         success: true,
-        message: "refesh token successfully!",
+        message: "refresh token successfully!",
         accessToken,
       });
     } catch (error) {
