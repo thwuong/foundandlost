@@ -42,7 +42,7 @@ class UserController {
 
       res.status(200).json({
         success: true,
-        message: `Tạo người dùng ${user.code} thành công!`,
+        message: `Tạo người dùng ${user.idNumber} thành công!`,
       });
     } catch (error) {
       next(error);

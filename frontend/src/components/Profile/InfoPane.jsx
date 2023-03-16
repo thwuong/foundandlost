@@ -1,11 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
 
 import InstanceModal from "../Modal/InstanceModal";
 import UpdateAvatar from "../Modal/UpdateAvatar";
 import UpdateInfo from "../Modal/UpdateInfo";
+import { useDispatch, useSelector } from "react-redux";
+import { getMyProfile, getUser } from "../../api/userAPI";
 function InfoPane() {
+  const params = useParams();
+  const profile = useSelector((state) => state.user.profile);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   const {
     isOpen: isOpenUpdateAvatar,
     onOpen: onOpenUpdateAvatar,
@@ -16,14 +22,29 @@ function InfoPane() {
     onOpen: onOpenUpdateInfo,
     onClose: onCloseUpdateInfo,
   } = useDisclosure();
+  useEffect(() => {
+    const fetchProfile = async () => {
+      await getMyProfile(dispatch);
+    };
+    const fetchProfileById = async (userId) => {
+      await getUser(userId, dispatch);
+    };
 
+    // if (params?.id) {
+    //   fetchProfileById(id);
+    // } else {
+    //   fetchProfile();
+    // }
+
+    // console.log(user.id, profile.id);
+  }, []);
   return (
     <>
       <div className="flex gap-4">
         <figure className="relative p-1 border-2 rounded-full cursor-pointer hover:border-black/20">
           <img
             className="w-40 h-40 object-cover rounded-full "
-            src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/328130832_1855564528161017_6159523852991919296_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=3fW4Xt-sZP4AX-e5ja-&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfBGLZ6DHKqRho2yN61BihgCUp11gpHMiAVHi12RJfWUqw&oe=640755EC"
+            src={profile?.avatar}
             alt=""
           />
           <div
@@ -34,26 +55,32 @@ function InfoPane() {
           </div>
         </figure>
         <div>
-          <h3 className="text-xl font-bold">Thuong Dương</h3>
-          <p className="my-2 text-gray-400 text-sm">Sinh viên</p>
+          <h3 className="text-xl font-bold">{profile?.fullName}</h3>
+          <p className="my-2 text-gray-400 text-sm">
+            {profile?.isAdmin ? "Quản trị viên" : "Sinh viên"}
+          </p>
           <p className="font-bold">
             Số lượng bài viết:<span> 12</span>
           </p>
         </div>
         <div className="ml-auto flex flex-row-reverse items-end justify-end gap-4">
-          <div
-            onClick={onOpenUpdateInfo}
-            className="px-3 py-2 rounded bg-gray-300 flex gap-1 items-center cursor-pointer duration-300 hover:bg-gray-300/75"
-          >
-            <box-icon name="pencil" type="solid"></box-icon>
-            <span>Chỉnh sửa thông tin</span>
-          </div>
-          <Link to={"/chat"}>
-            <div className="px-3 py-2 rounded text-white bg-primary flex gap-1 items-center justify-center cursor-pointer duration-300 hover:bg-primary/90">
-              <box-icon type="logo" name="messenger" color="white"></box-icon>
-              <span>Nhắn tin</span>
+          {user?.id === profile?.id ? (
+            <div
+              onClick={onOpenUpdateInfo}
+              className="px-3 py-2 rounded bg-gray-300 flex gap-1 items-center cursor-pointer duration-300 hover:bg-gray-300/75"
+            >
+              <box-icon name="pencil" type="solid"></box-icon>
+              <span>Chỉnh sửa thông tin</span>
             </div>
-          </Link>
+          ) : null}
+          {user?.id !== profile?.id ? (
+            <Link to={"/chat"}>
+              <div className="px-3 py-2 rounded text-white bg-primary flex gap-1 items-center justify-center cursor-pointer duration-300 hover:bg-primary/90">
+                <box-icon type="logo" name="messenger" color="white"></box-icon>
+                <span>Nhắn tin</span>
+              </div>
+            </Link>
+          ) : null}
         </div>
       </div>
       <InstanceModal

@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const verifyToken = (req, res, next) => {
   const authToken = req.headers["authorization"];
   const token = authToken && authToken.split(" ")[1];
+  console.log(authToken);
   if (!token) {
     return next(createError(401, "Người dùng chưa đăng nhập!"));
   }

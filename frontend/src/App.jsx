@@ -20,21 +20,22 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />}></Route>
-        {/* <Route element={<RequireAuth />}> */}
-        <Route index path="/" element={<HomePage />}></Route>
-        <Route path="/post/create-post" element={<CreatePost />}></Route>
-        <Route path="/post/:id" element={<PostDetail />}></Route>
-        <Route path="/profile" element={<ProfilePage />}></Route>
-        <Route path="/profile/request" element={<RequestPage />}></Route>
-        <Route path="/chat" element={<ChatPage />}></Route>
-        {/* Admin */}
-        {/* <Route element={<PrivateRoutes />}> */}
-        <Route path="/manage/account" element={<ManageAccount />}></Route>
-        <Route path="/manage/post" element={<ManagePost />}></Route>
-        <Route path="/manage/category" element={<ManageCategory />}></Route>
-        {/* </Route> */}
-        <Route path="/unauthorized" element={<UnAuthorized />}></Route>
-        {/* </Route> */}
+        <Route element={<RequireAuth />}>
+          <Route index path="/" element={<HomePage />}></Route>
+          <Route path="/post/create-post" element={<CreatePost />}></Route>
+          <Route path="/post/:id" element={<PostDetail />}></Route>
+          <Route path="/profile" element={<ProfilePage />}></Route>
+          <Route path="/profile/:id" element={<ProfilePage />}></Route>
+          <Route path="/profile/request" element={<RequestPage />}></Route>
+          <Route path="/chat" element={<ChatPage />}></Route>
+          {/* Admin */}
+          <Route element={<PrivateRoutes />}>
+            <Route path="/manage/account" element={<ManageAccount />}></Route>
+            <Route path="/manage/post" element={<ManagePost />}></Route>
+            <Route path="/manage/category" element={<ManageCategory />}></Route>
+          </Route>
+          <Route path="/unauthorized" element={<UnAuthorized />}></Route>
+        </Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>

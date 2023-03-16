@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createUser } from "../../api/userAPI";
+import { createAccount } from "../../api/accountAPI";
 import { useDispatch } from "react-redux";
 function AccountForm(props) {
   const { hide } = props;
@@ -45,7 +45,7 @@ function AccountForm(props) {
       },
     });
   const handleAddAccount = async (values) => {
-    await createUser(values, dispatch);
+    await createAccount(values, dispatch);
     hide();
   };
   useEffect(() => {

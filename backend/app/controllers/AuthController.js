@@ -5,16 +5,16 @@ const Cryptr = require("cryptr");
 const jwt = require("jsonwebtoken");
 class AuthController {
   async login(req, res, next) {
-    const { code, password } = req.body;
+    const { idNumber, password } = req.body;
 
-    if (!code || !password) {
+    if (!idNumber || !password) {
       return next(
         createError(401, "Trường mật khẩu hoặc mã số sinh viên bị thiếu!")
       );
     }
     try {
       const user = await db.User.findOne({
-        where: { code },
+        where: { idNumber },
         raw: true,
         attributes: { include: ["password"] },
       });

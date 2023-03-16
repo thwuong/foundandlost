@@ -5,14 +5,14 @@ import { store } from "../stores/index";
 import { useDispatch } from "react-redux";
 const axiosClient = axios.create({
   headers: {
-    "content-type": "application/json",
+    "Content-Type": "application/json",
   },
 });
 
 axiosClient.interceptors.request.use(async (config) => {
   if (
-    config.url.indexOf("/auth/login") >= 0 ||
-    config.url.indexOf("/auth/refesh")
+    config.url.indexOf("/api/auth/login") >= 0 ||
+    config.url.indexOf("/api/auth/logout") >= 0
   ) {
     return config;
   }
@@ -24,7 +24,7 @@ axiosClient.interceptors.request.use(async (config) => {
 
     if (decodedToken.exp < date.getTime() / 1000) {
       try {
-        const data = await axiosClient.post("/auth/refesh");
+        const data = await axiosClient.post("/api/auth/refesh");
         if (data) {
           const dispatch = useDispatch();
           dispatch(updateToken(data));

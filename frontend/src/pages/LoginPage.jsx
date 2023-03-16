@@ -5,13 +5,13 @@ import { login } from "../api/authAPI";
 import { useNavigate } from "react-router-dom";
 function LoginPage() {
   const auth = useSelector((state) => state.auth);
-  const [code, setCode] = useState("");
+  const [idNumber, setIdNumber] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { success } = await login({ code, password }, dispatch);
+    const { success } = await login({ idNumber, password }, dispatch);
     if (success) {
       navigate("/");
     }
@@ -35,13 +35,13 @@ function LoginPage() {
             <form className="mt-8 w-full mx-auto">
               <div className="mt-8">
                 <input
-                  id="code"
+                  id="idNumber"
                   type="text"
                   placeholder="Nhập mã đăng nhập"
-                  name="code"
-                  value={code}
+                  name="idNumber"
+                  value={idNumber}
                   onChange={(e) => {
-                    setCode(e.target.value);
+                    setIdNumber(e.target.value);
                   }}
                   className="w-full py-2 px-4 outline-primary rounded shadow-xl"
                 />
