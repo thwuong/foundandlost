@@ -7,6 +7,11 @@ import AuthSlice from "./AuthSlice";
 import UserSlice from "./UserSlice";
 import AccountSlice from "./AccountSlice";
 import CategorySlice from "./CategorySlice";
+import PostSlice from "./PostSlice";
+import RequestSlice from "./RequestSlice";
+import CommentSlice from "./CommentSlice";
+import ConversationSlice from "./ConversationSlice";
+import MessageSlice from "./MessageSlice";
 
 const persistConfig = {
   key: "root",
@@ -18,6 +23,11 @@ const rootReducer = combineReducers({
   user: UserSlice,
   account: AccountSlice,
   category: CategorySlice,
+  post: PostSlice,
+  request: RequestSlice,
+  comment: CommentSlice,
+  conversation: ConversationSlice,
+  message: MessageSlice,
   // slice
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);

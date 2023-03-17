@@ -5,6 +5,6 @@ const { verifyToken } = require("../middlewares/verifyToken");
 Router.post("/", verifyToken, CommentController.postComment);
 Router.put("/:commentId", verifyToken, CommentController.editComment);
 Router.delete("/:commentId", verifyToken, CommentController.deleteComment);
-Router.get("/", verifyToken, CommentController.getComments);
+Router.get("/:postId", verifyToken, CommentController.getComments);
 
 module.exports = Router;

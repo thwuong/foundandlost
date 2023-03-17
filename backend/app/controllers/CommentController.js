@@ -67,7 +67,7 @@ class CommentController {
   // @URL [POST] /api/comment/
   // body: [postId]
   async getComments(req, res, next) {
-    const postId = req.body.postId;
+    const postId = req.params.postId;
     try {
       const comments = await db.Comment.findAll({
         where: {

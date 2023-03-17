@@ -29,7 +29,7 @@ class MessageController {
   // @URL [GET] /api/message/
   // body : [conversationId]
   async getMessages(req, res, next) {
-    const { conversationId } = req.body;
+    const conversationId = req.params.conversationId;
 
     if (!message) return next(createError(401, "Trường nội dung bị bỏ trống!"));
     try {
