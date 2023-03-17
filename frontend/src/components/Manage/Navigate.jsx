@@ -1,7 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../api/authAPI";
 function Navigate(props) {
+  const dispatch = useDispatch();
   const { activeNav } = props;
+  const handleLogout = async () => {
+    await logout(dispatch);
+  };
   return (
     <ul className="p-4 bg-white/20 rounded-lg">
       <Link to={"/manage/account"}>
@@ -44,6 +50,7 @@ function Navigate(props) {
         </li>
       </Link>
       <li
+        onClick={handleLogout}
         className={`my-3 py-2 px-4 flex items-center justify-between bg-primary cursor-pointer rounded hover:-translate-y-1 hover:shadow-xl`}
       >
         <span className="text-white font-bold">Đăng xuất</span>

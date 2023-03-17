@@ -22,21 +22,23 @@ function HomePage() {
     postType: null,
   });
   const handleTabChange = (tabSelected) => {
-    console.log(tabSelected);
+    setFilters({ ...filters, postType: tabSelected });
   };
   const handlePageChange = (newPage) => {
-    console.log(newPage);
     setPagination({ ...pagination, _page: newPage });
+    setFilters({ ...filters, _page: newPage });
   };
   const handleSelecting = (categorySelected) => {
-    console.log(categorySelected);
+    setFilters({ ...filters, category: categorySelected });
   };
   const handleSearching = (newKeyWord) => {
-    console.log(newKeyWord);
+    setFilters({ ...filters, text: newKeyWord });
   };
   useEffect(() => {
     console.log(filters);
+    console.log(pagination);
   }, [filters]);
+
   return (
     <div className="bg-main bg-no-repeat bg-cover">
       <div className="w-[80%] xl:min-h-screen mx-auto">

@@ -39,8 +39,9 @@ function Search(props) {
       {closeX && (
         <span
           className="absolute top-2.5 right-3 cursor-pointer"
-          onClick={() => {
-            setKeyword("");
+          onClick={(e) => {
+            e.target.value = "";
+            handleSearching(e);
           }}
         >
           <box-icon name="x" color="white"></box-icon>

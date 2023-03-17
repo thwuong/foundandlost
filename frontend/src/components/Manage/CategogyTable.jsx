@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Tbody,
   Tr,
@@ -11,16 +11,41 @@ import {
 } from "@chakra-ui/react";
 import InstanceModal from "../Modal/InstanceModal";
 import VerifyModal from "../Modal/VerifyModal";
-function CategogyTable(props) {
-  const { dataList } = props;
+import CategoryFrom from "../Modal/CategoryFrom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllCategory,
+  deleteCategory,
+  getCategory,
+} from "../../api/categoryAPI";
+function CategogyTable() {
+  const categories = useSelector((state) => state.category.categories);
+  const dispatch = useDispatch();
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const {
     isOpen: isOpenVerifyModal,
     onOpen: onOpenVerifyModal,
-    onClose: onCloseVefiryModal,
+    onClose: onCloseVerifyModal,
   } = useDisclosure();
-  const handleRemove = (status) => {
-    console.log(status);
+  const {
+    isOpen: isOpenEditCategory,
+    onOpen: onOpenEditCategory,
+    onClose: onCloseEditCategory,
+  } = useDisclosure();
+  const handleRemove = async (status) => {
+    if (status) {
+      await deleteCategory(selectedCategory, dispatch);
+    }
   };
+  const handleSelected = async (categoryId) => {
+    await getCategory(categoryId, dispatch);
+  };
+  useEffect(() => {
+    const fetchAllCategory = async () => {
+      await getAllCategory(dispatch);
+    };
+    fetchAllCategory();
+  }, []);
   return (
     <>
       <TableContainer overflowX="unset" overflowY="unset">
@@ -33,26 +58,32 @@ function CategogyTable(props) {
             </Tr>
           </Thead>
           <Tbody>
-            {dataList && [...dataList].length > 0
-              ? [...dataList].map((data) => {
+            {categories
+              ? categories.map((category, index) => {
                   return (
-                    <Tr key={data.id}>
-                      <Td>{data.id}</Td>
-                      <Td>{data.typeName}</Td>
+                    <Tr key={category.id}>
+                      <Td>{index + 1}</Td>
+                      <Td>{category.typeName}</Td>
 
                       <Td>
                         <ul className=" flex items-center gap-2">
                           <li
                             className="cursor-pointer"
-                            onClick={onOpenVerifyModal}
+                            onClick={() => {
+                              setSelectedCategory(category.id);
+                              onOpenVerifyModal();
+                            }}
                           >
                             <box-icon name="trash" color="#7286D3"></box-icon>
                           </li>
-                          <li className="cursor-pointer">
+                          <li
+                            className="cursor-pointer"
+                            onClick={() => {
+                              handleSelected(category.id);
+                              onOpenEditCategory();
+                            }}
+                          >
                             <box-icon name="pencil" color="#7286D3"></box-icon>
-                          </li>
-                          <li className="cursor-pointer">
-                            <box-icon name="show" color="#7286D3"></box-icon>
                           </li>
                         </ul>
                       </Td>
@@ -66,14 +97,20 @@ function CategogyTable(props) {
       <InstanceModal
         show={isOpenVerifyModal}
         modalName={"Xác nhận"}
-        hide={onCloseVefiryModal}
+        hide={onCloseVerifyModal}
         content={
           <VerifyModal
-            hide={onCloseVefiryModal}
+            hide={onCloseVerifyModal}
             title={"Chắc chắn xóa danh mục này!"}
             handleVerify={handleRemove}
           />
         }
+      />
+      <InstanceModal
+        show={isOpenEditCategory}
+        modalName={"Chỉnh sửa danh mục"}
+        hide={onCloseEditCategory}
+        content={<CategoryFrom hide={onCloseEditCategory} isEdit={true} />}
       />
     </>
   );

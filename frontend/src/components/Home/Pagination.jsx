@@ -2,7 +2,6 @@ function Pagination(props) {
   const { onPageChange, pagination } = props;
   const { _page, _limit, _totalRows } = pagination;
   const lastPage = Math.ceil(_totalRows / _limit);
-  console.log(lastPage);
   const handlePageChange = (newPage) => {
     onPageChange(newPage);
   };
