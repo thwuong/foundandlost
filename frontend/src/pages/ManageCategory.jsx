@@ -36,12 +36,12 @@ function ManageCategory() {
           <span className="font-bold text-white">Tạo Danh mục</span>
           <box-icon name="user-plus" color="white"></box-icon>
         </div>
-        <div className="flex gap-5 mt-4 h-[60%]">
+        <div className="flex gap-5 mt-4 h-3/5">
           <div className="w-[20%]">
             <Navigate activeNav="category" />
           </div>
-          <div className="w-[80%]">
-            <div className="py-8 px-4 bg-white/20 rounded-lg overflow-y-auto">
+          <div className="w-[80%] h-full">
+            <div className="bg-white/20 rounded-lg max-h-full overflow-y-auto">
               <CategogyTable dataList={category} />
             </div>
           </div>

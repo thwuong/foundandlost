@@ -10,6 +10,7 @@ import {
   TableContainer,
   useDisclosure,
 } from "@chakra-ui/react";
+import moment from "moment";
 import { deleteAccount, getAllAccount } from "../../api/accountAPI";
 import { useSelector, useDispatch } from "react-redux";
 import InstanceModal from "../Modal/InstanceModal";
@@ -33,13 +34,12 @@ function TableContent() {
       await getAllAccount(dispatch);
     };
     fetchAllAccount();
-    console.log(accounts);
   }, []);
   return (
     <>
-      <TableContainer>
-        <Table colorScheme="cyran">
-          <Thead>
+      <TableContainer overflowX="unset" overflowY="unset">
+        <Table>
+          <Thead position={"sticky"} top={0} zIndex="docked" bg={"white"}>
             <Tr>
               <Th>MSSV</Th>
               <Th>Tên</Th>
@@ -70,7 +70,7 @@ function TableContent() {
                         </div>
                       </Td>
                       <Td>{account.phone}</Td>
-                      <Td>{account.createdAt}</Td>
+                      <Td>{moment(account.createdAt).format("LL")}</Td>
 
                       <Td>
                         <ul className=" flex items-center gap-2">

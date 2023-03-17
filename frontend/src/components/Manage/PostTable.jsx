@@ -28,9 +28,9 @@ function PostTable(props) {
   };
   return (
     <>
-      <TableContainer>
-        <Table colorScheme="cyran">
-          <Thead>
+      <TableContainer overflowX="unset" overflowY="unset">
+        <Table>
+          <Thead position={"sticky"} top={0} zIndex="docked" bg={"white"}>
             <Tr>
               <Th>Loại đồ vật</Th>
               <Th>Người đăng</Th>

@@ -23,9 +23,9 @@ function CategogyTable(props) {
   };
   return (
     <>
-      <TableContainer>
-        <Table colorScheme="cyran">
-          <Thead>
+      <TableContainer overflowX="unset" overflowY="unset">
+        <Table>
+          <Thead position={"sticky"} top={0} zIndex="docked" bg={"white"}>
             <Tr>
               <Th>Id</Th>
               <Th>Tên Danh mục</Th>
