@@ -11,6 +11,14 @@ export const getMyProfile = async (dispatch) => {
     showToast("error", error.message);
   }
 };
+export const getUser = async (userId, dispatch) => {
+  try {
+    const data = await axiosClient.get(`/api/user/${userId}`);
+    dispatch(saveProfile(data));
+  } catch (error) {
+    showToast("error", error.message);
+  }
+};
 export const updateProfile = async (payload, dispatch) => {
   try {
     const data = await axiosClient.put("/api/user/profile", payload);
@@ -22,10 +30,11 @@ export const updateProfile = async (payload, dispatch) => {
     showToast("error", error.message);
   }
 };
-export const getUser = async (userId, dispatch) => {
+export const UpdatePassword = async (payload) => {
   try {
-    const data = await axiosClient.get(`/api/user/${userId}`);
-    dispatch(saveProfile(data));
+    const data = await axiosClient.put(`/api/user/`, payload);
+    showToast("success", data.message);
+    return data;
   } catch (error) {
     showToast("error", error.message);
   }

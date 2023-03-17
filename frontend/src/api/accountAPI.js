@@ -1,5 +1,10 @@
 import axiosClient from "./axiosClient";
-import { addAccount } from "../stores/AccountSlice";
+import {
+  addAccount,
+  removeAccount,
+  saveAccounts,
+  selectedAccount,
+} from "../stores/AccountSlice";
 import showToast from "../utils/showToast";
 
 export const createAccount = async (payload, dispatch) => {
@@ -8,22 +13,30 @@ export const createAccount = async (payload, dispatch) => {
     dispatch(addAccount(data));
     showToast("success", data.message);
   } catch (error) {
-    console.log(error);
     showToast("error", error.message);
   }
 };
 export const deleteAccount = async (userId, dispatch) => {
   try {
     const data = await axiosClient.delete(`/api/user/${userId}`);
-    // dispatch(saveProfile(data))
+    dispatch(removeAccount(userId));
+    showToast("error", data.message);
   } catch (error) {
     showToast("error", error.message);
   }
 };
-export const getAllAccount = async (params, dispatch) => {
+export const getAllAccount = async (dispatch, params) => {
   try {
-    const data = await axiosClient.get(`/api/user/`);
-    // dispatch(saveProfile(data))
+    const data = await axiosClient.get(`/api/user/`, params);
+    dispatch(saveAccounts(data));
+  } catch (error) {
+    showToast("error", error.message);
+  }
+};
+export const getAccount = async (userId, dispatch) => {
+  try {
+    const data = await axiosClient.get(`/api/user/${userId}`);
+    dispatch(selectedAccount(data));
   } catch (error) {
     showToast("error", error.message);
   }

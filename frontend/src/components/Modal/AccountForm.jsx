@@ -20,7 +20,7 @@ function AccountForm(props) {
         fullName: "",
         password: "",
         phone: "",
-        address: "",
+        email: "",
       },
 
       validationSchema: Yup.object().shape({
@@ -40,7 +40,6 @@ function AccountForm(props) {
         fullName: Yup.string().required("Vui lòng nhập tên đầy đủ!"),
       }),
       onSubmit: (values) => {
-        console.log(values);
         handleAddAccount(values);
       },
     });
@@ -123,7 +122,7 @@ function AccountForm(props) {
         )}
       </FormControl>
       <FormControl className="mt-4" isInvalid={errors.email && touched.email}>
-        <FormLabel htmlFor="email">Địa chỉ:</FormLabel>
+        <FormLabel htmlFor="email">Email:</FormLabel>
         <Input
           onBlur={handleBlur}
           onChange={handleChange}

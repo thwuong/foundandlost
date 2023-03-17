@@ -7,31 +7,6 @@ import InstanceModal from "../components/Modal/InstanceModal";
 import AccountForm from "../components/Modal/AccountForm";
 function ManageAccount() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      code: "B1906585",
-      fullName: "Dương Anh Thương",
-      email: "Dthuong@gmail.com",
-      avatar:
-        "https://lh3.googleusercontent.com/ogw/AAEL6sgatvoo8KDucDZZEhU56G4QKQOmBemOC_4F7ayyag=s32-c-mo",
-      phone: "0794290085",
-      address: "Ninh kiều, Cần thơ",
-      createdAt: Date.now() - 10,
-    },
-    {
-      id: 2,
-      code: "B1910120",
-      fullName: "Tiết Ngọc Như",
-      email: "tnNhu@gmail.com",
-      avatar:
-        "https://lh3.googleusercontent.com/ogw/AAEL6sgatvoo8KDucDZZEhU56G4QKQOmBemOC_4F7ayyag=s32-c-mo",
-      phone: "0367865123",
-      address: "Cái răng, Cần Thơ",
-      createdAt: Date.now(),
-    },
-  ]);
-
   return (
     <>
       <div className="bg-main bg-no-repeat bg-cover">
@@ -52,8 +27,8 @@ function ManageAccount() {
               <Navigate activeNav="account" />
             </div>
             <div className="w-[80%]">
-              <div className="py-8 px-4 bg-white/20 rounded-lg  overflow-y-auto">
-                <AccountTable dataList={users} />
+              <div className="py-8 px-4 bg-white/20 rounded-lg overflow-y-auto">
+                <AccountTable />
               </div>
             </div>
           </div>

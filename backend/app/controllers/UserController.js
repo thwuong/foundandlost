@@ -22,13 +22,15 @@ class UserController {
     try {
       const oldUser = await db.User.findOne({
         where: { idNumber },
+        raw: true,
       });
       if (oldUser) {
         return next(createError(401, `Người dùng ${idNumber} đã tồn tại!`));
       }
       const cryptr = new Cryptr(process.env.HASH_KEY);
       const hashPassword = cryptr.encrypt(password);
-      const newUser = {
+
+      const newUser = await db.User.create({
         idNumber: idNumber.toLowerCase(),
         password: hashPassword,
         email,
@@ -36,13 +38,14 @@ class UserController {
         phone,
         avatar:
           "https://res.cloudinary.com/dmf8jfmss/image/upload/v1676877734/avatar/graduate-student-avatar_tf7dwq.png",
-      };
+      });
 
-      const user = await db.User.create(newUser);
+      const user = await db.User.findByPk(newUser.id, { raw: true });
 
       res.status(200).json({
         success: true,
         message: `Tạo người dùng ${user.idNumber} thành công!`,
+        user,
       });
     } catch (error) {
       next(error);
@@ -77,7 +80,6 @@ class UserController {
       res.status(200).json({
         success: true,
         message: `Xóa ${deletedUser} sinh viên thành công!`,
-        deletedUser,
       });
     } catch (error) {
       next(error);
@@ -91,11 +93,12 @@ class UserController {
     const { currentPassword, newPassword, comfirmPassword } = req.body;
     const cryptr = new Cryptr(process.env.HASH_KEY);
     try {
-      const user = db.User.findOne({
+      const user = await db.User.findOne({
         where: { id: userId },
         attributes: {
           include: ["password"],
         },
+        raw: true,
       });
       if (!currentPassword || !newPassword || !comfirmPassword) {
         return next(createError(401, "Vui lòng không được bỏ trống!"));
@@ -110,17 +113,16 @@ class UserController {
 
       const hashPassword = cryptr.encrypt(newPassword);
 
-      let updatedUser = {
-        password: hashPassword,
-      };
-      updatedUser = await db.User.update(updatedUser, {
-        where: { id },
-        raw: true,
-      });
+      const updatedUser = await db.User.update(
+        { password: hashPassword },
+        {
+          where: { id: userId },
+        }
+      );
 
       res.status(200).json({
         success: true,
-        message: `Cập nhật sinh viên thành công!`,
+        message: `Đã đổi mật khẩu!`,
       });
     } catch (error) {
       next(error);
@@ -153,6 +155,7 @@ class UserController {
     try {
       const user = await db.User.findOne({
         where: { id: userId },
+        raw: true,
       });
 
       res.status(200).json({
@@ -182,7 +185,7 @@ class UserController {
       userUpdated = await db.User.update(userUpdated, {
         where: { id: userId },
       });
-      const newUser = await db.User.findByPk(userId);
+      const newUser = await db.User.findByPk(userId, { raw: true });
       res.status(200).json({
         success: true,
         message: `Cập nhật thông tin thành công!`,

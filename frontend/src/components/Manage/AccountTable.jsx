@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Tbody,
   Tr,
@@ -9,18 +10,31 @@ import {
   TableContainer,
   useDisclosure,
 } from "@chakra-ui/react";
+import { deleteAccount, getAllAccount } from "../../api/accountAPI";
+import { useSelector, useDispatch } from "react-redux";
 import InstanceModal from "../Modal/InstanceModal";
 import VerifyModal from "../Modal/VerifyModal";
-function TableContent(props) {
-  const { dataList } = props;
+function TableContent() {
+  const [selectedAcc, setSelectedAcc] = useState(null);
+  const { accounts } = useSelector((state) => state.account);
+  const dispatch = useDispatch();
   const {
     isOpen: isOpenVerifyModal,
     onOpen: onOpenVerifyModal,
     onClose: onCloseVefiryModal,
   } = useDisclosure();
-  const handleRemove = (status) => {
-    console.log(status);
+  const handleRemove = async (status) => {
+    if (status) {
+      await deleteAccount(selectedAcc, dispatch);
+    }
   };
+  useEffect(() => {
+    const fetchAllAccount = async () => {
+      await getAllAccount(dispatch);
+    };
+    fetchAllAccount();
+    console.log(accounts);
+  }, []);
   return (
     <>
       <TableContainer>
@@ -30,50 +44,53 @@ function TableContent(props) {
               <Th>MSSV</Th>
               <Th>Tên</Th>
               <Th>Số điện thoại</Th>
-              <Th>Địa chỉ</Th>
               <Th>Ngày tham gia</Th>
               <Th>Tùy chọn</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {dataList && [...dataList].length > 0
-              ? [...dataList].map((data) => {
+            {accounts
+              ? accounts.map((account) => {
                   return (
-                    <Tr key={data.id}>
-                      <Td>{data.code}</Td>
+                    <Tr key={account.id}>
+                      <Td>{account.idNumber}</Td>
                       <Td>
                         <div className="flex gap-1 items-center">
                           <img
-                            src={data.avatar}
+                            src={account.avatar}
                             alt=""
-                            className="w-8 h-8 rounded-full"
+                            className="w-8 h-8 rounded-full object-cover"
                           />
                           <div>
-                            <p className="font-semibold">{data.fullName}</p>
+                            <p className="font-semibold">{account.fullName}</p>
                             <p className="text-sm text-gray-500">
-                              {data.email}
+                              {account.email}
                             </p>
                           </div>
                         </div>
                       </Td>
-                      <Td>{data.phone}</Td>
-                      <Td>{data.address}</Td>
-                      <Td>{data.createdAt}</Td>
+                      <Td>{account.phone}</Td>
+                      <Td>{account.createdAt}</Td>
 
                       <Td>
                         <ul className=" flex items-center gap-2">
                           <li
                             className="cursor-pointer"
-                            onClick={onOpenVerifyModal}
+                            onClick={() => {
+                              setSelectedAcc(account.id);
+                              onOpenVerifyModal();
+                            }}
                           >
                             <box-icon name="trash" color="#7286D3"></box-icon>
                           </li>
                           <li className="cursor-pointer">
                             <box-icon name="pencil" color="#7286D3"></box-icon>
                           </li>
-                          <li className="cursor-pointer">
-                            <box-icon name="show" color="#7286D3"></box-icon>
-                          </li>
+                          <Link to={`/profile/${account.id}`}>
+                            <li className="cursor-pointer">
+                              <box-icon name="show" color="#7286D3"></box-icon>
+                            </li>
+                          </Link>
                         </ul>
                       </Td>
                     </Tr>

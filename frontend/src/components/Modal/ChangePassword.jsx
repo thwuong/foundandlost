@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { UpdatePassword } from "../../api/userAPI";
 function ChangePassword(props) {
   const { hide } = props;
   const { values, touched, errors, handleBlur, handleChange, handleSubmit } =
@@ -34,8 +35,11 @@ function ChangePassword(props) {
         handleChangePassword(values);
       },
     });
-  const handleChangePassword = (values) => {
-    // call api update info
+  const handleChangePassword = async (values) => {
+    const { success } = await UpdatePassword(values);
+    if (success) {
+      hide();
+    }
   };
   return (
     <form onSubmit={handleSubmit}>
