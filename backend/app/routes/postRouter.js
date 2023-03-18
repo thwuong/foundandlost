@@ -17,6 +17,7 @@ Router.post(
   PostController.createPost
 );
 Router.put("/:postId", verifyToken, PostController.updateStatusPost);
+Router.get("/:userId/user", verifyToken, PostController.getUserPost);
 Router.get("/mypost", verifyToken, PostController.getMyPost);
 Router.get("/:postId", verifyToken, PostController.getPost);
 Router.get("/", verifyToken, PostController.getAllPost);

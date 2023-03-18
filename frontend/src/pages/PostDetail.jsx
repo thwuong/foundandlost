@@ -1,8 +1,21 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getItem } from "../api/postAPI";
 import Comment from "../components/Comment/Comment";
 import Header from "../components/Header";
 import PostDetailItem from "../components/PostDetailItem";
 import RelatedPost from "../components/RelatedPost";
 function PostDetail() {
+  const { postId } = useParams();
+  const { post } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchItem = async (postId) => {
+      await getItem(dispatch, postId);
+    };
+    fetchItem(postId);
+  }, [postId]);
   return (
     <div className="bg-main bg-no-repeat bg-cover min-h-screen">
       <div className="w-4/5 mx-auto pb-4 h-full">
@@ -10,15 +23,18 @@ function PostDetail() {
         <h1 className="mt-6 text-3xl text-primary text-center font-bold">
           CHI TIẾT ĐỒ VẬT
         </h1>
-        <div className="flex gap-5 mt-6 max-h-[500px] h-full">
+        <div className="flex gap-5 mt-6 max-h-[500px] h-[80%]">
           <div className="w-[75%]">
-            <PostDetailItem />
+            <PostDetailItem item={post} />
           </div>
           <div className="w-[25%]">
-            <RelatedPost />
+            <RelatedPost
+              typeName={post.category?.typeName}
+              categoryId={post.categoryId}
+            />
           </div>
         </div>
-        <div className="w-[73.5%]">
+        <div className="w-[73.5%] mt-4 h-full">
           <Comment />
         </div>
       </div>

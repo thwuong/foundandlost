@@ -54,7 +54,7 @@ class PostController {
           {
             model: db.User,
             as: "author",
-            attributes: ["fullName", "email", "phone", "avatar", "code"],
+            attributes: ["fullName", "email", "phone", "avatar", "idNumber"],
           },
         ],
       });
@@ -87,7 +87,12 @@ class PostController {
         nest: true,
         offset: offset * +process.env.LIMIT,
         include: [
-          { model: db.Category, as: "category", attributes: ["typeName"] },
+          {
+            model: db.Category,
+            as: "category",
+            attributes: ["typeName"],
+            nest: true,
+          },
           {
             model: db.User,
             as: "author",
@@ -110,14 +115,34 @@ class PostController {
     const ownerId = req.user.userId;
 
     try {
-      const myPosts = await db.Post.findAll({
+      const posts = await db.Post.findAll({
         where: { ownerId },
       });
 
       res.status(200).json({
         success: true,
         message: "Nhận danh sách đồ vật của bạn thành công!",
-        myPosts,
+        posts,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  // DESC [get all my post]
+  // @URL [GET] /api/post/:userId/user
+  // params : [userId]
+  async getUserPost(req, res, next) {
+    const ownerId = req.params.userId;
+
+    try {
+      const posts = await db.Post.findAll({
+        where: { ownerId },
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Nhận danh sách đồ vật của bạn thành công!",
+        posts,
       });
     } catch (error) {
       next(error);

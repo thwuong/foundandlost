@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Button, Badge, useDisclosure } from "@chakra-ui/react";
 import { renderStatusRequest } from "../../utils/renderColorStatus";
 import InstanceModal from "../../components/Modal/InstanceModal";
 import VerifyModal from "../../components/Modal/VerifyModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getMyRequests, getRequestList } from "../../api/requetsAPI";
 function Request(props) {
-  const { me } = props;
+  const { post } = props;
+  const { profile, requets } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   const [option, setOption] = useState(false);
   const {
     isOpen: isOpenVerifyModal,
@@ -16,6 +21,19 @@ function Request(props) {
   const handleRemove = (status) => {
     console.log(status);
   };
+  useEffect(() => {
+    const fetchMyRequets = async () => {
+      await getMyRequests(dispatch);
+    };
+    const fetchListRequets = async () => {
+      await getRequestList(dispatch, post.id);
+    };
+    if (post) {
+      fetchListRequets();
+    } else {
+      fetchMyRequets();
+    }
+  }, []);
   return (
     <>
       <div className="bg-white px-6 py-4 rounded-lg mb-4">
@@ -43,7 +61,7 @@ function Request(props) {
               {"pending"}
             </Badge>
           </div>
-          {me && (
+          {user?.id !== profile?.id && (
             <div className="relative">
               <p
                 className="cursor-pointer flex items-center justify-center w-6 h-6 rounded-full hover:bg-gray-200"
@@ -73,13 +91,13 @@ function Request(props) {
             </div>
           )}
         </div>
-        {me && (
+        {user.id !== profile.id && (
           <h5 className="mt-2 font-semibold">
             Yêu cầu cho bài viết : 111111111111111
           </h5>
         )}
         <p className="mt-2">tôi muốn nhận lại cái này</p>
-        {!me && (
+        {user.id === profile.id && (
           <div className="mt-2 flex gap-2">
             <Button
               size="sm"

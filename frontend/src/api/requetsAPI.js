@@ -1,6 +1,7 @@
 import axiosClient from "./axiosClient";
 import showStoats from "../utils/showToast";
 // import silce
+import { saveProfileRequets } from "../stores/UserSlice";
 export const postRequest = async (dispatch, payload) => {
   try {
     const data = await axiosClient.post("/api/request/", payload);
@@ -41,7 +42,7 @@ export const getMyRequests = async (dispatch) => {
   try {
     const data = await axiosClient.get(`/api/request/myrequest`);
     // dispatch
-    showStoats("success", data);
+    dispatch(saveProfileRequets(data));
   } catch (error) {
     showStoats("error", error.message);
   }
@@ -50,7 +51,7 @@ export const getRequestList = async (dispatch, postId) => {
   try {
     const data = await axiosClient.get(`/api/request/${postId}`);
     // dispatch
-    showStoats("success", data);
+    dispatch(saveProfileRequets(data));
   } catch (error) {
     showStoats("error", error.message);
   }

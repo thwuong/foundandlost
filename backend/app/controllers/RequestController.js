@@ -90,7 +90,7 @@ class RequestController {
   async getMyRequests(req, res, next) {
     const userId = req.user.userId;
     try {
-      const myRequest = await db.Request.findAll({
+      const requests = await db.Request.findAll({
         where: { userId },
         raw: true,
         next: true,
@@ -98,7 +98,7 @@ class RequestController {
       res.status(200).json({
         success: true,
         message: "Láy danh sách yêu cầu của tôi thành công!",
-        myRequest,
+        requests,
       });
     } catch (error) {
       next(error);
@@ -107,7 +107,7 @@ class RequestController {
   async getRequests(req, res, next) {
     const postId = req.params.postId;
     try {
-      const requestPost = await db.Request.findAll({
+      const requests = await db.Request.findAll({
         where: {
           postId,
         },
@@ -117,7 +117,7 @@ class RequestController {
       res.status(200).json({
         success: true,
         message: "Lấy yêu cầu cho tôi thành công!",
-        requestPost,
+        requests,
       });
     } catch (error) {
       next(error);

@@ -18,7 +18,7 @@ function CommentItem(props) {
   };
   return (
     <>
-      <li className="flex gap-2 mt-4">
+      <div className="flex gap-2 mt-4">
         <figure>
           <img
             className="w-8 h-8 rounded-full object-cover"
@@ -79,7 +79,7 @@ function CommentItem(props) {
           {children}
           {showInput && <CommentInput idInput={"idInput"} />}
         </div>
-      </li>
+      </div>
       <InstanceModal
         show={isOpenVerifyModal}
         modalName={"Xác nhận"}

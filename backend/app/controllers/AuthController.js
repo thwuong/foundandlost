@@ -29,7 +29,7 @@ class AuthController {
       const accessToken = jwt.sign(
         { userId: user.id, isAdmin: user.isAdmin },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "10m" }
+        { expiresIn: "5m" }
       );
       const refreshToken = jwt.sign(
         { userId: user.id, isAdmin: user.isAdmin },
@@ -68,7 +68,7 @@ class AuthController {
         { userId: user.userId, isAdmin: user.isAdmin },
         process.env.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: "10m",
+          expiresIn: "5m",
         }
       );
       res.status(200).json({

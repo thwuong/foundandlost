@@ -7,8 +7,12 @@ import SelectCategory from "../components/Home/SelectCategory";
 import Header from "../components/Header";
 import CardItem from "../components/CardItem";
 import TabTypePost from "../components/Home/TabTypePost";
+import { getItemList } from "../api/postAPI";
+import { useDispatch, useSelector } from "react-redux";
 
 function HomePage() {
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.post.posts);
   const [pagination, setPagination] = useState({
     _limit: 8,
     _page: 1,
@@ -35,8 +39,10 @@ function HomePage() {
     setFilters({ ...filters, text: newKeyWord });
   };
   useEffect(() => {
-    console.log(filters);
-    console.log(pagination);
+    const fetchAllItem = async (params) => {
+      await getItemList(dispatch, params);
+    };
+    fetchAllItem(filters);
   }, [filters]);
 
   return (
@@ -69,15 +75,12 @@ function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="py-8 grid xl:grid-cols-4 gap-5">
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
-            <CardItem />
+          <div className="py-8 grid xl:grid-cols-4 gap-5 ">
+            {posts && posts.length > 0
+              ? posts.map((post) => {
+                  return <CardItem key={post.id} item={post} />;
+                })
+              : null}
           </div>
           <Pagination onPageChange={handlePageChange} pagination={pagination} />
         </div>

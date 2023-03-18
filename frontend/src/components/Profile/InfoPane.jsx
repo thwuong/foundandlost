@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMyProfile, getUser } from "../../api/userAPI";
 function InfoPane() {
   const { userId } = useParams();
-  const profile = useSelector((state) => state.user.profile);
+  const { profile, posts } = useSelector((state) => state.user);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const {
@@ -47,7 +47,7 @@ function InfoPane() {
         <figure className="relative p-1 border-2 rounded-full cursor-pointer hover:border-black/20">
           <img
             className="w-40 h-40 object-cover rounded-full "
-            src={profile?.avatar}
+            src={profile.avatar}
             alt=""
           />
           <div
@@ -58,16 +58,16 @@ function InfoPane() {
           </div>
         </figure>
         <div>
-          <h3 className="text-xl font-bold">{profile?.fullName}</h3>
+          <h3 className="text-xl font-bold">{profile.fullName}</h3>
           <p className="my-2 text-gray-400 text-sm">
-            {profile?.isAdmin ? "Quản trị viên" : "Sinh viên"}
+            {profile.isAdmin ? "Quản trị viên" : "Sinh viên"}
           </p>
           <p className="font-bold">
-            Số lượng bài viết:<span> 12</span>
+            Số lượng bài viết:<span> {posts && posts.length}</span>
           </p>
         </div>
         <div className="ml-auto flex flex-row-reverse items-end justify-end gap-4">
-          {user?.id === profile?.id ? (
+          {user.id === profile.id ? (
             <div
               onClick={onOpenChangePassword}
               className="px-3 py-2 rounded bg-gray-300 flex gap-1 items-center cursor-pointer duration-300 hover:bg-gray-300/75"
@@ -76,7 +76,7 @@ function InfoPane() {
               <span>Thay đổi mật khẩu</span>
             </div>
           ) : null}
-          {user?.id === profile?.id ? (
+          {user.id === profile.id ? (
             <div
               onClick={onOpenUpdateInfo}
               className="px-3 py-2 rounded bg-gray-300 flex gap-1 items-center cursor-pointer duration-300 hover:bg-gray-300/75"
@@ -85,7 +85,7 @@ function InfoPane() {
               <span>Chỉnh sửa thông tin</span>
             </div>
           ) : null}
-          {user?.id !== profile?.id ? (
+          {user.id !== profile.id ? (
             <Link to={"/chat"}>
               <div className="px-3 py-2 rounded text-white bg-primary flex gap-1 items-center justify-center cursor-pointer duration-300 hover:bg-primary/90">
                 <box-icon type="logo" name="messenger" color="white"></box-icon>

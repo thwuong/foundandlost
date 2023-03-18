@@ -11,10 +11,15 @@ import {
   Select,
   FormErrorMessage,
 } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
 import imageUpload from "../../assets/image-upload.jpg";
 import PreviewImage from "../PreviewImage";
 import { validationMultipleImage } from "../../utils/validationImage";
+import { getAllCategory } from "../../api/categoryAPI";
+import { postItem } from "../../api/postAPI";
 function PostForm(props) {
+  const categories = useSelector((state) => state.category.categories);
+  const dispatch = useDispatch();
   const { isEdit } = props;
   const [errUpload, setErrUpload] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +31,7 @@ function PostForm(props) {
     handleBlur,
     handleChange,
     handleSubmit,
+    resetForm,
     setValues,
   } = useFormik({
     initialValues: {
@@ -47,21 +53,37 @@ function PostForm(props) {
     }),
     onSubmit: (values) => {
       if (!errUpload) {
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("desc", values.desc);
+        formData.append("categoryId", values.categoryId);
+        formData.append("location", values.location);
+        formData.append("postType", values.postType);
+        if (files.length > 0) {
+          for (const file of files) {
+            formData.append("images", file);
+          }
+        }
         setIsLoading(true);
         setTimeout(() => {
           setIsLoading(false);
           if (isEdit) {
-            handleEditPost(values);
+            handleEditPost(formData);
           } else {
-            handleCreatePost(values);
+            handleCreatePost(formData);
           }
         }, 2000);
       }
     },
   });
-  const handleCreatePost = (values) => {
+  const handleCreatePost = async (values) => {
     console.log(values);
     // CallAPi
+    const { success } = await postItem(dispatch, values);
+    if (success) {
+      resetForm();
+      setFiles([]);
+    }
   };
   const handleEditPost = (values) => {
     console.log(values);
@@ -73,15 +95,25 @@ function PostForm(props) {
       setErrUpload(error);
     } else {
       setFiles(e.target.files);
-      values.images = e.target.files;
     }
   };
-
+  const handleRemoveImage = (index) => {
+    setFiles([...files].filter((file, i) => i !== index));
+  };
   useEffect(() => {
+    const fetchAllCategory = async () => {
+      await getAllCategory(dispatch);
+    };
+    fetchAllCategory();
     if (isEdit) {
       // setValues()
     }
   }, []);
+  useEffect(() => {
+    if (isEdit) {
+      // setValues()
+    }
+  }, [isEdit]);
   return (
     <>
       <h1 className="text-3xl text-primary text-center font-bold">
@@ -144,8 +176,8 @@ function PostForm(props) {
                   value={values.postType}
                   name="postType"
                 >
-                  <option>United Arab Emirates</option>
-                  <option>Nigeria</option>
+                  <option value={"Found Item"}>Found Item</option>
+                  <option value={"Lost Item"}>Lost Item</option>
                 </Select>
                 {errors.postType && touched.postType && (
                   <FormErrorMessage>{errors.postType}</FormErrorMessage>
@@ -163,8 +195,15 @@ function PostForm(props) {
                   value={values.categoryId}
                   name="categoryId"
                 >
-                  <option>United Arab Emirates</option>
-                  <option>Nigeria</option>
+                  {categories && categories.length > 0
+                    ? categories.map((category) => {
+                        return (
+                          <option key={category.id} value={category.id}>
+                            {category.typeName}
+                          </option>
+                        );
+                      })
+                    : null}
                 </Select>
                 {errors.categoryId && touched.categoryId && (
                   <FormErrorMessage>{errors.categoryId}</FormErrorMessage>
@@ -219,7 +258,7 @@ function PostForm(props) {
             </FormControl>
           </div>
           <div className="w-[70%] mt-8">
-            <PreviewImage files={files} />
+            <PreviewImage files={files} handleRemove={handleRemoveImage} />
           </div>
         </div>
         <Button

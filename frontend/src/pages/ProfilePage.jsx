@@ -6,7 +6,7 @@ import CardList from "../components/Profile/CardList";
 import ProfileNav from "../components/Profile/ProfileNav";
 function ProfilePage() {
   return (
-    <div className="bg-[#F0F2F5]">
+    <div className="bg-[#F0F2F5] min-h-screen">
       <div className="w-[80%] mx-auto ">
         <div className="container h-full">
           <Header />
