@@ -9,6 +9,7 @@ const errorHandler = require("./app/middlewares/errorHandler");
 const { createError } = require("./app/utils/createError");
 const { connectDB } = require("./app/utils/connectDB");
 const { createRoute } = require("./app/routes/index");
+const { serverSocket } = require("./serverSocket");
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,6 +19,7 @@ app.use(cookieParser());
 
 connectDB();
 createRoute(app);
+serverSocket(app);
 app.all("*", (req, res, next) => {
   next(createError(404, "Không tìm thấy nguồn!"));
 });
