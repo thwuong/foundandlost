@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import { io } from "socket.io-client";
 
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -16,6 +19,10 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import RequireAuth from "./utils/RequireAuth";
 
 function App() {
+  useEffect(() => {
+    const socket = io("http://localhost:5000");
+    console.log(socket);
+  }, []);
   return (
     <BrowserRouter>
       <Routes>
