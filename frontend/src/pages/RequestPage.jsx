@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import InfoPane from "../components/Profile/InfoPane";
 import IntroPane from "../components/Profile/IntroPane";
 import ProfileNav from "../components/Profile/ProfileNav";
-import Request from "../components/Profile/Request";
+
+import { getMyRequests } from "../api/requetsAPI";
+import { getMyProfile } from "../api/userAPI";
+import { getMyItems } from "../api/postAPI";
+import RequestList from "../components/Profile/RequestList";
 function RequestPage() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      await getMyProfile(dispatch);
+    };
+
+    const fetchMyRequets = async () => {
+      await getMyRequests(dispatch);
+    };
+    const fetchMyItems = async () => {
+      await getMyItems(dispatch);
+    };
+    fetchProfile();
+    fetchMyItems();
+    fetchMyRequets();
+  }, []);
   return (
-    <div className="bg-[#F0F2F5]">
+    <div className="bg-[#F0F2F5] min-h-screen">
       <div className="w-[80%] mx-auto ">
         <div className="container h-full">
           <Header />
@@ -21,9 +43,7 @@ function RequestPage() {
               <IntroPane />
             </div>
             <div className="w-[70%] max-h-[420px] min-h-[320px] overflow-y-auto">
-              <Request me={true} />
-              <Request me={true} />
-              <Request me={true} />
+              <RequestList />
             </div>
           </div>
         </div>

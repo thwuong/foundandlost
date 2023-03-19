@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { Select } from "@chakra-ui/react";
 import PostTable from "../components/Manage/PostTable";
 import Navigate from "../components/Manage/Navigate";
+import { useDispatch } from "react-redux";
+import { getItemList } from "../api/postAPI";
 function ManagePost() {
+  const dispatch = useDispatch();
   const [posts, setPosts] = useState([
     {
       id: 1,
@@ -62,6 +65,12 @@ function ManagePost() {
       createdAt: Date.now() - 10,
     },
   ]);
+  useEffect(() => {
+    const fetchAllPost = async () => {
+      await getItemList(dispatch);
+    };
+    fetchAllPost();
+  }, []);
   return (
     <div className="bg-main bg-no-repeat bg-cover">
       <div className="w-[80%] h-screen mx-auto">
@@ -81,7 +90,7 @@ function ManagePost() {
           </div>
           <div className="w-[80%] h-full">
             <div className=" bg-white/20 rounded-lg max-h-full overflow-y-auto">
-              <PostTable dataList={posts} />
+              <PostTable />
             </div>
           </div>
         </div>

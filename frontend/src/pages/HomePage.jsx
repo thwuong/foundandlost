@@ -12,17 +12,17 @@ import { useDispatch, useSelector } from "react-redux";
 
 function HomePage() {
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.post.posts);
+  const { posts, totalPost } = useSelector((state) => state.post);
   const [pagination, setPagination] = useState({
-    _limit: 8,
-    _page: 1,
-    _totalRows: 50,
+    limit: 8,
+    page: 1,
+    totalRows: null,
   });
   const [filters, setFilters] = useState({
-    _limit: 8,
-    _page: 1,
-    text: "",
-    category: null,
+    limit: 8,
+    page: 1,
+    keyword: "",
+    categoryId: null,
     postType: null,
   });
   const handleTabChange = (tabSelected) => {
@@ -33,11 +33,14 @@ function HomePage() {
     setFilters({ ...filters, _page: newPage });
   };
   const handleSelecting = (categorySelected) => {
-    setFilters({ ...filters, category: categorySelected });
+    setFilters({ ...filters, categoryId: categorySelected });
   };
   const handleSearching = (newKeyWord) => {
-    setFilters({ ...filters, text: newKeyWord });
+    setFilters({ ...filters, keyword: newKeyWord });
   };
+  useEffect(() => {
+    setPagination({ ...pagination, totalRows: totalPost });
+  }, [totalPost]);
   useEffect(() => {
     const fetchAllItem = async (params) => {
       await getItemList(dispatch, params);

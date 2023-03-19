@@ -12,7 +12,7 @@ class RequestController {
     try {
       const newRequest = await db.Request.create({
         userId,
-        postId,
+        postId: Number(postId),
         desc,
       });
       res.status(200).json({
@@ -93,7 +93,19 @@ class RequestController {
       const requests = await db.Request.findAll({
         where: { userId },
         raw: true,
-        next: true,
+        nest: true,
+        include: [
+          {
+            model: db.User,
+            as: "author",
+            attributes: ["fullName", "email", "avatar"],
+          },
+          {
+            model: db.Post,
+            as: "post",
+            attributes: ["title"],
+          },
+        ],
       });
       res.status(200).json({
         success: true,
@@ -104,7 +116,7 @@ class RequestController {
       next(error);
     }
   }
-  async getRequests(req, res, next) {
+  async getRequestByPostId(req, res, next) {
     const postId = req.params.postId;
     try {
       const requests = await db.Request.findAll({
@@ -112,7 +124,34 @@ class RequestController {
           postId,
         },
         raw: true,
-        next: true,
+        nest: true,
+      });
+      res.status(200).json({
+        success: true,
+        message: "Lấy yêu cầu cho tôi thành công!",
+        requests,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getAllRequest(req, res, next) {
+    try {
+      const requests = await db.Request.findAll({
+        raw: true,
+        nest: true,
+        include: [
+          {
+            model: db.User,
+            as: "author",
+            attributes: ["fullName", "email", "avatar"],
+          },
+          {
+            model: db.Post,
+            as: "post",
+            attributes: ["title"],
+          },
+        ],
       });
       res.status(200).json({
         success: true,

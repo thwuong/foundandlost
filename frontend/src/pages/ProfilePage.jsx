@@ -1,10 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+
 import Header from "../components/Header";
 import InfoPane from "../components/Profile/InfoPane";
 import IntroPane from "../components/Profile/IntroPane";
 import CardList from "../components/Profile/CardList";
 import ProfileNav from "../components/Profile/ProfileNav";
+
+import { useDispatch } from "react-redux";
+import { getMyProfile, getUser } from "../api/userAPI";
+import { getMyItems, getUserItems } from "../api/postAPI";
+
 function ProfilePage() {
+  const { userId } = useParams();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchProfile = async () => {
+      await getMyProfile(dispatch);
+    };
+    const fetchProfileById = async (userId) => {
+      await getUser(userId, dispatch);
+    };
+    const fetchUserItems = async (userId) => {
+      await getUserItems(dispatch, userId);
+    };
+    const fetchMyItems = async () => {
+      await getMyItems(dispatch);
+    };
+    if (userId) {
+      fetchProfileById(userId);
+      fetchUserItems(userId);
+    } else {
+      fetchProfile();
+      fetchMyItems();
+    }
+  }, [userId]);
   return (
     <div className="bg-[#F0F2F5] min-h-screen">
       <div className="w-[80%] mx-auto ">

@@ -4,8 +4,8 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     profile: {},
-    posts: [],
-    requests: [],
+    myPosts: [],
+    myRequests: [],
   },
   reducers: {
     // Actions
@@ -16,10 +16,10 @@ const userSlice = createSlice({
       state.profile = actions.payload.newUser;
     },
     saveProfilePosts: (state, actions) => {
-      state.posts = actions.payload.posts;
+      state.myPosts = actions.payload.posts;
     },
     saveProfileRequets: (state, actions) => {
-      state.requests = actions.payload.requests;
+      state.myRequests = actions.payload.requests;
     },
   },
 });

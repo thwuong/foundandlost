@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ExtraImage from "../assets/PlaceholderImage.png";
 import { Link } from "react-router-dom";
 import { Badge, useDisclosure } from "@chakra-ui/react";
 import { renderTypePost } from "../utils/renderColorStatus";
@@ -25,15 +26,18 @@ function CardItem(props) {
             <figure>
               <img
                 src={item?.images.length > 0 ? item?.images[0] : ""}
-                alt="test"
-                className="w-28 rounded"
+                alt={ExtraImage}
+                onError={(e) => {
+                  e.target.src = ExtraImage;
+                }}
+                className="w-28 h-28 rounded"
               />
             </figure>
             <Badge
               variant="outline"
-              colorScheme={renderTypePost(item?.typePost)}
+              colorScheme={renderTypePost(item?.postType)}
             >
-              Tìm thấy
+              {item?.postType}
             </Badge>
           </div>
           {user && user.id === item?.ownerId ? (

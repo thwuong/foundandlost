@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function TabTypePost(props) {
-  const [tab, setTab] = useState("all");
+  const [tab, setTab] = useState("");
   const { onTabChange } = props;
 
   const handleTabChange = (tabSelected) => {
@@ -12,13 +12,13 @@ function TabTypePost(props) {
     <div className=" flex gap-3">
       <button
         className={
-          (tab === "all"
+          (tab === ""
             ? "bg-primary text-paragarph-white"
             : "bg-transparent text-paragarph-black border-2 border-primary") +
           " text-center px-4 py-2 rounded-lg font-bold"
         }
         onClick={() => {
-          handleTabChange("all");
+          handleTabChange("");
         }}
       >
         Tất cả

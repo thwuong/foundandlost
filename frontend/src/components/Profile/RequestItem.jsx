@@ -3,13 +3,12 @@ import { Link } from "react-router-dom";
 
 import { Button, Badge, useDisclosure } from "@chakra-ui/react";
 import { renderStatusRequest } from "../../utils/renderColorStatus";
-import InstanceModal from "../../components/Modal/InstanceModal";
-import VerifyModal from "../../components/Modal/VerifyModal";
+import InstanceModal from "../Modal/InstanceModal";
+import VerifyModal from "../Modal/VerifyModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyRequests, getRequestList } from "../../api/requetsAPI";
-function Request(props) {
-  const { post } = props;
-  const { profile, requets } = useSelector((state) => state.user);
+function RequestItem(props) {
+  const { request } = props;
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const [option, setOption] = useState(false);
@@ -21,19 +20,7 @@ function Request(props) {
   const handleRemove = (status) => {
     console.log(status);
   };
-  useEffect(() => {
-    const fetchMyRequets = async () => {
-      await getMyRequests(dispatch);
-    };
-    const fetchListRequets = async () => {
-      await getRequestList(dispatch, post.id);
-    };
-    if (post) {
-      fetchListRequets();
-    } else {
-      fetchMyRequets();
-    }
-  }, []);
+
   return (
     <>
       <div className="bg-white px-6 py-4 rounded-lg mb-4">
@@ -42,26 +29,29 @@ function Request(props) {
             <figure>
               <img
                 className="w-10 h-10 rounded-full object-cover"
-                src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/328130832_1855564528161017_6159523852991919296_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=3fW4Xt-sZP4AX-e5ja-&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfBGLZ6DHKqRho2yN61BihgCUp11gpHMiAVHi12RJfWUqw&oe=640755EC"
+                src={request?.author?.avatar}
                 alt=""
               />
             </figure>
             <div>
-              <Link>
+              <Link to={`/profile/${request?.userId}`}>
                 <p className="font-bold leading-4 cursor-pointer hover:text-gray-600">
-                  Duong Anh Thuong
+                  {request?.author?.fullName}
                 </p>
               </Link>
               <span className="text-sm text-gray-400 leading-4">
-                email@gmail.com
+                {request?.author?.email}
               </span>
             </div>
 
-            <Badge variant="solid" colorScheme={renderStatusRequest("pending")}>
-              {"pending"}
+            <Badge
+              variant="solid"
+              colorScheme={renderStatusRequest(request?.status)}
+            >
+              {request?.status}
             </Badge>
           </div>
-          {user?.id !== profile?.id && (
+          {user?.id === request?.userId && (
             <div className="relative">
               <p
                 className="cursor-pointer flex items-center justify-center w-6 h-6 rounded-full hover:bg-gray-200"
@@ -91,13 +81,15 @@ function Request(props) {
             </div>
           )}
         </div>
-        {user.id !== profile.id && (
-          <h5 className="mt-2 font-semibold">
-            Yêu cầu cho bài viết : 111111111111111
-          </h5>
+        {user.id === request?.userId && (
+          <Link to={`/post/${request?.postId}`}>
+            <h5 className="mt-2 font-semibold hover:text-black/70">
+              Yêu cầu cho bài viết : {request?.post?.title}
+            </h5>
+          </Link>
         )}
         <p className="mt-2">tôi muốn nhận lại cái này</p>
-        {user.id === profile.id && (
+        {user.id !== request?.userId && (
           <div className="mt-2 flex gap-2">
             <Button
               size="sm"
@@ -133,4 +125,4 @@ function Request(props) {
   );
 }
 
-export default Request;
+export default RequestItem;

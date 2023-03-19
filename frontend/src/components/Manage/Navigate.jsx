@@ -32,7 +32,7 @@ function Navigate(props) {
               : "hover:-translate-y-1 hover:shadow-xl"
           }`}
         >
-          <span className="text-white font-bold">Quản lý Bài viết</span>
+          <span className="text-white font-bold">Quản lý Đồ vật</span>
           <box-icon name="news" color="white"></box-icon>
         </li>
       </Link>

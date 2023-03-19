@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Badge,
   Tbody,
@@ -10,21 +10,28 @@ import {
   TableContainer,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 import InstanceModal from "../Modal/InstanceModal";
 import VerifyModal from "../Modal/VerifyModal";
 import {
   renderTypePost,
   renderStatusPost,
 } from "../../utils/renderColorStatus";
+import { deleteItem } from "../../api/postAPI";
 function PostTable(props) {
-  const { dataList } = props;
+  const posts = useSelector((state) => state.post.posts);
+  const dispatch = useDispatch();
+  const [selectedPost, setSelectedPost] = useState();
   const {
     isOpen: isOpenVerifyModal,
     onOpen: onOpenVerifyModal,
     onClose: onCloseVefiryModal,
   } = useDisclosure();
-  const handleRemove = (status) => {
-    console.log(status);
+  const handleRemove = async (status) => {
+    if (status) {
+      // await deleteItem(dispatch, selectedPost);
+    }
   };
   return (
     <>
@@ -43,31 +50,31 @@ function PostTable(props) {
             </Tr>
           </Thead>
           <Tbody>
-            {dataList && [...dataList].length > 0
-              ? [...dataList].map((data) => {
+            {posts && posts.length > 0
+              ? posts.map((post) => {
                   return (
-                    <Tr key={data.id}>
+                    <Tr key={post.id}>
                       <Td>
                         <Badge
                           variant="outline"
-                          colorScheme={renderTypePost(data.postType)}
+                          colorScheme={renderTypePost(post.postType)}
                         >
-                          {data.postType}
+                          {post.postType}
                         </Badge>
                       </Td>
                       <Td>
                         <div className="flex gap-1 items-center">
                           <img
-                            src={data.author.avatar}
+                            src={post.author.avatar}
                             alt=""
                             className="w-8 h-8 rounded-full"
                           />
                           <div>
                             <p className="font-semibold">
-                              {data.author.fullName}
+                              {post.author.fullName}
                             </p>
                             <p className="text-sm text-gray-500">
-                              {data.author.email}
+                              {post.author.email}
                             </p>
                           </div>
                         </div>
@@ -75,25 +82,26 @@ function PostTable(props) {
                       <Td>
                         <Badge
                           variant="solid"
-                          colorScheme={renderStatusPost(data.status)}
+                          colorScheme={renderStatusPost(post.status)}
                         >
-                          {data.status}
+                          {post.status}
                         </Badge>
                       </Td>
-                      <Td>
-                        {new Date(data.createdAt).toLocaleDateString("en-US")}
-                      </Td>
-                      <Td>{data.location}</Td>
+                      <Td>{moment(post.createdAt).fromNow()}</Td>
+                      <Td>{post.location}</Td>
 
                       <Td>
                         <ul className=" flex items-center gap-2">
                           <li className="cursor-pointer">
                             <box-icon name="show" color="#7286D3"></box-icon>
                           </li>
-                          {data.status === "expired" ? (
+                          {post.status === "comfirmed" ? (
                             <li
                               className="cursor-pointer"
-                              onClick={onOpenVerifyModal}
+                              onClick={() => {
+                                setSelectedPost(post.id);
+                                onOpenVerifyModal();
+                              }}
                             >
                               <box-icon name="trash" color="#7286D3"></box-icon>
                             </li>

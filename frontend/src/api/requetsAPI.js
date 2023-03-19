@@ -2,11 +2,18 @@ import axiosClient from "./axiosClient";
 import showStoats from "../utils/showToast";
 // import silce
 import { saveProfileRequets } from "../stores/UserSlice";
+import {
+  savaRequests,
+  removeRequest,
+  addRequest,
+  updateRequest,
+} from "../stores/RequestSlice";
 export const postRequest = async (dispatch, payload) => {
   try {
     const data = await axiosClient.post("/api/request/", payload);
-    // dispatch
-    showStoats("success", data);
+    dispatch(addRequest(data));
+    showStoats("success", data.message);
+    return data;
   } catch (error) {
     showStoats("error", error.message);
   }
@@ -14,7 +21,7 @@ export const postRequest = async (dispatch, payload) => {
 export const deleteRequest = async (dispatch, requestId) => {
   try {
     const data = await axiosClient.delete(`/api/request/${requestId}`);
-    // dispatch
+    dispatch(removeRequest(requestId));
     showStoats("success", data);
   } catch (error) {
     showStoats("error", error.message);
@@ -23,7 +30,8 @@ export const deleteRequest = async (dispatch, requestId) => {
 export const editStatusRequest = async (dispatch, payload, requestId) => {
   try {
     const data = await axiosClient.put(`/api/request/${requestId}`, payload);
-    // dispatch
+    dispatch(removeRequest({ ...payload, requestId }));
+
     showStoats("success", data);
   } catch (error) {
     showStoats("error", error.message);
@@ -47,9 +55,9 @@ export const getMyRequests = async (dispatch) => {
     showStoats("error", error.message);
   }
 };
-export const getRequestList = async (dispatch, postId) => {
+export const getRequestList = async (dispatch) => {
   try {
-    const data = await axiosClient.get(`/api/request/${postId}`);
+    const data = await axiosClient.get(`/api/request/`);
     // dispatch
     dispatch(saveProfileRequets(data));
   } catch (error) {

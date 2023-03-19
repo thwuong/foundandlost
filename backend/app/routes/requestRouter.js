@@ -7,6 +7,7 @@ Router.put("/:requestId", verifyToken, RequestController.updateStatusRequest);
 Router.delete("/:requestId", verifyToken, RequestController.deleteRequest);
 Router.get("/myrequest", verifyToken, RequestController.getMyRequests);
 Router.get("/:requestId", verifyToken, RequestController.getRequest);
-Router.get("/:postId", verifyToken, RequestController.getRequests);
+Router.get("/:postId", verifyToken, RequestController.getRequestByPostId);
+Router.get("/", verifyToken, RequestController.getAllRequest);
 
 module.exports = Router;

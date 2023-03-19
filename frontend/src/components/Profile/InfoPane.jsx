@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
 
 import InstanceModal from "../Modal/InstanceModal";
@@ -7,12 +7,9 @@ import UpdateAvatar from "../Modal/UpdateAvatar";
 import UpdateInfo from "../Modal/UpdateInfo";
 import ChangePassword from "../Modal/ChangePassword";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyProfile, getUser } from "../../api/userAPI";
 function InfoPane() {
-  const { userId } = useParams();
-  const { profile, posts } = useSelector((state) => state.user);
+  const { profile, myPosts } = useSelector((state) => state.user);
   const user = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch();
   const {
     isOpen: isOpenUpdateAvatar,
     onOpen: onOpenUpdateAvatar,
@@ -28,19 +25,7 @@ function InfoPane() {
     onOpen: onOpenChangePassword,
     onClose: onCloseChangePassword,
   } = useDisclosure();
-  useEffect(() => {
-    const fetchProfile = async () => {
-      await getMyProfile(dispatch);
-    };
-    const fetchProfileById = async (userId) => {
-      await getUser(userId, dispatch);
-    };
-    if (userId) {
-      fetchProfileById(userId);
-    } else {
-      fetchProfile();
-    }
-  }, []);
+
   return (
     <>
       <div className="flex gap-4">
@@ -50,12 +35,14 @@ function InfoPane() {
             src={profile.avatar}
             alt=""
           />
-          <div
-            onClick={onOpenUpdateAvatar}
-            className="absolute bottom-1 right-4 w-8 h-8 flex items-center justify-center p-1 bg-gray-200 rounded-full cursor-pointer"
-          >
-            <box-icon name="camera"></box-icon>
-          </div>
+          {user.id === profile.id ? (
+            <div
+              onClick={onOpenUpdateAvatar}
+              className="absolute bottom-1 right-4 w-8 h-8 flex items-center justify-center p-1 bg-gray-200 rounded-full cursor-pointer"
+            >
+              <box-icon name="camera"></box-icon>
+            </div>
+          ) : null}
         </figure>
         <div>
           <h3 className="text-xl font-bold">{profile.fullName}</h3>
@@ -63,7 +50,7 @@ function InfoPane() {
             {profile.isAdmin ? "Quản trị viên" : "Sinh viên"}
           </p>
           <p className="font-bold">
-            Số lượng bài viết:<span> {posts && posts.length}</span>
+            Số lượng bài viết:<span> {myPosts && myPosts.length}</span>
           </p>
         </div>
         <div className="ml-auto flex flex-row-reverse items-end justify-end gap-4">

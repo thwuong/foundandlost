@@ -8,32 +8,16 @@ import {
   Box,
 } from "@chakra-ui/react";
 import CardItem from "../CardItem";
-import Request from "./Request";
-import { getMyItems, getUserItems } from "../../api/postAPI";
+import RequestList from "./RequestList";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 function CardList() {
-  const { posts, profile } = useSelector((state) => state.user);
+  const { myPosts, profile } = useSelector((state) => state.user);
   const user = useSelector((state) => state.auth.user);
-  const { userId } = useParams();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const fetchUserItems = async (userId) => {
-      await getUserItems(dispatch, userId);
-    };
-    const fetchMyItems = async () => {
-      await getMyItems(dispatch);
-    };
-    if (userId) {
-      fetchUserItems(userId);
-    } else {
-      fetchMyItems();
-    }
-  }, []);
   return (
     <>
-      {posts && posts.length > 0 ? (
-        posts.map((post) => {
+      {myPosts && myPosts.length > 0 ? (
+        myPosts.map((post) => {
           return (
             <div key={post.id} className="bg-white px-6 py-2 mb-4 rounded-lg">
               <CardItem item={post} />
@@ -52,7 +36,7 @@ function CardList() {
                       <AccordionIcon />
                     </AccordionButton>
                     <AccordionPanel pb={2}>
-                      <Request post={post.id} />
+                      <RequestList post={post} />
                     </AccordionPanel>
                   </AccordionItem>
                 </Accordion>
