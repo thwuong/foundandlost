@@ -78,7 +78,7 @@ function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="py-8 grid xl:grid-cols-4 gap-5 ">
+          <div className="py-8 grid xl:grid-cols-2 gap-5 ">
             {posts && posts.length > 0
               ? posts.map((post) => {
                   return <CardItem key={post.id} item={post} />;

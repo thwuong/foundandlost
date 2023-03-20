@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { getCommentList } from "../api/commentAPI";
 import { getItem } from "../api/postAPI";
 import Comment from "../components/Comment/Comment";
 import Header from "../components/Header";
@@ -11,10 +12,14 @@ function PostDetail() {
   const { post } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   useEffect(() => {
+    const fetchComment = async (postId) => {
+      await getCommentList(dispatch, postId);
+    };
     const fetchItem = async (postId) => {
       await getItem(dispatch, postId);
     };
     fetchItem(postId);
+    fetchComment(postId);
   }, [postId]);
   return (
     <div className="bg-main bg-no-repeat bg-cover min-h-screen">

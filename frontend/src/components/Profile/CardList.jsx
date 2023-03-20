@@ -19,7 +19,7 @@ function CardList() {
       {myPosts && myPosts.length > 0 ? (
         myPosts.map((post) => {
           return (
-            <div key={post.id} className="bg-white px-6 py-2 mb-4 rounded-lg">
+            <div key={post.id} className="bg-white mb-4 rounded-lg shadow">
               <CardItem item={post} />
               {user.id === profile.id ? (
                 <Accordion allowToggle>

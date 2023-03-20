@@ -6,8 +6,10 @@ import moment from "moment";
 import ExtraImage from "../assets/PlaceholderImage.png";
 import InstanceModal from "./Modal/InstanceModal";
 import RequestForm from "./Modal/RequestForm";
+import { useSelector } from "react-redux";
 function PostItem(props) {
   const { item } = props;
+  const user = useSelector((state) => state.auth.user);
   const [imageActive, setImageActive] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -19,14 +21,13 @@ function PostItem(props) {
       return " ";
     });
   }, [item]);
-  console.log(item);
   return (
     <>
       <div className="flex gap-5 p-4 bg-black/10 rounded-lg">
-        <div className="w-[50%]">
+        <div className="w-1/2">
           <figure>
             <img
-              className="w-full h-[380px] object-contain"
+              className="w-full h-[380px] object-center"
               src={imageActive}
               alt=""
               onError={(e) => {
@@ -60,7 +61,7 @@ function PostItem(props) {
               : null}
           </div>
         </div>
-        <div className="w-[50%]">
+        <div className="w-1/2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <figure>
@@ -121,12 +122,14 @@ function PostItem(props) {
               </span>
             </div>
           </div>
-          <p
-            onClick={onOpen}
-            className="mt-2 px-2 ml-auto text-center cursor-pointer py-1 w-[30%] text-white bg-primary rounded hover:bg-primary/90"
-          >
-            Gửi yêu cầu
-          </p>
+          {user && user.id === item?.userId ? (
+            <p
+              onClick={onOpen}
+              className="mt-2 px-2 ml-auto text-center cursor-pointer py-1 w-[30%] text-white bg-primary rounded hover:bg-primary/90"
+            >
+              Gửi yêu cầu
+            </p>
+          ) : null}
         </div>
       </div>
       <InstanceModal

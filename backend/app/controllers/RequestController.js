@@ -12,7 +12,7 @@ class RequestController {
     try {
       const newRequest = await db.Request.create({
         userId,
-        postId: Number(postId),
+        postId,
         desc,
       });
       res.status(200).json({

@@ -10,6 +10,7 @@ module.exports = {
         "paragarph-black": "#333333",
         "paragarph-white": "#FEFEFE",
         caption: "#424680",
+        date: "#6E798C",
       },
       fontSize: {
         s: "12px",

@@ -1,6 +1,9 @@
-import moment from "moment";
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Badge } from "@chakra-ui/react";
+import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
+import { renderTypePost } from "../utils/renderColorStatus";
 import { getItemList } from "../api/postAPI";
 function RelatedPost(props) {
   const { typeName, categoryId } = props;
@@ -8,7 +11,6 @@ function RelatedPost(props) {
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchPostRelated = async (categoryId) => {
-      // Có vấn đề
       await getItemList(dispatch, { categoryId: categoryId });
     };
     fetchPostRelated(categoryId);
@@ -24,31 +26,32 @@ function RelatedPost(props) {
                 return (
                   <li
                     key={postItem.id}
-                    className="mt-2 flex items-center px-2 py-1 bg-primary/20 rounded gap-2"
+                    className="mt-2 flex items-center bg-white rounded gap-1"
                   >
-                    <figure>
+                    <figure className="w-1/3">
                       <img
-                        className="flex-1 h-12 rounded object-cover"
+                        className="w-full h-20 rounded-tl rounded-bl object-cover"
                         src={postItem?.images[0]}
                         alt=""
                       />
                     </figure>
-                    <div className="w-[80%]">
-                      <h5 className="text-lg font-bold truncate">
-                        {postItem?.title}
-                      </h5>
+                    <div className="w-2/3">
                       <div className="flex items-center gap-2">
-                        <box-icon name="map" color="#E5E7EB"></box-icon>
-                        <span className="text-sm text-gray-200">
-                          {postItem?.location}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <box-icon name="time" color="#E5E7EB"></box-icon>
-                        <span className="text-sm text-gray-200">
+                        <Badge
+                          variant="outline"
+                          colorScheme={renderTypePost(postItem?.postType)}
+                        >
+                          {postItem?.postType}
+                        </Badge>
+                        <span className="text-sm text-date">
                           {moment(postItem?.createdAt).fromNow()}
                         </span>
                       </div>
+                      <Link to={`/post/${postItem?.id}`}>
+                        <h5 className="text-lg font-bold truncate hover:text-black/70">
+                          {postItem?.title}
+                        </h5>
+                      </Link>
                     </div>
                   </li>
                 );

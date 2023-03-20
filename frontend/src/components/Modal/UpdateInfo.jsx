@@ -8,8 +8,12 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile } from "../../api/userAPI";
 function UpdateInfo(props) {
-  const { hide } = props;
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const { hide, isEdit } = props;
   const {
     values,
     touched,
@@ -29,23 +33,25 @@ function UpdateInfo(props) {
         /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
         "Số điện thoại không đúng!"
       ),
-      address: Yup.string(),
+      address: Yup.string().nullable(),
     }),
     onSubmit: (values) => {
-      console.log(values);
       handleUpdate(values);
     },
   });
-  const handleUpdate = (values) => {
-    // call api update info
+  const handleUpdate = async (values) => {
+    await updateProfile(values, dispatch);
+    hide();
   };
   useEffect(() => {
     // call api edit info
-    setValues({
-      phone: "0794290085",
-      address: "rỗng",
-    });
-  }, []);
+    if (isEdit) {
+      setValues({
+        phone: user.phone,
+        address: user.address,
+      });
+    }
+  }, [isEdit]);
   return (
     <form onSubmit={handleSubmit}>
       <FormControl className="mt-4" isInvalid={errors.phone && touched.phone}>
@@ -53,7 +59,7 @@ function UpdateInfo(props) {
         <Input
           onBlur={handleBlur}
           onChange={handleChange}
-          value={values.phone}
+          value={values.phone || ""}
           id="phone"
           name="phone"
           type="text"
@@ -71,7 +77,7 @@ function UpdateInfo(props) {
         <Input
           onBlur={handleBlur}
           onChange={handleChange}
-          value={values.address}
+          value={values.address || ""}
           id="address"
           name="address"
           type="text"

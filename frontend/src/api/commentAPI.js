@@ -5,12 +5,14 @@ import {
   saveComments,
   removeComment,
   updateComment,
+  saveParentComment,
 } from "../stores/CommentSlice";
 export const postComment = async (dispatch, payload) => {
   try {
     const data = await axiosClient.post("/api/comment/", payload);
     dispatch(addComment(data));
-    showStoats("success", data);
+    showStoats("success", data.message);
+    return data;
   } catch (error) {
     showStoats("error", error.message);
   }
@@ -19,7 +21,7 @@ export const deleteComment = async (dispatch, commentId) => {
   try {
     const data = await axiosClient.delete(`/api/comment/${commentId}`);
     dispatch(removeComment(commentId));
-    showStoats("success", data);
+    showStoats("success", data.message);
   } catch (error) {
     showStoats("error", error.message);
   }
@@ -27,16 +29,16 @@ export const deleteComment = async (dispatch, commentId) => {
 export const editComment = async (dispatch, payload, commentId) => {
   try {
     const data = await axiosClient.put(`/api/comment/${commentId}`, payload);
-
-    dispatch(editComment({ ...payload, commentId }));
-    showStoats("success", data);
+    dispatch(updateComment({ ...payload, commentId }));
+    showStoats("success", data.message);
+    return data;
   } catch (error) {
     showStoats("error", error.message);
   }
 };
-export const getCommentList = async (dispatch, commentId) => {
+export const getCommentList = async (dispatch, postId) => {
   try {
-    const data = await axiosClient.get(`/api/comment/${commentId}`);
+    const data = await axiosClient.get(`/api/comment/${postId}`);
     dispatch(saveComments(data));
   } catch (error) {
     showStoats("error", error.message);
@@ -50,4 +52,7 @@ export const getComment = async (dispatch, commentId) => {
   } catch (error) {
     showStoats("error", error.message);
   }
+};
+export const setParentComment = (dispatch, commentId) => {
+  dispatch(saveParentComment(commentId));
 };

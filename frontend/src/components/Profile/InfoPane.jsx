@@ -92,7 +92,7 @@ function InfoPane() {
         show={isOpenUpdateInfo}
         modalName={"Cập nhật thông tin"}
         hide={onCloseUpdateInfo}
-        content={<UpdateInfo hide={onCloseUpdateInfo} />}
+        content={<UpdateInfo hide={onCloseUpdateInfo} isEdit={true} />}
       />
       <InstanceModal
         show={isOpenChangePassword}

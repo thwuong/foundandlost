@@ -9,13 +9,23 @@ class CommentController {
     const { content, postId, parentId } = req.body;
     if (!content) return next(createError(400, "Trường nội dung bị bỏ trống!"));
     try {
-      const newComment = await db.Comment.create({
+      const comment = await db.Comment.create({
         userId,
         postId,
         parentId: parentId || null,
         content,
       });
-
+      const newComment = await db.Comment.findByPk(comment.id, {
+        raw: true,
+        nest: true,
+        include: [
+          {
+            model: db.User,
+            as: "author",
+            attributes: ["fullName", "email", "avatar"],
+          },
+        ],
+      });
       res.status(200).json({
         success: true,
         message: "Đăng bình luận thành công!",
@@ -73,6 +83,20 @@ class CommentController {
         where: {
           postId,
         },
+        raw: true,
+        nest: true,
+        include: [
+          {
+            model: db.User,
+            as: "author",
+            attributes: ["fullName", "email", "avatar"],
+          },
+          {
+            model: db.Comment,
+            as: "reply",
+            attributes: ["content"],
+          },
+        ],
       });
 
       res.status(200).json({
