@@ -14,7 +14,6 @@ export const getMessageList = async (dispatch, conversationId) => {
   try {
     const data = await axiosClient.get(`/api/message/${conversationId}`);
     dispatch(saveMessages(data));
-    showStoats("success", data);
   } catch (error) {
     showStoats("error", error.message);
   }

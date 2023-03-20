@@ -5,7 +5,6 @@ import {
   saveComments,
   removeComment,
   updateComment,
-  saveParentComment,
 } from "../stores/CommentSlice";
 export const postComment = async (dispatch, payload) => {
   try {
@@ -52,7 +51,4 @@ export const getComment = async (dispatch, commentId) => {
   } catch (error) {
     showStoats("error", error.message);
   }
-};
-export const setParentComment = (dispatch, commentId) => {
-  dispatch(saveParentComment(commentId));
 };

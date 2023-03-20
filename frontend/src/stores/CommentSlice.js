@@ -26,17 +26,9 @@ const commentSlice = createSlice({
         (comment) => comment.id !== actions.payload
       );
     },
-    saveParentComment: (state, actions) => {
-      state.parentComment = actions.payload;
-    },
   },
 });
 
-export const {
-  addComment,
-  saveComments,
-  removeComment,
-  updateComment,
-  saveParentComment,
-} = commentSlice.actions;
+export const { addComment, saveComments, removeComment, updateComment } =
+  commentSlice.actions;
 export default commentSlice.reducer;

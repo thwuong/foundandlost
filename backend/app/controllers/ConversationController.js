@@ -10,6 +10,21 @@ class ConverstationController {
     const receiver = req.body.receiver;
 
     try {
+      const exist = await db.Conversation.findOne({
+        where: {
+          [Op.or]: [
+            {
+              firstUserId: userId,
+              secondUserId: receiver,
+            },
+            {
+              firstUserId: receiver,
+              secondUserId: userId,
+            },
+          ],
+        },
+      });
+      if (exist) return next(createError(400, "This conversation is existed"));
       const newConversation = await db.Conversation.create({
         firstUserId: userId,
         secondUserId: receiver,
@@ -28,11 +43,9 @@ class ConverstationController {
   // @URL [GET] /api/conversation/:conversationId
   async getConversation(req, res, next) {
     const { userId } = req.user;
-    const id = req.params.conversationId;
     try {
       const converstion = await db.Conversation.findOne({
         where: {
-          id,
           [Op.or]: {
             firstUserId: userId,
             secondUserId: userId,

@@ -5,7 +5,6 @@ import CommentInput from "./CommentInput";
 
 function CommentItem(props) {
   const {
-    children,
     comment,
     replies,
     activeComment,
@@ -29,7 +28,7 @@ function CommentItem(props) {
     activeComment.type === "reply";
   return (
     <>
-      <div className={`flex gap-2 mt-4 ${children ? "ml-10" : ""}`}>
+      <div className={`flex gap-2 mt-4`}>
         <figure>
           <img
             className="w-8 h-8 rounded-full object-cover"
@@ -96,13 +95,13 @@ function CommentItem(props) {
           )}
         </div>
       </div>
-      {replies && replies.length > 0
-        ? replies.map((reply) => {
+      {replies.length > 0 && (
+        <div className="ml-10">
+          {replies.map((reply) => {
             return (
               <CommentItem
                 comment={reply}
                 key={reply.id}
-                children={true}
                 parentId={reply.id}
                 addComment={addComment}
                 removeComment={removeComment}
@@ -110,11 +109,12 @@ function CommentItem(props) {
                 activeComment={activeComment}
                 setActiveComment={setActiveComment}
                 getReplies={getReplies}
-                replies={getReplies(replies, reply.id)}
+                replies={getReplies(comments, reply.id)}
               />
             );
-          })
-        : null}
+          })}
+        </div>
+      )}
     </>
   );
 }

@@ -7,6 +7,7 @@ function CommentInput(props) {
     e.preventDefault();
     if (content) {
       handleSubmit(content);
+      setContent("");
     }
   };
   useEffect(() => {

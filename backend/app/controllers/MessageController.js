@@ -33,7 +33,7 @@ class MessageController {
 
     if (!message) return next(createError(401, "Trường nội dung bị bỏ trống!"));
     try {
-      const newMessage = await db.Message.findAll({
+      const messages = await db.Message.findAll({
         where: { conversationId },
         raw: true,
         nest: true,
@@ -42,7 +42,7 @@ class MessageController {
       res.status(200).json({
         success: true,
         message: "Lấy tin nhắn thành công!",
-        newMessage,
+        messages,
       });
     } catch (error) {
       next(error);

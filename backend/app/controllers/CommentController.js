@@ -62,9 +62,8 @@ class CommentController {
   async deleteComment(req, res, next) {
     const id = req.params.commentId;
     try {
-      await db.Comment.destroy({
-        where: { id },
-      });
+      await db.Comment.update({ parentId: null }, { where: { parentId: id } });
+      await db.Comment.destroy({ where: { id } });
       res.status(200).json({
         success: true,
         message: "Xóa bình luận thành công!",
@@ -90,11 +89,6 @@ class CommentController {
             model: db.User,
             as: "author",
             attributes: ["fullName", "email", "avatar"],
-          },
-          {
-            model: db.Comment,
-            as: "reply",
-            attributes: ["content"],
           },
         ],
       });
