@@ -17,17 +17,11 @@ const requestSlice = createSlice({
         return request;
       });
     },
-    removeRequest: (state, actions) => {
-      state.requests = state.requests.filter(
-        (request) => request.id !== actions.payload
-      );
-    },
-    savaRequests: (state, actions) => {
+    saveRequests: (state, actions) => {
       state.requests = actions.payload.requests;
     },
   },
 });
 
-export const { savaRequests, removeRequest, addRequest, updateRequest } =
-  requestSlice.actions;
+export const { saveRequests, addRequest, updateRequest } = requestSlice.actions;
 export default requestSlice.reducer;

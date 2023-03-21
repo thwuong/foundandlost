@@ -8,12 +8,17 @@ import {
   Box,
 } from "@chakra-ui/react";
 import CardItem from "../CardItem";
-import RequestList from "./RequestList";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import RequestItem from "./RequestItem";
+import { editStatusRequest } from "../../api/requetsAPI";
 function CardList() {
   const { myPosts, profile } = useSelector((state) => state.user);
+  const { requests } = useSelector((state) => state.request);
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const handleRespone = async (status, postId, requestId) => {
+    await editStatusRequest(dispatch, { status, postId }, requestId);
+  };
   return (
     <>
       {myPosts && myPosts.length > 0 ? (
@@ -36,7 +41,22 @@ function CardList() {
                       <AccordionIcon />
                     </AccordionButton>
                     <AccordionPanel pb={2}>
-                      <RequestList post={post} />
+                      {requests && requests.length > 0
+                        ? requests.map((request) => {
+                            if (
+                              request.postId === post.id &&
+                              request.status === "pending"
+                            ) {
+                              return (
+                                <RequestItem
+                                  key={request.id}
+                                  request={request}
+                                  handleRespone={handleRespone}
+                                />
+                              );
+                            }
+                          })
+                        : null}
                     </AccordionPanel>
                   </AccordionItem>
                 </Accordion>

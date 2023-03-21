@@ -122,7 +122,7 @@ function PostItem(props) {
               </span>
             </div>
           </div>
-          {user && user.id === item?.userId ? (
+          {user && user.id !== item?.ownerId ? (
             <p
               onClick={onOpen}
               className="mt-2 px-2 ml-auto text-center cursor-pointer py-1 w-[30%] text-white bg-primary rounded hover:bg-primary/90"

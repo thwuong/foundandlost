@@ -21,6 +21,11 @@ const userSlice = createSlice({
     saveProfileRequets: (state, actions) => {
       state.myRequests = actions.payload.requests;
     },
+    removeMyRequest: (state, actions) => {
+      state.myRequests = state.myRequests.filter(
+        (request) => request.id !== actions.payload
+      );
+    },
   },
 });
 
@@ -29,5 +34,6 @@ export const {
   changeProfile,
   saveProfilePosts,
   saveProfileRequets,
+  removeMyRequest,
 } = userSlice.actions;
 export default userSlice.reducer;

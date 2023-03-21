@@ -10,6 +10,7 @@ import ProfileNav from "../components/Profile/ProfileNav";
 import { useDispatch } from "react-redux";
 import { getMyProfile, getUser } from "../api/userAPI";
 import { getMyItems, getUserItems } from "../api/postAPI";
+import { getRequestList } from "../api/requetsAPI";
 
 function ProfilePage() {
   const { userId } = useParams();
@@ -27,12 +28,16 @@ function ProfilePage() {
     const fetchMyItems = async () => {
       await getMyItems(dispatch);
     };
+    const fetchListRequets = async () => {
+      await getRequestList(dispatch);
+    };
     if (userId) {
       fetchProfileById(userId);
       fetchUserItems(userId);
     } else {
       fetchProfile();
       fetchMyItems();
+      fetchListRequets();
     }
   }, [userId]);
   return (

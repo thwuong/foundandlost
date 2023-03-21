@@ -28,23 +28,26 @@ class RequestController {
   // @URL [PUT] /api/request/:requestId
   // body : [status,postId]
   async updateStatusRequest(req, res, next) {
-    const { requestId } = req.params;
+    const requestId = req.params.requestId;
     const { status, postId } = req.body;
+    console.log(status);
     try {
-      const updatedRequest = await db.Request.update({
-        where: {
-          id: requestId,
-        },
-        status,
-      });
+      await db.Request.update(
+        { status },
+        {
+          where: { id: requestId },
+        }
+      );
       if (status === "accepted") {
-        await db.Post.update({ where: { postId }, status: "confirmed" });
+        await db.Post.update(
+          { status: "confirmed" },
+          { where: { id: postId } }
+        );
       }
 
       res.status(200).json({
         success: true,
         message: "Cập nhật thành công!",
-        updatedRequest,
       });
     } catch (error) {
       next(error);

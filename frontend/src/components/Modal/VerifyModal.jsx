@@ -1,14 +1,14 @@
 import React from "react";
 import { Button } from "@chakra-ui/react";
 function VerifyModal(props) {
-  const { title, hide, handleVerify } = props;
+  const { title, hide, handleVerify, idSelected } = props;
   return (
     <div>
       <p className="font-bold">{title}</p>
       <div className="mt-4">
         <Button
           onClick={() => {
-            handleVerify(true);
+            handleVerify(true, idSelected);
             hide();
           }}
           colorScheme={"messenger"}

@@ -6,9 +6,10 @@ import { renderStatusRequest } from "../../utils/renderColorStatus";
 import InstanceModal from "../Modal/InstanceModal";
 import VerifyModal from "../Modal/VerifyModal";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyRequests, getRequestList } from "../../api/requetsAPI";
+import { deleteRequest } from "../../api/requetsAPI";
+
 function RequestItem(props) {
-  const { request } = props;
+  const { request, handleRespone } = props;
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const [option, setOption] = useState(false);
@@ -17,8 +18,10 @@ function RequestItem(props) {
     onOpen: onOpenVerifyModal,
     onClose: onCloseVefiryModal,
   } = useDisclosure();
-  const handleRemove = (status) => {
-    console.log(status);
+  const handleRemove = async (status, id) => {
+    if (status) {
+      await deleteRequest(dispatch, id);
+    }
   };
 
   return (
@@ -92,6 +95,9 @@ function RequestItem(props) {
         {user.id !== request?.userId && (
           <div className="mt-2 flex gap-2">
             <Button
+              onClick={() => {
+                handleRespone("accepted", request?.postId, request?.id);
+              }}
               size="sm"
               leftIcon={<box-icon name="check" color="white"></box-icon>}
               colorScheme="whatsapp"
@@ -99,6 +105,9 @@ function RequestItem(props) {
               Đồng ý
             </Button>
             <Button
+              onClick={() => {
+                handleRespone("refused", request?.postId, request?.id);
+              }}
               size="sm"
               leftIcon={<box-icon name="x" color="#D53F8C"></box-icon>}
               colorScheme="pink"
@@ -118,6 +127,7 @@ function RequestItem(props) {
             hide={onCloseVefiryModal}
             title={"Chắc chắn xóa yêu cầu này!"}
             handleVerify={handleRemove}
+            idSelected={request?.id}
           />
         }
       />
