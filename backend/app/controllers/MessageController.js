@@ -37,6 +37,11 @@ class MessageController {
         where: { conversationId },
         raw: true,
         nest: true,
+        include: {
+          model: db.User,
+          as: "sender",
+          attributes: ["fullName", "avatar", "idNumber"],
+        },
       });
 
       res.status(200).json({

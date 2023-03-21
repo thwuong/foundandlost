@@ -1,44 +1,18 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import Message from "./Message";
 function Conversation(props) {
-  const messages = [
-    {
-      sender: 1,
-      message: "Become A travel Pro in one Day",
-    },
-    {
-      sender: 1,
-      message: "Become A travel Pro in one Day travel Pro in one Day 2",
-    },
-    {
-      sender: 2,
-      message: "Test nha friend",
-    },
-    {
-      sender: 1,
-      message: "Become A travel Pro in one Day travel ",
-    },
-    {
-      sender: 2,
-      message: "Test nha friend",
-    },
-    {
-      sender: 2,
-      message: "Test nha friend",
-    },
-    {
-      sender: 2,
-      message: "Test nha friend",
-    },
-    {
-      sender: 2,
-      message: "Test nha friend",
-    },
-    {
-      sender: 2,
-      message: "Test nha friend",
-    },
-  ];
+  const { sendMessage, selectedConversation, newMessage, setNewMessage } =
+    props;
+  const messages = useSelector((state) => state.message.messageList);
+  // Scroll
+  const bottomAnchor = useRef();
+  const scrollToBottom = () => {
+    bottomAnchor.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, []);
   return (
     <div className="h-full">
       <div className="px-12 h-[12%] flex items-center bg-white shadow-xl">
@@ -55,13 +29,27 @@ function Conversation(props) {
         </p>
       </div>
       <div className="px-12 h-[76%] overflow-y-auto">
-        {messages.map((item) => {
-          return <Message key={Math.random()} message={item} />;
-        })}
+        {messages && messages.length > 0
+          ? messages.map((message) => {
+              return <Message key={message.id} message={message} />;
+            })
+          : null}
+        <div ref={bottomAnchor} className="anchor-bottom"></div>
       </div>
       <div className="flex justify-center items-center gap-4 py-4 px-12 h-[12%]">
-        <div className="w-full flex justify-between px-3 py-2 rounded-lg bg-white shadow-xl">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendMessage(newMessage);
+          }}
+          className="w-full flex justify-between px-3 py-2 rounded-lg bg-white shadow-xl"
+        >
           <input
+            name="message"
+            value={newMessage}
+            onChange={(e) => {
+              setNewMessage(e.target.value);
+            }}
             type="text"
             className="w-full outline-none"
             placeholder="Type something"
@@ -69,7 +57,7 @@ function Conversation(props) {
           <button className="flex items-center">
             <box-icon name="send" type="solid" color="#2457C5"></box-icon>
           </button>
-        </div>
+        </form>
         <figure>
           <img
             className="w-8 object-cover rounded-full"

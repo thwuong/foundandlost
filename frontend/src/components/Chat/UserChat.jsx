@@ -1,11 +1,17 @@
 import React from "react";
-
-function UserList() {
-  const active = true;
+import { useSelector } from "react-redux";
+function UserChat(props) {
+  const { conversation, selectedConversation, selectedUser } = props;
+  const user = useSelector((state) => state.auth.user);
   return (
     <li
+      onClick={() => {
+        selectedUser(conversation?.id);
+      }}
       className={`flex items-start gap-2 px-2 py-4 ${
-        active ? "rounded-md bg-primary text-white" : "border-b"
+        conversation?.id === selectedConversation
+          ? "rounded-md bg-primary text-white"
+          : "border-b"
       }`}
     >
       <figure>
@@ -16,12 +22,23 @@ function UserList() {
         />
       </figure>
       <div>
-        <p className="font-bold leading-3">Ricardo Lopez</p>
-        <span className="text-s  text-gray-200">Sinh viên</span>
+        <p className="font-bold leading-3">
+          {conversation?.firstUserId !== user.id
+            ? conversation.firstUser.fullName
+            : conversation.secondUser.fullName}
+        </p>
+        <span className="text-s  text-gray-200">
+          {conversation?.firstUserId !== user.id &&
+          conversation.firstUser.isAdmin
+            ? "sinh vien"
+            : conversation.secondUser.isAdmin
+            ? "quan tri vien"
+            : ""}
+        </span>
       </div>
       <p className="ml-auto text-s  text-gray-200">11:23 am</p>
     </li>
   );
 }
 
-export default UserList;
+export default UserChat;

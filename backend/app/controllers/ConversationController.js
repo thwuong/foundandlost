@@ -74,6 +74,20 @@ class ConverstationController {
             secondUserId: userId,
           },
         },
+        raw: true,
+        nest: true,
+        include: [
+          {
+            model: db.User,
+            as: "firstUser",
+            attributes: ["fullName", "idNumber", "isAdmin", "avatar"],
+          },
+          {
+            model: db.User,
+            as: "secondUser",
+            attributes: ["fullName", "idNumber", "isAdmin", "avatar"],
+          },
+        ],
       });
 
       res.status(200).json({

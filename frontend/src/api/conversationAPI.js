@@ -3,6 +3,7 @@ import showStoats from "../utils/showToast";
 import {
   saveConversations,
   addConversation,
+  chooseConversation,
 } from "../stores/ConversationSlice";
 export const createConversation = async (dispatch, payload) => {
   try {
@@ -13,11 +14,14 @@ export const createConversation = async (dispatch, payload) => {
     showStoats("error", error.message);
   }
 };
-export const getConversationList = async (dispatch, params) => {
+export const getConversationList = async (dispatch) => {
   try {
     const data = await axiosClient.get(`/api/conversation/`);
     dispatch(saveConversations(data));
   } catch (error) {
     showStoats("error", error.message);
   }
+};
+export const getConversation = async (dispatch, conversationId) => {
+  dispatch(chooseConversation(conversationId));
 };
