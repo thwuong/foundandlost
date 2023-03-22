@@ -5,8 +5,8 @@ const RequireAuth = () => {
   const token = useSelector((state) => state.auth.token);
   return token ? (
     <>
-      <ClientSocket />
       <Outlet />
+      <ClientSocket />
     </>
   ) : (
     <Navigate to="/login" replace={true} />

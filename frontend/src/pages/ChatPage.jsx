@@ -44,15 +44,7 @@ function ChatPage() {
     setMessages([...messages, data.messageItem]);
     setNewMessage("");
   };
-  useEffect(() => {
-    socket?.on("receiveMessage", (data) => {
-      if (!currentConversation) return;
-      if (data.conversationId === currentConversation.id) {
-        data.sender = user;
-        setMessages([...messages, data]);
-      }
-    });
-  }, [sendMessage]);
+
   useEffect(() => {
     const fetchConversations = async () => {
       await getConversationList(dispatch);
@@ -67,16 +59,30 @@ function ChatPage() {
       const data = await getMessageList(conversationId);
       setMessages(data.messages);
     };
-    if (!currentConversation) return;
+    if (!currentConversation?.id) return;
     fetchMessages(currentConversation.id);
-  }, [currentConversation]);
+  }, [currentConversation?.id]);
+
+  useEffect(() => {
+    socket?.on("receiveMessage", (data) => {
+      console.log("receive", data);
+      if (!currentConversation) return;
+      if (data.conversationId === currentConversation.id) {
+        data.sender = [
+          currentConversation?.firstUser,
+          currentConversation?.secondUser,
+        ].find((u) => u?.id !== user.id);
+        setMessages([...messages, data]);
+      }
+    });
+  });
   return (
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto h-screen">
         <Header />
         <div className="flex h-[83%] relative bg-gray-100 pb-2 shadow-2xl rounded-lg">
           <div className="w-[75%]">
-            {currentConversation ? (
+            {currentConversation?.id ? (
               <Conversation
                 sendMessage={sendMessage}
                 currentConversation={currentConversation}
@@ -103,10 +109,10 @@ function ChatPage() {
               </div>
               <ul className="my-3 h-[92%] overflow-y-auto">
                 {conversations &&
-                  conversations.map((conversation) => {
+                  conversations.map((conversation, index) => {
                     return (
                       <UserChat
-                        key={conversation.id}
+                        key={`c${index}`}
                         conversation={conversation}
                         currentConversation={currentConversation}
                         selectedUser={selectedUser}

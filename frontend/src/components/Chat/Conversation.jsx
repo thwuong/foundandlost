@@ -51,8 +51,8 @@ function Conversation(props) {
       </div>
       <div className="px-12 h-[76%] overflow-y-auto">
         {messages && messages?.length > 0
-          ? messages.map((message) => {
-              return <Message key={message.id} message={message} />;
+          ? messages.map((message, index) => {
+              return <Message key={index} message={message} />;
             })
           : null}
         <div ref={bottomAnchor} className="anchor-bottom"></div>

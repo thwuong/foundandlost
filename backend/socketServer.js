@@ -1,15 +1,23 @@
 let users = [];
 
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
+
 const addUser = (socketId, userId) => {
-  !users.some((user) => user.userId === userId) &&
-    users.push({ socketId, userId });
+  users.some((user) => user.userId === userId)
+    ? (users = users.map((user) => {
+        if (user.userId === userId) {
+          user.socketId = socketId;
+        }
+        return user;
+      }))
+    : users.push({ socketId, userId });
 };
 const removeUser = (userId) => {
   users = users.filter((user) => user.userId !== userId);
 };
-const getUser = (userId) => {
-  return users.find((user) => user.userId === userId);
-};
+
 module.exports.socketServer = (socket) => {
   //when user login
   socket.on("addUser", (userId) => {
