@@ -7,7 +7,7 @@ function Message(props) {
   return (
     <div
       className={`flex gap-4 py-4 ${
-        user.id !== message?.senderId ? "flex-row-reverse" : ""
+        user.id === message?.senderId ? "flex-row-reverse" : ""
       }`}
     >
       <figure>

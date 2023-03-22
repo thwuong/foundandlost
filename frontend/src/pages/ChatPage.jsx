@@ -1,48 +1,88 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getConversationList, getConversation } from "../api/conversationAPI";
-import { getMessageList, postMessage } from "../api/messageAPI";
 import Conversation from "../components/Chat/Conversation";
 import UserChat from "../components/Chat/UserChat";
 import Header from "../components/Header";
+import { getConversationList } from "../api/conversationAPI";
+import { getMessageList, postMessage } from "../api/messageAPI";
+import {
+  selectConversation,
+  unSelectConversation,
+} from "../stores/ConversationSlice";
 
 function ChatPage() {
-  const { auth, conversation } = useSelector((state) => state);
-  const { conversations, selectedConversation } = conversation;
+  const { auth, conversation, instanceSocket } = useSelector((state) => state);
+  const { conversations, currentConversation } = conversation;
   const { user } = auth;
+  const { socket } = instanceSocket;
   const [newMessage, setNewMessage] = useState("");
+  const [messages, setMessages] = useState([]);
   const dispatch = useDispatch();
   const selectedUser = async (conversationId) => {
-    getConversation(dispatch);
-    await getMessageList(dispatch, conversationId);
+    dispatch(selectConversation(conversationId));
   };
+
   const sendMessage = async (newMessage) => {
-    const message = {
-      sender: user.id,
+    const recevierId = [
+      currentConversation.firstUserId,
+      currentConversation.secondUserId,
+    ].find((recevier) => recevier !== user.id);
+
+    socket.emit("sendMessage", {
+      senderId: user.id,
+      recevierId,
       message: newMessage,
-      conversationId: selectedConversation.id,
+      conversationId: currentConversation.id,
+    });
+
+    const message = {
+      senderId: user.id,
+      message: newMessage,
+      conversationId: currentConversation.id,
     };
-    console.log(message);
-    // await postMessage(dispatch, message );
+    const data = await postMessage(message);
+    setMessages([...messages, data.messageItem]);
+    setNewMessage("");
   };
+  useEffect(() => {
+    socket?.on("receiveMessage", (data) => {
+      if (!currentConversation) return;
+      if (data.conversationId === currentConversation.id) {
+        data.sender = user;
+        setMessages([...messages, data]);
+      }
+    });
+  }, [sendMessage]);
   useEffect(() => {
     const fetchConversations = async () => {
       await getConversationList(dispatch);
     };
     fetchConversations();
-  }, []);
+    return () => {
+      dispatch(unSelectConversation());
+    };
+  }, [user.id]);
+  useEffect(() => {
+    const fetchMessages = async (conversationId) => {
+      const data = await getMessageList(conversationId);
+      setMessages(data.messages);
+    };
+    if (!currentConversation) return;
+    fetchMessages(currentConversation.id);
+  }, [currentConversation]);
   return (
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto h-screen">
         <Header />
         <div className="flex h-[83%] relative bg-gray-100 pb-2 shadow-2xl rounded-lg">
           <div className="w-[75%]">
-            {selectedConversation ? (
+            {currentConversation ? (
               <Conversation
                 sendMessage={sendMessage}
-                selectedConversation={selectedConversation}
+                currentConversation={currentConversation}
                 newMessage={newMessage}
                 setNewMessage={setNewMessage}
+                messages={messages}
               />
             ) : (
               <p className="text-date text-5xl text-center mt-[30%]">
@@ -68,7 +108,7 @@ function ChatPage() {
                       <UserChat
                         key={conversation.id}
                         conversation={conversation}
-                        selectedConversation={selectedConversation}
+                        currentConversation={currentConversation}
                         selectedUser={selectedUser}
                       />
                     );

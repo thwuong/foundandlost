@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
+import { saveSocket } from "./stores/SocketSlice";
 
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -19,9 +20,10 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import RequireAuth from "./utils/RequireAuth";
 
 function App() {
+  const dispatch = useDispatch();
   useEffect(() => {
     const socket = io("http://localhost:5000");
-    console.log(socket);
+    dispatch(saveSocket(socket));
   }, []);
   return (
     <BrowserRouter>

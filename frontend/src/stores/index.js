@@ -12,6 +12,7 @@ import RequestSlice from "./RequestSlice";
 import CommentSlice from "./CommentSlice";
 import ConversationSlice from "./ConversationSlice";
 import MessageSlice from "./MessageSlice";
+import SocketSlice from "./SocketSlice";
 
 const persistConfig = {
   key: "root",
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   comment: CommentSlice,
   conversation: ConversationSlice,
   message: MessageSlice,
+  instanceSocket: SocketSlice,
   // slice
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);

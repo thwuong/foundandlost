@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCommentList } from "../api/commentAPI";
+import { createConversation } from "../api/conversationAPI";
 import { getItem } from "../api/postAPI";
 import Comment from "../components/Comment/Comment";
 import Header from "../components/Header";
@@ -11,6 +12,14 @@ function PostDetail() {
   const { postId } = useParams();
   const { post } = useSelector((state) => state.post);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSelectedChat = async (receiverId) => {
+    await createConversation(dispatch, { receiver: receiverId });
+    setTimeout(() => {
+      navigate("/chat");
+    }, 1000);
+  };
+
   useEffect(() => {
     const fetchComment = async (postId) => {
       await getCommentList(dispatch, postId);
@@ -30,7 +39,10 @@ function PostDetail() {
         </h1>
         <div className="flex gap-5 mt-6 max-h-[500px] h-[80%]">
           <div className="w-[75%]">
-            <PostDetailItem item={post} />
+            <PostDetailItem
+              item={post}
+              handleSelectedChat={handleSelectedChat}
+            />
           </div>
           <div className="w-[25%]">
             <RelatedPost

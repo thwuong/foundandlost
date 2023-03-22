@@ -10,10 +10,14 @@ const messageSlice = createSlice({
       state.messageList = actions.payload.messages;
     },
     addMessage: (state, actions) => {
-      state.messageList = [...state.messageList, actions.payload.message];
+      state.messageList = [...state.messageList, actions.payload.messageItem];
+    },
+    recevierMessage: (state, actions) => {
+      state.messageList = [...state.messageList, actions.payload];
     },
   },
 });
 
-export const { saveMessages, addMessage } = messageSlice.actions;
+export const { saveMessages, addMessage, recevierMessage } =
+  messageSlice.actions;
 export default messageSlice.reducer;

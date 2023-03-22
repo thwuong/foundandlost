@@ -1,10 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { unSelectConversation } from "../../stores/ConversationSlice";
 import Message from "./Message";
 function Conversation(props) {
-  const { sendMessage, selectedConversation, newMessage, setNewMessage } =
-    props;
-  const messages = useSelector((state) => state.message.messageList);
+  const {
+    sendMessage,
+    currentConversation,
+    newMessage,
+    setNewMessage,
+    messages,
+  } = props;
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const [receiver, setReceiver] = useState(null);
   // Scroll
   const bottomAnchor = useRef();
   const scrollToBottom = () => {
@@ -12,24 +20,37 @@ function Conversation(props) {
   };
   useEffect(() => {
     scrollToBottom();
-  }, []);
+  }, [messages]);
+  useEffect(() => {
+    if (!currentConversation) return;
+    setReceiver(
+      [currentConversation?.firstUser, currentConversation?.secondUser].find(
+        (u) => u?.id !== user.id
+      )
+    );
+  }, [currentConversation?.id]);
   return (
     <div className="h-full">
       <div className="px-12 h-[12%] flex items-center bg-white shadow-xl">
         <figure>
           <img
-            className="w-8 object-cover rounded-full"
-            src="https://lh3.googleusercontent.com/ogw/AAEL6sgatvoo8KDucDZZEhU56G4QKQOmBemOC_4F7ayyag=s32-c-mo"
+            className="w-8 h-8 object-cover rounded-full"
+            src={receiver?.avatar}
             alt=""
           />
         </figure>
-        <p className="ml-4 font-medium">Duong thuong</p>
-        <p className="ml-auto w-8 h-8 flex items-center justify-center rounded-full border-gray-400 border cursor-pointer hover:bg-gray-100">
+        <p className="ml-4 font-medium">{receiver?.fullName}</p>
+        <p
+          onClick={() => {
+            dispatch(unSelectConversation());
+          }}
+          className="ml-auto w-8 h-8 flex items-center justify-center rounded-full border-gray-400 border cursor-pointer hover:bg-gray-100"
+        >
           <box-icon name="x" color="gray"></box-icon>
         </p>
       </div>
       <div className="px-12 h-[76%] overflow-y-auto">
-        {messages && messages.length > 0
+        {messages && messages?.length > 0
           ? messages.map((message) => {
               return <Message key={message.id} message={message} />;
             })
@@ -60,8 +81,8 @@ function Conversation(props) {
         </form>
         <figure>
           <img
-            className="w-8 object-cover rounded-full"
-            src="https://lh3.googleusercontent.com/ogw/AAEL6sgatvoo8KDucDZZEhU56G4QKQOmBemOC_4F7ayyag=s32-c-mo"
+            className="w-8 h-8 object-cover rounded-full"
+            src={user.avatar}
             alt=""
           />
         </figure>

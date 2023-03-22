@@ -13,14 +13,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "conversationId",
         as: "conversation",
       });
-      this.belongsTo(models.User, { foreignKey: "serderId", as: "serder" });
+      this.belongsTo(models.User, { foreignKey: "senderId", as: "sender" });
     }
   }
   Message.init(
     {
       message: DataTypes.STRING,
       conversationId: DataTypes.INTEGER,
-      serderId: DataTypes.INTEGER,
+      senderId: DataTypes.INTEGER,
     },
     {
       sequelize,

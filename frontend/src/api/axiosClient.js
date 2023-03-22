@@ -27,10 +27,7 @@ axiosClient.interceptors.request.use(async (config) => {
         store.dispatch(updateToken(data));
         config.headers.authorization = `Bearer ${data.accessToken}`;
       } catch (error) {
-        alert("Hết phiên đăng nhập, Vui lòng đăng nhập lại!");
-        if (error.response.status === 401 && error.response.text) {
-          store.dispatch(updateToken({ accessToken: "" }));
-        }
+        store.dispatch(updateToken({ accessToken: "" }));
       }
     } else {
       config.headers.authorization = `Bearer ${token}`;

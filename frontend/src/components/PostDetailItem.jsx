@@ -8,7 +8,7 @@ import InstanceModal from "./Modal/InstanceModal";
 import RequestForm from "./Modal/RequestForm";
 import { useSelector } from "react-redux";
 function PostItem(props) {
-  const { item } = props;
+  const { item, handleSelectedChat } = props;
   const user = useSelector((state) => state.auth.user);
   const [imageActive, setImageActive] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -77,7 +77,12 @@ function PostItem(props) {
                 </p>
               </Link>
             </div>
-            <p className="w-10 h-10 rounded-full p-1 bg-gray-200 flex items-center justify-center cursor-pointer hover:bg-gray-300">
+            <p
+              onClick={() => {
+                handleSelectedChat(item?.ownerId);
+              }}
+              className="w-10 h-10 rounded-full p-1 bg-gray-200 flex items-center justify-center cursor-pointer hover:bg-gray-300"
+            >
               <box-icon type="logo" name="messenger"></box-icon>
             </p>
           </div>

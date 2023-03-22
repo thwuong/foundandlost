@@ -10,7 +10,7 @@ class ConverstationController {
     const receiver = req.body.receiver;
 
     try {
-      const exist = await db.Conversation.findOne({
+      const exitsConversation = await db.Conversation.findOne({
         where: {
           [Op.or]: [
             {
@@ -23,17 +23,55 @@ class ConverstationController {
             },
           ],
         },
+        nest: true,
+        raw: true,
+        include: [
+          {
+            model: db.User,
+            as: "firstUser",
+            attributes: ["fullName", "idNumber", "isAdmin", "avatar", "id"],
+          },
+          {
+            model: db.User,
+            as: "secondUser",
+            attributes: ["fullName", "idNumber", "isAdmin", "avatar", "id"],
+          },
+        ],
       });
-      if (exist) return next(createError(400, "This conversation is existed"));
+      if (exitsConversation) {
+        return res.status(200).json({
+          success: true,
+          message: "succeffully!",
+          conversation: exitsConversation,
+        });
+      }
       const newConversation = await db.Conversation.create({
         firstUserId: userId,
         secondUserId: receiver,
       });
-
+      const conversation = await db.Conversation.findOne({
+        where: {
+          id: newConversation.id,
+        },
+        nest: true,
+        raw: true,
+        include: [
+          {
+            model: db.User,
+            as: "firstUser",
+            attributes: ["fullName", "idNumber", "isAdmin", "avatar", "id"],
+          },
+          {
+            model: db.User,
+            as: "secondUser",
+            attributes: ["fullName", "idNumber", "isAdmin", "avatar", "id"],
+          },
+        ],
+      });
       res.status(200).json({
         success: true,
         message: "Created conversation succeffully!",
-        newConversation,
+        conversation,
       });
     } catch (error) {
       next(error);
@@ -67,7 +105,7 @@ class ConverstationController {
   async getConversations(req, res, next) {
     const { userId } = req.user;
     try {
-      const converstions = await db.Conversation.findAll({
+      const conversations = await db.Conversation.findAll({
         where: {
           [Op.or]: {
             firstUserId: userId,
@@ -80,12 +118,12 @@ class ConverstationController {
           {
             model: db.User,
             as: "firstUser",
-            attributes: ["fullName", "idNumber", "isAdmin", "avatar"],
+            attributes: ["fullName", "idNumber", "isAdmin", "avatar", "id"],
           },
           {
             model: db.User,
             as: "secondUser",
-            attributes: ["fullName", "idNumber", "isAdmin", "avatar"],
+            attributes: ["fullName", "idNumber", "isAdmin", "avatar", "id"],
           },
         ],
       });
@@ -93,7 +131,7 @@ class ConverstationController {
       res.status(200).json({
         success: true,
         message: "got conversations succeffully!",
-        converstions,
+        conversations,
       });
     } catch (error) {
       next(error);

@@ -13,13 +13,22 @@ class MessageController {
       const newMessage = await db.Message.create({
         message,
         conversationId,
-        serderId: userId,
+        senderId: userId,
       });
-
+      const messageItem = await db.Message.findOne({
+        where: { id: newMessage.id },
+        raw: true,
+        nest: true,
+        include: {
+          model: db.User,
+          as: "sender",
+          attributes: ["fullName", "avatar", "idNumber"],
+        },
+      });
       res.status(200).json({
         success: true,
         message: "Tạo tin nhắn thành công!",
-        newMessage,
+        messageItem,
       });
     } catch (error) {
       next(error);
@@ -30,8 +39,6 @@ class MessageController {
   // body : [conversationId]
   async getMessages(req, res, next) {
     const conversationId = req.params.conversationId;
-
-    if (!message) return next(createError(401, "Trường nội dung bị bỏ trống!"));
     try {
       const messages = await db.Message.findAll({
         where: { conversationId },
