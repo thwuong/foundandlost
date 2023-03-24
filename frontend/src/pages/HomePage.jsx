@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoading } from "../customHooks/useLoading";
 
 import Search from "../components/Home/Search";
 import Pagination from "../components/Home/Pagination";
@@ -7,11 +9,13 @@ import SelectCategory from "../components/Home/SelectCategory";
 import Header from "../components/Header";
 import CardItem from "../components/CardItem";
 import TabTypePost from "../components/Home/TabTypePost";
+import PostSkeleton from "../components/Loading/PostSkeleton";
+
 import { getItemList } from "../api/postAPI";
-import { useDispatch, useSelector } from "react-redux";
 
 function HomePage() {
   const dispatch = useDispatch();
+  const loading = useLoading();
   const { posts, totalPost } = useSelector((state) => state.post);
   const [pagination, setPagination] = useState({
     limit: 8,
@@ -78,13 +82,17 @@ function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="py-8 grid xl:grid-cols-2 gap-5 ">
-            {posts && posts.length > 0
-              ? posts.map((post) => {
-                  return <CardItem key={post.id} item={post} />;
-                })
-              : null}
-          </div>
+          {loading ? (
+            <PostSkeleton />
+          ) : (
+            <div className="py-8 grid xl:grid-cols-2 gap-5 ">
+              {posts && posts.length > 0
+                ? posts.map((post) => {
+                    return <CardItem key={post.id} item={post} />;
+                  })
+                : null}
+            </div>
+          )}
           <Pagination onPageChange={handlePageChange} pagination={pagination} />
         </div>
       </div>

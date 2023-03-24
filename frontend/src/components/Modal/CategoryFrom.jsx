@@ -8,10 +8,14 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createCategory, editCategory } from "../../api/categoryAPI";
+import {
+  createCategory,
+  editCategory,
+  getCategory,
+} from "../../api/categoryAPI";
 import { useDispatch, useSelector } from "react-redux";
 function CategoryFrom(props) {
-  const { hide, isEdit } = props;
+  const { hide, isEdit, selectedId } = props;
   const category = useSelector((state) => state.category.category);
   const dispatch = useDispatch();
   const {
@@ -49,6 +53,14 @@ function CategoryFrom(props) {
       hide();
     }
   };
+  useEffect(() => {
+    const fetchCategory = async () => {
+      await getCategory(selectedId, dispatch);
+    };
+    if (selectedId) {
+      fetchCategory();
+    }
+  }, [selectedId]);
   useEffect(() => {
     if (isEdit) {
       setValues({ typeName: category.typeName });

@@ -7,7 +7,7 @@ import UpdateAvatar from "../Modal/UpdateAvatar";
 import UpdateInfo from "../Modal/UpdateInfo";
 import ChangePassword from "../Modal/ChangePassword";
 import { useDispatch, useSelector } from "react-redux";
-function InfoPane() {
+function InfoPane({ handleSelectedChat }) {
   const { profile, myPosts } = useSelector((state) => state.user);
   const user = useSelector((state) => state.auth.user);
   const {
@@ -73,12 +73,15 @@ function InfoPane() {
             </div>
           ) : null}
           {user.id !== profile.id ? (
-            <Link to={"/chat"}>
-              <div className="px-3 py-2 rounded text-white bg-primary flex gap-1 items-center justify-center cursor-pointer duration-300 hover:bg-primary/90">
-                <box-icon type="logo" name="messenger" color="white"></box-icon>
-                <span>Nhắn tin</span>
-              </div>
-            </Link>
+            <div
+              onClick={() => {
+                handleSelectedChat(profile.id);
+              }}
+              className="px-3 py-2 rounded text-white bg-primary flex gap-1 items-center justify-center cursor-pointer duration-300 hover:bg-primary/90"
+            >
+              <box-icon type="logo" name="messenger" color="white"></box-icon>
+              <span>Nhắn tin</span>
+            </div>
           ) : null}
         </div>
       </div>

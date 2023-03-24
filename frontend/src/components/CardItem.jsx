@@ -14,7 +14,7 @@ function CardItem(props) {
   const {
     isOpen: isOpenVerifyModal,
     onOpen: onOpenVerifyModal,
-    onClose: onCloseVefiryModal,
+    onClose: onCloseVerifyModal,
   } = useDisclosure();
   const handleRemove = (status) => {
     console.log(status);
@@ -98,10 +98,10 @@ function CardItem(props) {
       <InstanceModal
         show={isOpenVerifyModal}
         modalName={"Xác nhận"}
-        hide={onCloseVefiryModal}
+        hide={onCloseVerifyModal}
         content={
           <VerifyModal
-            hide={onCloseVefiryModal}
+            hide={onCloseVerifyModal}
             title={"Chắc chắn xóa bài viết này!"}
             handleVerify={handleRemove}
           />

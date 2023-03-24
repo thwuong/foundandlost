@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLoading } from "../customHooks/useLoading";
+import ChatSkeleton from "../components/Loading/ChatSkeleton";
 import Conversation from "../components/Chat/Conversation";
 import UserChat from "../components/Chat/UserChat";
 import Header from "../components/Header";
@@ -18,7 +20,8 @@ function ChatPage() {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const dispatch = useDispatch();
-  const selectedUser = async (conversationId) => {
+  const loading = useLoading();
+  const selectedUser = (conversationId) => {
     dispatch(selectConversation(conversationId));
   };
 
@@ -82,7 +85,9 @@ function ChatPage() {
         <Header />
         <div className="flex h-[83%] relative bg-gray-100 pb-2 shadow-2xl rounded-lg">
           <div className="w-[75%]">
-            {currentConversation?.id ? (
+            {loading ? (
+              <ChatSkeleton />
+            ) : currentConversation?.id ? (
               <Conversation
                 sendMessage={sendMessage}
                 currentConversation={currentConversation}

@@ -13,20 +13,17 @@ import {
 import moment from "moment";
 import { deleteAccount, getAllAccount } from "../../api/accountAPI";
 import { useSelector, useDispatch } from "react-redux";
-import InstanceModal from "../Modal/InstanceModal";
-import VerifyModal from "../Modal/VerifyModal";
+import { useLoading } from "../../customHooks/useLoading";
+
+import ManageSkeleton from "../Loading/ManageSkeleton";
+import AccountRow from "./AccountRow";
 function TableContent() {
-  const [selectedAcc, setSelectedAcc] = useState(null);
   const { accounts } = useSelector((state) => state.account);
   const dispatch = useDispatch();
-  const {
-    isOpen: isOpenVerifyModal,
-    onOpen: onOpenVerifyModal,
-    onClose: onCloseVefiryModal,
-  } = useDisclosure();
-  const handleRemove = async (status) => {
+  const loading = useLoading();
+  const handleRemove = async (status, accountId) => {
     if (status) {
-      await deleteAccount(selectedAcc, dispatch);
+      await deleteAccount(accountId, dispatch);
     }
   };
   useEffect(() => {
@@ -38,80 +35,35 @@ function TableContent() {
   return (
     <>
       <TableContainer overflowX="unset" overflowY="unset">
-        <Table>
-          <Thead position={"sticky"} top={0} zIndex="docked" bg={"white"}>
-            <Tr>
-              <Th>MSSV</Th>
-              <Th>Tên</Th>
-              <Th>Số điện thoại</Th>
-              <Th>Ngày tham gia</Th>
-              <Th>Tùy chọn</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {accounts
-              ? accounts.map((account) => {
-                  return (
-                    <Tr key={account.id}>
-                      <Td>{account.idNumber}</Td>
-                      <Td>
-                        <div className="flex gap-1 items-center">
-                          <img
-                            src={account.avatar}
-                            alt=""
-                            className="w-8 h-8 rounded-full object-cover"
-                          />
-                          <div>
-                            <p className="font-semibold">{account.fullName}</p>
-                            <p className="text-sm text-gray-500">
-                              {account.email}
-                            </p>
-                          </div>
-                        </div>
-                      </Td>
-                      <Td>{account.phone}</Td>
-                      <Td>{moment(account.createdAt).format("LL")}</Td>
-
-                      <Td>
-                        <ul className=" flex items-center gap-2">
-                          <li
-                            className="cursor-pointer"
-                            onClick={() => {
-                              setSelectedAcc(account.id);
-                              onOpenVerifyModal();
-                            }}
-                          >
-                            <box-icon name="trash" color="#7286D3"></box-icon>
-                          </li>
-                          <li className="cursor-pointer">
-                            <box-icon name="pencil" color="#7286D3"></box-icon>
-                          </li>
-                          <Link to={`/profile/${account.id}`}>
-                            <li className="cursor-pointer">
-                              <box-icon name="show" color="#7286D3"></box-icon>
-                            </li>
-                          </Link>
-                        </ul>
-                      </Td>
-                    </Tr>
-                  );
-                })
-              : null}
-          </Tbody>
-        </Table>
+        {loading ? (
+          <ManageSkeleton />
+        ) : (
+          <Table>
+            <Thead position={"sticky"} top={0} zIndex="docked" bg={"white"}>
+              <Tr>
+                <Th>MSSV</Th>
+                <Th>Tên</Th>
+                <Th>Số điện thoại</Th>
+                <Th>Ngày tham gia</Th>
+                <Th>Tùy chọn</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {accounts
+                ? accounts.map((account) => {
+                    return (
+                      <AccountRow
+                        account={account}
+                        key={account.id}
+                        handleRemove={handleRemove}
+                      />
+                    );
+                  })
+                : null}
+            </Tbody>
+          </Table>
+        )}
       </TableContainer>
-      <InstanceModal
-        show={isOpenVerifyModal}
-        modalName={"Xác nhận"}
-        hide={onCloseVefiryModal}
-        content={
-          <VerifyModal
-            hide={onCloseVefiryModal}
-            title={"Chắc chắn xóa sinh viên này!"}
-            handleVerify={handleRemove}
-          />
-        }
-      />
     </>
   );
 }

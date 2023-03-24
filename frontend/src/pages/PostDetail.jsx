@@ -15,9 +15,7 @@ function PostDetail() {
   const navigate = useNavigate();
   const handleSelectedChat = async (receiverId) => {
     await createConversation(dispatch, { receiver: receiverId });
-    setTimeout(() => {
-      navigate("/chat");
-    }, 1000);
+    navigate("/chat");
   };
 
   useEffect(() => {

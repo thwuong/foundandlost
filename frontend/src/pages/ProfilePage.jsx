@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
 import InfoPane from "../components/Profile/InfoPane";
@@ -11,10 +11,16 @@ import { useDispatch } from "react-redux";
 import { getMyProfile, getUser } from "../api/userAPI";
 import { getMyItems, getUserItems } from "../api/postAPI";
 import { getRequestList } from "../api/requetsAPI";
-
+import { createConversation } from "../api/conversationAPI";
 function ProfilePage() {
   const { userId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSelectedChat = async (receiverId) => {
+    await createConversation(dispatch, { receiver: receiverId });
+    navigate("/chat");
+  };
+
   useEffect(() => {
     const fetchProfile = async () => {
       await getMyProfile(dispatch);
@@ -46,7 +52,7 @@ function ProfilePage() {
         <div className="container h-full">
           <Header />
           <div className="bg-white p-4 rounded-lg ">
-            <InfoPane />
+            <InfoPane handleSelectedChat={handleSelectedChat} />
           </div>
           <div className="mt-6">
             <ProfileNav activeTab="post" />
