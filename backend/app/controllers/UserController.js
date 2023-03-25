@@ -1,5 +1,6 @@
 require("dotenv").config();
 const db = require("../models/index");
+const { Op } = require("sequelize");
 const { uploadSingle } = require("../utils/cloudinary");
 const { createError } = require("../utils/createError");
 const Cryptr = require("cryptr");
@@ -190,6 +191,26 @@ class UserController {
         success: true,
         message: `Cập nhật thông tin thành công!`,
         newUser,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  // DESC [update user profile]
+  // @URL [GET] /api/user/search
+  async findUserByName(req, res, next) {
+    const keyword = req.query.keyword;
+    try {
+      const users = await db.User.findAll({
+        where: { fullName: { [Op.regexp]: keyword || " " } },
+        raw: true,
+        nest: true,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "successfull",
+        users,
       });
     } catch (error) {
       next(error);

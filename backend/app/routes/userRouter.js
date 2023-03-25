@@ -9,6 +9,7 @@ Router.put(
   UserController.updateProfile
 );
 Router.get("/profile", verifyToken, UserController.getProfile);
+Router.get("/search", verifyToken, UserController.findUserByName);
 
 Router.post("/", verifyToken, adminPermision, UserController.createUser);
 Router.delete(
