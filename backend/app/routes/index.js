@@ -8,5 +8,6 @@ module.exports.createRoute = (app) => {
   app.use("/api/comment", require("./commentRouter"));
   app.use("/api/message", require("./messageRouter"));
   app.use("/api/conversation", require("./conversationRouter"));
+  app.use("/api/notification", require("./notificationRouter"));
 };
 // End Routes

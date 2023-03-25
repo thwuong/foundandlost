@@ -30,8 +30,6 @@ class PostController {
         location,
         postType,
         images,
-        createAt: db.Sequelize.literal(`NOW() - INTERVAL '30day'`),
-        updateAt: db.Sequelize.literal(`NOW() - INTERVAL '30day'`),
       });
       res.status(200).json({
         success: true,
@@ -76,7 +74,7 @@ class PostController {
     let offset = !_page || +_page <= 1 ? 0 : +_page - 1;
     const condition = {
       title: { [Op.regexp]: keyword || " " },
-      status: !status ? "pending" : "confirmed",
+      status: status || "",
     };
     if (postType) condition.postType = postType;
     if (categoryId) condition.categoryId = +categoryId;

@@ -26,7 +26,7 @@ module.exports.socketServer = (socket) => {
     socket.emit("getUsers", users);
     console.log(users);
   });
-
+  //when user chat
   socket.on(
     "sendMessage",
     ({ senderId, recevierId, message, conversationId }) => {
@@ -40,6 +40,17 @@ module.exports.socketServer = (socket) => {
       });
     }
   );
+  //when user post comment my post
+  socket.on("sendComment", ({ senderId, recevierId, content }) => {
+    let user = getUser(recevierId);
+    console.log(users);
+    console.log(user?.socketId);
+    socket.to(user?.socketId).emit("receiveComment", {
+      senderId,
+      message,
+      conversationId,
+    });
+  });
   //when user logout
   socket.on("user disconnect", (userId) => {
     console.log(`${userId} disconnect`);
