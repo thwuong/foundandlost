@@ -18,6 +18,7 @@ function ChatPage() {
   const { user } = auth;
   const { socket } = instanceSocket;
   const [newMessage, setNewMessage] = useState("");
+  const [isShow, setIsShow] = useState(false);
   const [messages, setMessages] = useState([]);
   const dispatch = useDispatch();
   const loading = useLoading();
@@ -81,10 +82,15 @@ function ChatPage() {
   });
   return (
     <div className="w-[80%] mx-auto">
-      <div className="container mx-auto h-screen">
+      <div className="container mx-auto xl:h-screen h-[600px]">
         <Header />
-        <div className="flex h-[83%] relative bg-gray-100 pb-2 shadow-2xl rounded-lg">
-          <div className="w-[75%]">
+        <div className="flex h-[83%] relative bg-gray-100 pb-2 shadow-2xl rounded-lg overflow-hidden">
+          <div
+            className="xl:w-3/4 md:w-4/6 w-full"
+            onClick={() => {
+              setIsShow(false);
+            }}
+          >
             {loading ? (
               <ChatSkeleton />
             ) : currentConversation?.id ? (
@@ -101,7 +107,22 @@ function ChatPage() {
               </p>
             )}
           </div>
-          <div className="w-[25%]">
+          <p
+            className="md:hidden absolute right-0 block text-right p-4 z-10 cursor-pointer"
+            onClick={() => {
+              setIsShow(!isShow);
+            }}
+          >
+            <box-icon
+              name={`${isShow ? "right-arrow-circle" : "menu-alt-right"}`}
+              color="gray"
+            ></box-icon>
+          </p>
+          <div
+            className={`xl:w-1/4 md:w-2/6 md:static md:translate-x-0 md:h-full w-2/4 absolute h-[88%] right-0 top-14 overflow-hidden duration-300 bg-white
+          ${isShow ? "translate-x-0" : "translate-x-full"}
+          `}
+          >
             <div className="p-3 h-full">
               <div className="flex h-[8%] items-center gap-2 p-2 bg-gray-200 rounded-md">
                 <box-icon name="search"></box-icon>
@@ -109,9 +130,10 @@ function ChatPage() {
                   className="bg-gray-200 w-full outline-none text-gray-400 text-sm"
                   type="text"
                   name="message"
-                  placeholder="Tìm kiếm tin nhắn"
+                  placeholder="Tìm kiếm..."
                 />
               </div>
+
               <ul className="my-3 h-[92%] overflow-y-auto">
                 {conversations &&
                   conversations.map((conversation, index) => {

@@ -19,7 +19,7 @@ function RequestList(props) {
           return <RequestItem key={request.id} request={request} />;
         })
       ) : (
-        <p>Null</p>
+        <p className="text-center">Không có yêu cầu nào!</p>
       )}
     </div>
   );

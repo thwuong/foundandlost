@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getCommentList } from "../api/commentAPI";
 import { createConversation } from "../api/conversationAPI";
 import { getItem } from "../api/postAPI";
-import Comment from "../components/Comment/Comment";
+import Comments from "../components/Comment/Comments";
 import Header from "../components/Header";
 import PostDetailItem from "../components/PostDetailItem";
 import RelatedPost from "../components/RelatedPost";
@@ -50,7 +50,7 @@ function PostDetail() {
           </div>
         </div>
         <div className="w-[73.5%] mt-4 h-full">
-          <Comment />
+          <Comments />
         </div>
       </div>
     </div>

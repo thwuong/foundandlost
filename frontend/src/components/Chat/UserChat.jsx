@@ -28,11 +28,11 @@ function UserChat(props) {
       </figure>
       <div>
         <p className="font-bold leading-3">{receiver.fullName}</p>
-        <span className="text-s  text-gray-200">
+        <span className="text-s  text-gray-400">
           {receiver.isAdmin ? "Quản trị viên" : "Sinh viên"}
         </span>
       </div>
-      <p className="ml-auto text-s  text-gray-200">
+      <p className="ml-auto text-s  text-gray-400">
         {moment(conversation?.updatedAt).fromNow()}
       </p>
     </li>

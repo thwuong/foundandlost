@@ -57,11 +57,11 @@ function ProfilePage() {
           <div className="mt-6">
             <ProfileNav activeTab="post" />
           </div>
-          <div className="flex gap-5 mt-6">
-            <div className="w-[30%]">
+          <div className="md:flex-row flex-col flex gap-5 mt-6">
+            <div className="xl:w-1/4 ">
               <IntroPane />
             </div>
-            <div className="w-[70%] max-h-[760px] overflow-y-auto">
+            <div className="xl:w-3/4 max-h-[760px] overflow-y-auto">
               <CardList />
             </div>
           </div>

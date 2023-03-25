@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { postComment, deleteComment, editComment } from "../../api/commentAPI";
 import CommentInput from "./CommentInput";
 import CommentItem from "./CommentItem";
-function Comment() {
+function Comments() {
   const { postId } = useParams();
   const comments = useSelector((state) => state.comment.commentList);
   const [activeComment, setActiveComment] = useState(null);
@@ -74,7 +74,7 @@ function Comment() {
             );
           })
         ) : (
-          <p>Chwua có</p>
+          <p>Chưa có bình luận....</p>
         )}
         <div ref={bottomAnchor} className="anchor-bottom"></div>
       </div>
@@ -82,4 +82,4 @@ function Comment() {
   );
 }
 
-export default Comment;
+export default Comments;

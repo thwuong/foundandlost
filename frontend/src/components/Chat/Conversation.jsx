@@ -13,6 +13,15 @@ function Conversation(props) {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const [receiver, setReceiver] = useState(null);
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleSendMessage(e);
+    }
+  };
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    sendMessage(newMessage);
+  };
   // Scroll
   const bottomAnchor = useRef();
   const scrollToBottom = () => {
@@ -59,10 +68,7 @@ function Conversation(props) {
       </div>
       <div className="flex justify-center items-center gap-4 py-4 px-12 h-[12%]">
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            sendMessage(newMessage);
-          }}
+          onSubmit={handleSendMessage}
           className="w-full flex justify-between px-3 py-2 rounded-lg bg-white shadow-xl"
         >
           <input
@@ -71,6 +77,7 @@ function Conversation(props) {
             onChange={(e) => {
               setNewMessage(e.target.value);
             }}
+            onKeyDown={handleKeyDown}
             type="text"
             className="w-full outline-none"
             placeholder="Type something"
