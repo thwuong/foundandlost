@@ -4,13 +4,15 @@ const app = express();
 const { createServer } = require("http");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const cron = require("node-cron");
 const cors = require("cors");
-const { Server } = require("socket.io");
 const errorHandler = require("./app/middlewares/errorHandler");
-const { createError } = require("./app/utils/createError");
+const { Server } = require("socket.io");
 const { connectDB } = require("./app/utils/connectDB");
 const { createRoute } = require("./app/routes/index");
 const { socketServer } = require("./socketServer");
+const { createError } = require("./app/utils/createError");
+const { followPostExpried } = require("./app/utils/schedule");
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,7 +39,15 @@ const io = new Server(http, {
 io.on("connection", (socket) => {
   socketServer(socket);
 });
-
+// cron.schedule("*/* * * * *", () => {
+//   console.log("running a task every 10 second");
+//   // write your login here, delete your records
+//   try {
+//     followPostExpried();
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 const port = process.env.PORT || 5000;
 http.listen(port, () => {
   console.log(`http://localhost:${port}`);

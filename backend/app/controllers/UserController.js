@@ -186,7 +186,9 @@ class UserController {
       userUpdated = await db.User.update(userUpdated, {
         where: { id: userId },
       });
-      const newUser = await db.User.findByPk(userId, { raw: true });
+      const newUser = await db.User.findByPk(userId, {
+        raw: true,
+      });
       res.status(200).json({
         success: true,
         message: `Cập nhật thông tin thành công!`,

@@ -16,6 +16,7 @@ class AuthController {
       const user = await db.User.findOne({
         where: { idNumber },
         attributes: { include: ["password"] },
+        raw: true,
       });
 
       if (!user) {

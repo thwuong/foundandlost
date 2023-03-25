@@ -28,6 +28,12 @@ module.exports = (sequelize, DataTypes) => {
       status: DataTypes.ENUM("pending", "confirmed"),
     },
     {
+      hooks: {
+        beforeDestroy: (post, options) => {
+          console.log("post", post);
+          console.log("options", options);
+        },
+      },
       sequelize,
       modelName: "Post",
     }
