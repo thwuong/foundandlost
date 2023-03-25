@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -20,6 +20,7 @@ import { postItem } from "../../api/postAPI";
 function PostForm(props) {
   const categories = useSelector((state) => state.category.categories);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { isEdit } = props;
   const [errUpload, setErrUpload] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -65,24 +66,22 @@ function PostForm(props) {
           }
         }
         setIsLoading(true);
-        setTimeout(() => {
-          setIsLoading(false);
-          if (isEdit) {
-            handleEditPost(formData);
-          } else {
-            handleCreatePost(formData);
-          }
-        }, 2000);
+
+        if (isEdit) {
+          handleEditPost(formData);
+        } else {
+          handleCreatePost(formData);
+        }
       }
     },
   });
   const handleCreatePost = async (values) => {
-    console.log(values);
     // CallAPi
     const { success } = await postItem(dispatch, values);
     if (success) {
+      setIsLoading(false);
       resetForm();
-      setFiles([]);
+      navigate("/");
     }
   };
   const handleEditPost = (values) => {
@@ -94,7 +93,7 @@ function PostForm(props) {
     if (error) {
       setErrUpload(error);
     } else {
-      setFiles(e.target.files);
+      setFiles([...files, ...e.target.files]);
     }
   };
   const handleRemoveImage = (index) => {
@@ -117,7 +116,7 @@ function PostForm(props) {
   return (
     <>
       <h1 className="text-3xl text-primary text-center font-bold">
-        {isEdit ? "ĐĂNG ĐỒ VẬT" : "Chỉnh sửa thông tin đồ vật"}
+        {!isEdit ? "ĐĂNG ĐỒ VẬT" : "Chỉnh sửa thông tin đồ vật"}
       </h1>
       <form onSubmit={handleSubmit} className="py-8">
         <div className="flex gap-10">
@@ -232,7 +231,7 @@ function PostForm(props) {
           </div>
         </div>
         <div className="flex gap-10 mt-4 items-start">
-          <div className="w-[30%]">
+          <div className="w-[15%] h-40">
             <FormControl isInvalid={errUpload}>
               <FormLabel>Hình Ảnh</FormLabel>
               <FormLabel
@@ -240,9 +239,6 @@ function PostForm(props) {
                 className="block border-dashed border-4 cursor-pointer"
               >
                 <img src={imageUpload} alt="" />
-                <p className="text-gray-500 w-[60%] mx-auto text-center my-1">
-                  Chọn nhiều tệp từ máy tính của bạn
-                </p>
               </FormLabel>
 
               <Input
@@ -253,24 +249,26 @@ function PostForm(props) {
                 type="file"
                 multiple
               ></Input>
-              <span className="text-gray-400">File type: jpg, jpeg, png</span>
+              <span className="text-gray-400 text-s block">
+                File type: jpg, jpeg, png
+              </span>
               {errUpload && <FormErrorMessage>{errUpload}</FormErrorMessage>}
             </FormControl>
           </div>
-          <div className="w-[70%] mt-8">
+          <div className="w-[85%] pt-8">
             <PreviewImage files={files} handleRemove={handleRemoveImage} />
           </div>
         </div>
         <Button
-          className="mt-4"
+          className="mt-20"
           type="sumbit"
           colorScheme="facebook"
           isLoading={isLoading}
         >
-          {isEdit ? "Đăng bài" : "Lưu"}
+          {!isEdit ? "Đăng" : "Lưu"}
         </Button>
         <Link to={"/"}>
-          <Button colorScheme="pink" className="ml-4 mt-4">
+          <Button colorScheme="pink" className="ml-4 mt-20">
             Hủy bỏ
           </Button>
         </Link>

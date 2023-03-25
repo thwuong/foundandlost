@@ -5,7 +5,7 @@ function PreviewImage(props) {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    const images = [];
+    let images = [];
     const fileReaders = [];
     let isCancel = false;
     if (files && [...files].length) {
@@ -33,6 +33,9 @@ function PreviewImage(props) {
         });
       };
     }
+    if (files.length < 1) {
+      images = [];
+    }
   }, [files]);
 
   const onRemove = (index) => {
@@ -44,8 +47,12 @@ function PreviewImage(props) {
       {images && images.length > 0
         ? images.map((image, index) => {
             return (
-              <div key={index} className="w-1/4 relative">
-                <img src={image} alt="" className="object-center w-full"></img>
+              <div key={index} className="w-[15%] h-40 relative">
+                <img
+                  src={image}
+                  alt=""
+                  className="h-full w-full object-cover"
+                ></img>
                 <p
                   onClick={() => {
                     onRemove(index);

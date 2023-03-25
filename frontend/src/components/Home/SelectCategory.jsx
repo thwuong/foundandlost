@@ -27,7 +27,11 @@ function SelectCategory(props) {
     fetchAllCategory();
   }, []);
   return (
-    <Select placeholder="Chọn Danh mục" onChange={handleSelecting}>
+    <Select
+      placeholder="Chọn Danh mục"
+      onChange={handleSelecting}
+      className="text-primary"
+    >
       {categories && categories.length > 0
         ? categories.map((category) => {
             return (

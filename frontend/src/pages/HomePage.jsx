@@ -8,7 +8,7 @@ import Pagination from "../components/Home/Pagination";
 import SelectCategory from "../components/Home/SelectCategory";
 import Header from "../components/Header";
 import CardItem from "../components/CardItem";
-import TabTypePost from "../components/Home/TabTypePost";
+import TabPostType from "../components/Home/TabPostType";
 import PostSkeleton from "../components/Loading/PostSkeleton";
 
 import { getItemList } from "../api/postAPI";
@@ -18,13 +18,13 @@ function HomePage() {
   const loading = useLoading();
   const { posts, totalPost } = useSelector((state) => state.post);
   const [pagination, setPagination] = useState({
-    limit: 8,
-    page: 1,
+    _limit: 6,
+    _page: 1,
     totalRows: null,
   });
   const [filters, setFilters] = useState({
-    limit: 8,
-    page: 1,
+    _limit: 6,
+    _page: 1,
     keyword: "",
     categoryId: null,
     postType: null,
@@ -62,7 +62,7 @@ function HomePage() {
           </h1>
           <div className="mt-8 grid xl:grid-cols-12 gap-5">
             <div className="xl:col-span-3">
-              <TabTypePost onTabChange={handleTabChange} />
+              <TabPostType onTabChange={handleTabChange} />
             </div>
             <div className="xl:col-span-5">
               <Search onSearch={handleSearching} />
@@ -86,11 +86,18 @@ function HomePage() {
             <PostSkeleton />
           ) : (
             <div className="py-8 grid xl:grid-cols-2 gap-5 ">
-              {posts && posts.length > 0
-                ? posts.map((post) => {
-                    return <CardItem key={post.id} item={post} />;
-                  })
-                : null}
+              {posts && posts.length > 0 ? (
+                posts.map((post) => {
+                  return <CardItem key={post.id} item={post} />;
+                })
+              ) : (
+                <p className="text-center">
+                  Không có đồ vật của bạn muốn,{" "}
+                  <Link className="text-teal-500" to={"/post/create-post"}>
+                    Click để đăng tìm
+                  </Link>
+                </p>
+              )}
             </div>
           )}
           <Pagination onPageChange={handlePageChange} pagination={pagination} />

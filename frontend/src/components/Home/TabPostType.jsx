@@ -14,7 +14,7 @@ function TabTypePost(props) {
         className={
           (tab === ""
             ? "bg-primary text-paragarph-white"
-            : "bg-transparent text-paragarph-black border-2 border-primary") +
+            : "bg-transparent text-primary border-2 border-primary") +
           " text-center px-4 py-2 rounded-lg font-bold"
         }
         onClick={() => {
@@ -30,7 +30,7 @@ function TabTypePost(props) {
         className={
           (tab === "Lost item"
             ? "bg-primary text-paragarph-white"
-            : "bg-transparent text-paragarph-black border-2 border-primary") +
+            : "bg-transparent text-primary border-2 border-primary") +
           " text-center px-4 py-2 rounded-lg font-bold"
         }
       >
@@ -43,7 +43,7 @@ function TabTypePost(props) {
         className={
           (tab === "Found item"
             ? "bg-primary text-paragarph-white"
-            : "bg-transparent text-paragarph-black border-2 border-primary") +
+            : "bg-transparent text-primary border-2 border-primary") +
           " text-center px-4 py-2 rounded-lg font-bold"
         }
       >

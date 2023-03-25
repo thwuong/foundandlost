@@ -1,7 +1,7 @@
 function Pagination(props) {
   const { onPageChange, pagination } = props;
-  const { page, limit, totalRows } = pagination;
-  const lastPage = Math.ceil(totalRows / limit);
+  const { _page, _limit, totalRows } = pagination;
+  const lastPage = Math.ceil(totalRows / _limit);
   const handlePageChange = (newPage) => {
     onPageChange(newPage);
   };
@@ -24,8 +24,8 @@ function Pagination(props) {
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">1</span> to{" "}
-            <span className="font-medium">{limit}</span> of{" "}
+            Showing <span className="font-medium">{1}</span> to{" "}
+            <span className="font-medium">{_limit}</span> of{" "}
             <span className="font-medium">{totalRows}</span> results
           </p>
         </div>
@@ -35,9 +35,9 @@ function Pagination(props) {
             aria-label="Pagination"
           >
             <button
-              disabled={page <= 1}
+              disabled={_page <= 1}
               onClick={() => {
-                handlePageChange(page - 1);
+                handlePageChange(_page - 1);
               }}
               className="relative inline-flex items-center disabled:bg-white/40 rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
             >
@@ -49,9 +49,9 @@ function Pagination(props) {
               ></box-icon>
             </button>
             <button
-              disabled={page === lastPage}
+              disabled={_page === lastPage}
               onClick={() => {
-                handlePageChange(page + 1);
+                handlePageChange(_page + 1);
               }}
               className="relative inline-flex items-center rounded-r-md border disabled:bg-white/40 border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
             >

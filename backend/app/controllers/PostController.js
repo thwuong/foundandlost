@@ -72,20 +72,21 @@ class PostController {
   // @URL [GET] /api/post/
   // query : [keyword,postType,categoryId,page]
   async getAllPost(req, res, next) {
-    const { keyword, postType, categoryId, page } = req.query;
-    let offset = !page || +page <= 1 ? 0 : +page - 1;
+    const { keyword, postType, categoryId, _page, _limit } = req.query;
+    let offset = !_page || +_page <= 1 ? 0 : +_page - 1;
     const condition = {
       title: { [Op.regexp]: keyword || " " },
     };
     if (postType) condition.postType = postType;
     if (categoryId) condition.categoryId = +categoryId;
-
+    console.log(_page, offset);
     try {
       const posts = await db.Post.findAndCountAll({
         where: condition,
         raw: true,
         nest: true,
         offset: offset * +process.env.LIMIT,
+        limit: +_limit || +process.env.LIMIT,
         include: [
           {
             model: db.Category,
