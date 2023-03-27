@@ -39,3 +39,12 @@ export const UpdatePassword = async (payload) => {
     showToast("error", error.message);
   }
 };
+export const findUsers = async (params) => {
+  try {
+    const data = await axiosClient.get("/api/user/search", { params });
+
+    return data;
+  } catch (error) {
+    showToast("error", error.message);
+  }
+};

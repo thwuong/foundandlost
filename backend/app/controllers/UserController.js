@@ -202,9 +202,15 @@ class UserController {
   // @URL [GET] /api/user/search
   async findUserByName(req, res, next) {
     const keyword = req.query.keyword;
+    const userId = req.user.userId;
     try {
       const users = await db.User.findAll({
-        where: { fullName: { [Op.regexp]: keyword || " " } },
+        where: {
+          fullName: { [Op.regexp]: keyword || " " },
+          id: {
+            [Op.not]: userId,
+          },
+        },
         raw: true,
         nest: true,
       });

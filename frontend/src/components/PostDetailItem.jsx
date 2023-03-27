@@ -77,14 +77,16 @@ function PostItem(props) {
                 </p>
               </Link>
             </div>
-            <p
-              onClick={() => {
-                handleSelectedChat(item?.ownerId);
-              }}
-              className="w-10 h-10 rounded-full p-1 bg-gray-200 flex items-center justify-center cursor-pointer hover:bg-gray-300"
-            >
-              <box-icon type="logo" name="messenger"></box-icon>
-            </p>
+            {user && user.id !== item?.ownerId ? (
+              <p
+                onClick={() => {
+                  handleSelectedChat(item?.ownerId);
+                }}
+                className="w-10 h-10 rounded-full p-1 bg-gray-200 flex items-center justify-center cursor-pointer hover:bg-gray-300"
+              >
+                <box-icon type="logo" name="messenger"></box-icon>
+              </p>
+            ) : null}
           </div>
           <h2 className="mt-2 text-2xl font-bold">{item?.title}</h2>
           <div className="mt-2 flex items-center gap-2">

@@ -13,7 +13,7 @@ function UserChat(props) {
       onClick={() => {
         selectedUser(conversation?.id);
       }}
-      className={`flex items-start gap-2 px-2 py-4 cursor-pointer  ${
+      className={`flex items-start gap-1 px-2 py-4 cursor-pointer hover:bg-gray-200 ${
         conversation?.id === currentConversation?.id
           ? "rounded-md bg-primary text-white"
           : "border-b"
