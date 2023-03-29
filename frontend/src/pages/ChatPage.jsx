@@ -21,6 +21,7 @@ function ChatPage() {
   const { conversations, currentConversation } = conversation;
   const { user } = auth;
   const { socket } = instanceSocket;
+  const conversationCompare = useRef(null);
   const [newMessage, setNewMessage] = useState("");
   const [isShow, setIsShow] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -89,22 +90,24 @@ function ChatPage() {
     };
     if (!currentConversation?.id) return;
     fetchMessages(currentConversation.id);
+    conversationCompare.current = currentConversation;
   }, [currentConversation?.id]);
   // receive message
   useEffect(() => {
     socket?.on("receiveMessage", (data) => {
-      console.log("receive", data);
-      if (!currentConversation) return;
-      if (data.conversationId === currentConversation.id) {
+      if (!conversationCompare.current?.id) return;
+      if (
+        conversationCompare.current?.id &&
+        data.conversationId === conversationCompare.current.id
+      ) {
         data.sender = [
-          currentConversation?.firstUser,
-          currentConversation?.secondUser,
+          conversationCompare.current?.firstUser,
+          conversationCompare.current?.secondUser,
         ].find((u) => u?.id !== user.id);
         setMessages([...messages, data]);
       }
     });
   });
-
   return (
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto xl:h-screen h-[600px]">

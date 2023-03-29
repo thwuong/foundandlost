@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Badge } from "@chakra-ui/react";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
+import ExtraImage from "../assets/PlaceholderImage.png";
 import { renderTypePost } from "../utils/renderColorStatus";
 import { getItemList } from "../api/postAPI";
 function RelatedPost(props) {
@@ -31,8 +32,11 @@ function RelatedPost(props) {
                     <figure className="w-1/3">
                       <img
                         className="w-full h-20 rounded-tl rounded-bl object-cover"
-                        src={postItem?.images[0]}
+                        src={postItem?.images[0] || ""}
                         alt=""
+                        onError={(e) => {
+                          e.target.src = ExtraImage;
+                        }}
                       />
                     </figure>
                     <div className="w-2/3">

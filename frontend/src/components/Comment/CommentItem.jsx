@@ -1,8 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
-import CommentInput from "./CommentInput";
 
+import InstanceModal from "../Modal/InstanceModal";
+import VerifyModal from "../Modal/VerifyModal";
+import CommentInput from "./CommentInput";
 function CommentItem(props) {
   const {
     comment,
@@ -14,6 +16,9 @@ function CommentItem(props) {
     addComment,
     updateComment,
     parentId = null,
+    onOpen,
+    onClose,
+    isOpen,
   } = props;
   const user = useSelector((state) => state.auth.user);
   const comments = useSelector((state) => state.comment.commentList);
@@ -42,12 +47,22 @@ function CommentItem(props) {
               <p className="font-medium">{comment?.author?.fullName}</p>
             </div>
             {isEdit && (
-              <CommentInput
-                editInput={true}
-                idInput={"idInput"}
-                valueCurrent={comment.content}
-                handleSubmit={(content) => updateComment(content, replyId)}
-              />
+              <div>
+                <CommentInput
+                  editInput={true}
+                  idInput={"idInput"}
+                  valueCurrent={comment.content}
+                  handleSubmit={(content) => updateComment(content, replyId)}
+                />
+                <span
+                  onClick={() => {
+                    setActiveComment(null);
+                  }}
+                  className="text-sm text-gray-500 cursor-pointer font-bold"
+                >
+                  Hủy
+                </span>
+              </div>
             )}
             {!isEdit && <span>{comment?.content}</span>}
           </div>
@@ -65,9 +80,7 @@ function CommentItem(props) {
             ) : (
               <>
                 <span
-                  onClick={() => {
-                    removeComment(comment?.id);
-                  }}
+                  onClick={onOpen}
                   className="text-sm text-white ml-2 cursor-pointer"
                 >
                   Xóa
@@ -80,6 +93,19 @@ function CommentItem(props) {
                 >
                   Sửa
                 </span>
+                <InstanceModal
+                  show={isOpen}
+                  modalName={"Xác nhận"}
+                  hide={onClose}
+                  content={
+                    <VerifyModal
+                      hide={onClose}
+                      title={"Chắc chắn xóa bài viết này!"}
+                      handleVerify={removeComment}
+                      selectedId={comment?.id}
+                    />
+                  }
+                />
               </>
             )}
 
@@ -110,6 +136,9 @@ function CommentItem(props) {
                 setActiveComment={setActiveComment}
                 getReplies={getReplies}
                 replies={getReplies(comments, reply.id)}
+                onOpen={onOpen}
+                onClose={onClose}
+                isOpen={isOpen}
               />
             );
           })}

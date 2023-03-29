@@ -21,7 +21,10 @@ function CommentInput(props) {
     }
   }, [editInput]);
   return (
-    <form className={`mt-2 relative `} onSubmit={handleOnSubmit}>
+    <form
+      className={`mt-2 relative flex items-center bg-white rounded-lg`}
+      onSubmit={handleOnSubmit}
+    >
       <input
         name="comment"
         id={idInput}
@@ -36,7 +39,7 @@ function CommentInput(props) {
       />
       <button
         type="submit"
-        className="absolute top-0 right-0 w-8 h-8 p-1 bg-inherit rounded-full flex items-center justify-center cursor-pointer"
+        className="w-8 h-8 p-1 bg-inherit rounded-full flex items-center justify-center cursor-pointer"
       >
         <box-icon name="send" color="gray"></box-icon>
       </button>
