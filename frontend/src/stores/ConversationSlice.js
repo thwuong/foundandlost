@@ -4,7 +4,7 @@ const conversationSlice = createSlice({
   name: "conversation",
   initialState: {
     conversations: [],
-    currentConversation: {},
+    currentConversation: null,
   },
   reducers: {
     saveConversations: (state, actions) => {

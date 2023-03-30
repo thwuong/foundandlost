@@ -29,23 +29,26 @@ module.exports.socketServer = (socket) => {
   //when user chat
   socket.on(
     "sendMessage",
-    ({ senderId, recevierId, message, conversationId }) => {
-      let user = getUser(recevierId);
-      console.log(users);
-      console.log(user?.socketId);
-      socket.to(user?.socketId).emit("receiveMessage", {
+    ({ message, senderId, sender, conversation, conversationId }) => {
+      const recieverId = [
+        conversation.firstUserId,
+        conversation.secondUserId,
+      ].find((id) => id !== senderId);
+      let user = getUser(recieverId);
+      socket.to(user?.socketId).emit("recieveMessage", {
         senderId,
         message,
         conversationId,
+        sender,
       });
     }
   );
   //when user post comment my post
-  socket.on("sendComment", ({ senderId, recevierId, content }) => {
-    let user = getUser(recevierId);
+  socket.on("sendComment", ({ senderId, recieverId, content }) => {
+    let user = getUser(recieverId);
     console.log(users);
     console.log(user?.socketId);
-    socket.to(user?.socketId).emit("receiveComment", {
+    socket.to(user?.socketId).emit("recieveComment", {
       senderId,
       message,
       conversationId,

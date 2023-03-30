@@ -7,7 +7,7 @@ class ConverstationController {
   // body [receiver]
   async createConversation(req, res, next) {
     const { userId } = req.user;
-    const receiver = req.body.receiver;
+    const reciever = req.body.reciever;
 
     try {
       const exitsConversation = await db.Conversation.findOne({
@@ -15,10 +15,10 @@ class ConverstationController {
           [Op.or]: [
             {
               firstUserId: userId,
-              secondUserId: receiver,
+              secondUserId: reciever,
             },
             {
-              firstUserId: receiver,
+              firstUserId: reciever,
               secondUserId: userId,
             },
           ],
@@ -47,7 +47,7 @@ class ConverstationController {
       }
       const newConversation = await db.Conversation.create({
         firstUserId: userId,
-        secondUserId: receiver,
+        secondUserId: reciever,
       });
       const conversation = await db.Conversation.findOne({
         where: {

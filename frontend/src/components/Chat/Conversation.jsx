@@ -12,7 +12,7 @@ function Conversation(props) {
   } = props;
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  const [receiver, setReceiver] = useState(null);
+  const [reciever, setReciever] = useState(null);
   const handleKeyDown = (e) => {
     if (e.keyCode === 13) {
       handleSendMessage(e);
@@ -20,7 +20,7 @@ function Conversation(props) {
   };
   const handleSendMessage = (e) => {
     e.preventDefault();
-    sendMessage(newMessage);
+    newMessage && sendMessage(newMessage);
   };
   // Scroll
   const bottomAnchor = useRef();
@@ -30,25 +30,26 @@ function Conversation(props) {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+  // Scroll
   useEffect(() => {
     if (!currentConversation) return;
-    setReceiver(
+    setReciever(
       [currentConversation?.firstUser, currentConversation?.secondUser].find(
         (u) => u?.id !== user.id
       )
     );
-  }, [currentConversation?.id]);
+  }, [currentConversation]);
   return (
     <div className="h-full">
       <div className="px-12 h-[12%] flex items-center bg-white shadow-xl">
         <figure>
           <img
             className="w-8 h-8 object-cover rounded-full"
-            src={receiver?.avatar}
+            src={reciever?.avatar}
             alt=""
           />
         </figure>
-        <p className="ml-4 font-medium">{receiver?.fullName}</p>
+        <p className="ml-4 font-medium">{reciever?.fullName}</p>
         <p
           onClick={() => {
             dispatch(unSelectConversation());

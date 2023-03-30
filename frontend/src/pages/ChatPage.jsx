@@ -21,7 +21,6 @@ function ChatPage() {
   const { conversations, currentConversation } = conversation;
   const { user } = auth;
   const { socket } = instanceSocket;
-  const conversationCompare = useRef(null);
   const [newMessage, setNewMessage] = useState("");
   const [isShow, setIsShow] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -36,26 +35,15 @@ function ChatPage() {
   };
   // send message
   const sendMessage = async (newMessage) => {
-    const recevierId = [
-      currentConversation.firstUserId,
-      currentConversation.secondUserId,
-    ].find((recevier) => recevier !== user.id);
-
-    socket.emit("sendMessage", {
-      senderId: user.id,
-      recevierId,
-      message: newMessage,
-      conversationId: currentConversation.id,
-    });
-
+    setNewMessage("");
     const message = {
       senderId: user.id,
       message: newMessage,
       conversationId: currentConversation.id,
     };
     const data = await postMessage(message);
+    socket.emit("sendMessage", data.messageItem);
     setMessages([...messages, data.messageItem]);
-    setNewMessage("");
   };
   // search users
   const searchingUser = (e) => {
@@ -69,8 +57,8 @@ function ChatPage() {
     }, 500);
   };
   //selected chat
-  const handleSelectedChat = async (receiverId) => {
-    await createConversation(dispatch, { receiver: receiverId });
+  const handleSelectedChat = async (recieverId) => {
+    await createConversation(dispatch, { reciever: recieverId });
   };
   //get all user conversation
   useEffect(() => {
@@ -82,32 +70,31 @@ function ChatPage() {
       dispatch(unSelectConversation());
     };
   }, [user.id]);
+  // recieve message
+  useEffect(() => {
+    socket?.on("recieveMessage", (data) => {
+      if (
+        !currentConversation ||
+        data.conversationId !== currentConversation.id
+      ) {
+        // show notify
+        console.log("show notify");
+        console.log(data);
+      } else {
+        setMessages([...messages, data]);
+      }
+    });
+  });
   // get all messages
   useEffect(() => {
     const fetchMessages = async (conversationId) => {
       const data = await getMessageList(conversationId);
       setMessages(data.messages);
     };
-    if (!currentConversation?.id) return;
+
+    if (!currentConversation) return;
     fetchMessages(currentConversation.id);
-    conversationCompare.current = currentConversation;
-  }, [currentConversation?.id]);
-  // receive message
-  useEffect(() => {
-    socket?.on("receiveMessage", (data) => {
-      if (!conversationCompare.current?.id) return;
-      if (
-        conversationCompare.current?.id &&
-        data.conversationId === conversationCompare.current.id
-      ) {
-        data.sender = [
-          conversationCompare.current?.firstUser,
-          conversationCompare.current?.secondUser,
-        ].find((u) => u?.id !== user.id);
-        setMessages([...messages, data]);
-      }
-    });
-  });
+  }, [currentConversation]);
   return (
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto xl:h-screen h-[600px]">
@@ -122,7 +109,7 @@ function ChatPage() {
           >
             {loading ? (
               <ChatSkeleton />
-            ) : currentConversation?.id ? (
+            ) : currentConversation ? (
               <Conversation
                 sendMessage={sendMessage}
                 currentConversation={currentConversation}

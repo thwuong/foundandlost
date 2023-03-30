@@ -19,11 +19,18 @@ class MessageController {
         where: { id: newMessage.id },
         raw: true,
         nest: true,
-        include: {
-          model: db.User,
-          as: "sender",
-          attributes: ["fullName", "avatar", "idNumber"],
-        },
+        include: [
+          {
+            model: db.User,
+            as: "sender",
+            attributes: ["fullName", "avatar", "idNumber"],
+          },
+          {
+            model: db.Conversation,
+            as: "conversation",
+            attributes: ["firstUserId", "secondUserId"],
+          },
+        ],
       });
       res.status(200).json({
         success: true,
