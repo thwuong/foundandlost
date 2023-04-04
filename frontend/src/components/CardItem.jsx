@@ -63,9 +63,11 @@ function CardItem(props) {
                 </p>
                 {option && (
                   <ul className="absolute  top-10 left-0 bg-white p-1 rounded-lg flex gap-2 shadow-xl">
-                    <li className="flex items-center cursor-pointer">
-                      <box-icon name="pencil" color="#3364C9"></box-icon>
-                    </li>
+                    <Link to={`/post/${item.id}/edit-post`}>
+                      <li className="flex items-center cursor-pointer">
+                        <box-icon name="pencil" color="#3364C9"></box-icon>
+                      </li>
+                    </Link>
                     <li
                       className="flex items-center cursor-pointer"
                       onClick={onOpenVerifyModal}

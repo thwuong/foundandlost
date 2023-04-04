@@ -10,6 +10,7 @@ import {
   Textarea,
   Select,
   FormErrorMessage,
+  Badge,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import imageUpload from "../../assets/image-upload.jpg";
@@ -21,10 +22,11 @@ function PostForm(props) {
   const categories = useSelector((state) => state.category.categories);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isEdit } = props;
+  const { isEdit, post } = props;
   const [errUpload, setErrUpload] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
+  const [oldImages, setOldImages] = useState([]);
   const {
     values,
     errors,
@@ -96,31 +98,40 @@ function PostForm(props) {
       setFiles([...files, ...e.target.files]);
     }
   };
-  const handleRemoveImage = (index) => {
-    setFiles([...files].filter((file, i) => i !== index));
+  const handleRemoveImage = (nameFile) => {
+    setFiles(
+      files.filter((file, index) => {
+        console.log(file, index);
+        return file.name !== nameFile;
+      })
+    );
   };
+  setValues;
   useEffect(() => {
     const fetchAllCategory = async () => {
       await getAllCategory(dispatch);
     };
     fetchAllCategory();
-    if (isEdit) {
-      // setValues()
-    }
   }, []);
   useEffect(() => {
-    if (isEdit) {
-      // setValues()
-    }
-  }, [isEdit]);
+    isEdit &&
+      setValues({
+        title: post?.title,
+        desc: post?.desc,
+        location: post?.location,
+        postType: post?.postType,
+        categoryId: post?.categoryId,
+      });
+    post?.images?.length > 0 && setOldImages(post?.images);
+  }, [isEdit, post]);
   return (
     <>
       <h1 className="text-3xl text-primary text-center font-bold">
         {!isEdit ? "ĐĂNG ĐỒ VẬT" : "Chỉnh sửa thông tin đồ vật"}
       </h1>
       <form onSubmit={handleSubmit} className="py-8">
-        <div className="flex gap-10">
-          <div className="w-[55%]">
+        <div className="lg:flex-row flex-col flex gap-5">
+          <div className="xl:w-3/5 lg:w-2/4">
             <FormControl
               className="mt-4"
               isInvalid={errors.title && touched.title}
@@ -129,7 +140,7 @@ function PostForm(props) {
               <Input
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.title}
+                value={values.title || " "}
                 id="title"
                 name="title"
                 type="text"
@@ -148,7 +159,7 @@ function PostForm(props) {
               <Textarea
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.desc}
+                value={values.desc || " "}
                 className="h-[130px]"
                 as="textarea"
                 id="desc"
@@ -161,7 +172,7 @@ function PostForm(props) {
               )}
             </FormControl>
           </div>
-          <div className="w-[45%]">
+          <div className="xl:w-2/5 lg:w-2/4">
             <div className="flex gap-5">
               <FormControl
                 className="mt-4"
@@ -172,11 +183,11 @@ function PostForm(props) {
                   placeholder="Chọn Loại bài viết"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.postType}
+                  value={values.postType || ""}
                   name="postType"
                 >
-                  <option value={"Found Item"}>Found Item</option>
-                  <option value={"Lost Item"}>Lost Item</option>
+                  <option value={"Found item"}>Found Item</option>
+                  <option value={"Lost item"}>Lost Item</option>
                 </Select>
                 {errors.postType && touched.postType && (
                   <FormErrorMessage>{errors.postType}</FormErrorMessage>
@@ -191,7 +202,7 @@ function PostForm(props) {
                   placeholder="Chọn danh mục"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.categoryId}
+                  value={values.categoryId || " "}
                   name="categoryId"
                 >
                   {categories && categories.length > 0
@@ -218,7 +229,7 @@ function PostForm(props) {
               <Input
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.location}
+                value={values.location || ""}
                 id="location"
                 name="location"
                 type="text"
@@ -230,8 +241,8 @@ function PostForm(props) {
             </FormControl>
           </div>
         </div>
-        <div className="flex gap-10 mt-4 items-start">
-          <div className="w-[15%] h-40">
+        <div className="flex gap-10 mt-4 mb-12 items-start">
+          <div className="w-40 h-40">
             <FormControl isInvalid={errUpload}>
               <FormLabel>Hình Ảnh</FormLabel>
               <FormLabel
@@ -255,20 +266,50 @@ function PostForm(props) {
               {errUpload && <FormErrorMessage>{errUpload}</FormErrorMessage>}
             </FormControl>
           </div>
-          <div className="w-[85%] pt-8">
+          <div className="w-[85%]">
+            <div>
+              {oldImages && oldImages.length > 0 ? (
+                <h3 className="font-semibold">
+                  <Badge ml="1" colorScheme="red">
+                    Old
+                  </Badge>
+                </h3>
+              ) : null}
+              <div className="flex gap-5 mt-2">
+                {oldImages && oldImages.length > 0
+                  ? oldImages.map((img, index) => {
+                      return (
+                        <figure className="relative">
+                          <img
+                            key={index}
+                            src={img}
+                            alt="img"
+                            className="w-40 h-40 object-cover"
+                          />
+                          <span
+                            onClick={() => {
+                              setOldImages(
+                                oldImages.filter((src) => img !== src)
+                              );
+                            }}
+                            className="absolute -top-2 -right-2 w-6 h-6 rounded-full flex justify-center items-center cursor-pointer bg-gray-400 hover:bg-gray-500"
+                          >
+                            <box-icon name="x" color="white"></box-icon>
+                          </span>
+                        </figure>
+                      );
+                    })
+                  : null}
+              </div>
+            </div>
             <PreviewImage files={files} handleRemove={handleRemoveImage} />
           </div>
         </div>
-        <Button
-          className="mt-20"
-          type="sumbit"
-          colorScheme="facebook"
-          isLoading={isLoading}
-        >
+        <Button type="sumbit" colorScheme="facebook" isLoading={isLoading}>
           {!isEdit ? "Đăng" : "Lưu"}
         </Button>
         <Link to={"/"}>
-          <Button colorScheme="pink" className="ml-4 mt-20">
+          <Button colorScheme="pink" className="ml-4">
             Hủy bỏ
           </Button>
         </Link>

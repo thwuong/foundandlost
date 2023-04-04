@@ -10,6 +10,7 @@ import PostDetail from "./pages/PostDetail";
 import ProfilePage from "./pages/ProfilePage";
 import RequestPage from "./pages/RequestPage";
 import CreatePost from "./pages/CreatePost";
+import EditPost from "./pages/EditPost";
 import ChatPage from "./pages/ChatPage";
 import ManageAccount from "./pages/ManageAccount";
 import ManagePost from "./pages/ManagePost";
@@ -32,6 +33,7 @@ function App() {
         <Route element={<RequireAuth />}>
           <Route index path="/" element={<HomePage />}></Route>
           <Route path="/post/create-post" element={<CreatePost />}></Route>
+          <Route path="/post/:postId/edit-post" element={<EditPost />}></Route>
           <Route path="/post/:postId" element={<PostDetail />}></Route>
           <Route path="/profile" element={<ProfilePage />}></Route>
           <Route path="/profile/:userId" element={<ProfilePage />}></Route>
