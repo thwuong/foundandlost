@@ -22,11 +22,11 @@ function LoginPage() {
     }
   }, []);
   return (
-    <div className="w-[80%] mx-auto xl:max-h-screen">
+    <div className="w-4/5 mx-auto min-h-screen xl:my-0 mt-10">
       <div className="container">
         <main className="flex justify-center items-center">
-          <div className="w-[45%]">
-            <h1 className="text-5xl font-bold text-primary leading-tight">
+          <div className="sm:w-2/4 xl:w-2/5 w-full">
+            <h1 className="sm:text-5xl sm:text-left font-bold text-primary leading-tight text-6xl text-center">
               Welcome to FOUND&LOST SYSTEM
             </h1>
             <h4 className="mt-12 text-2xl text-primary font-medium text-center">
@@ -67,8 +67,8 @@ function LoginPage() {
               </button>
             </form>
           </div>
-          <figure className="flex-1">
-            <img src={systemImage} alt="Ảnh mô tả hệ thống" />
+          <figure className="sm:w-2/4 xl:w-3/5 sm:block hidden">
+            <img src={systemImage} alt="Ảnh mô tả hệ thống" className="" />
           </figure>
         </main>
       </div>

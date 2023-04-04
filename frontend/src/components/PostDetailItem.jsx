@@ -23,8 +23,8 @@ function PostItem(props) {
   }, [item]);
   return (
     <>
-      <div className="flex gap-5 p-4 bg-black/10 rounded-lg">
-        <div className="w-1/2">
+      <div className="lg:flex-row flex-col-reverse flex gap-5 p-4 bg-black/10 rounded-lg">
+        <div className="lg:w-1/2">
           <figure>
             <img
               className="w-full h-[380px] object-center"
@@ -61,12 +61,12 @@ function PostItem(props) {
               : null}
           </div>
         </div>
-        <div className="w-1/2">
+        <div className="lg:w-1/2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <figure>
                 <img
-                  className="w-8 h-8 rounded-full"
+                  className="lg:w-8 lg:h-8 w-7 h-7 rounded-full"
                   src={item?.author?.avatar}
                   alt=""
                 />
@@ -82,7 +82,7 @@ function PostItem(props) {
                 onClick={() => {
                   handleSelectedChat(item?.ownerId);
                 }}
-                className="w-10 h-10 rounded-full p-1 bg-gray-200 flex items-center justify-center cursor-pointer hover:bg-gray-300"
+                className="lg:w-10 lg:h-10 w-8 h-8 rounded-full p-1 bg-gray-200 flex items-center justify-center cursor-pointer hover:bg-gray-300"
               >
                 <box-icon type="logo" name="messenger"></box-icon>
               </p>
@@ -115,7 +115,7 @@ function PostItem(props) {
             <span>{item?.desc}</span>
           </div>
           <p className="mt-2 font-bold">Liên hệ: </p>
-          <div className="flex justify-between">
+          <div className="flex justify-between flex-wrap">
             <div className="flex items-center gap-2">
               <box-icon name="phone" color="#E5E7EB"></box-icon>
               <span className="text-sm text-gray-200">
@@ -132,7 +132,7 @@ function PostItem(props) {
           {user && user.id !== item?.ownerId ? (
             <p
               onClick={onOpen}
-              className="mt-2 px-2 ml-auto text-center cursor-pointer py-1 w-[30%] text-white bg-primary rounded hover:bg-primary/90"
+              className="mt-2 px-2 ml-auto text-center cursor-pointer py-1 lg:w-[30%] text-white bg-primary rounded hover:bg-primary/90"
             >
               Gửi yêu cầu
             </p>

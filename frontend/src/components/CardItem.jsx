@@ -21,18 +21,18 @@ function CardItem(props) {
   };
   return (
     <>
-      <div className="h-[240px] bg-white rounded-lg flex ">
-        <figure className="w-2/5">
+      <div className="sm:h-[240px] sm:flex-row bg-white rounded-lg flex flex-col h-[400px]">
+        <figure className="sm:w-2/5 sm:h-full h-1/2">
           <img
             src={item?.images.length > 0 ? item?.images[0] : ""}
             alt={ExtraImage}
             onError={(e) => {
               e.target.src = ExtraImage;
             }}
-            className="w-full h-full object-fill rounded-tl-lg rounded-bl-lg"
+            className="sm:object-fill object-cover w-full h-full sm:rounded-tl-lg sm:rounded-bl-lg rounded-lg"
           />
         </figure>
-        <div className="w-3/5 h-full p-4 flex flex-col justify-between">
+        <div className="sm:w-3/5 h-full p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <Badge
               variant="outline"

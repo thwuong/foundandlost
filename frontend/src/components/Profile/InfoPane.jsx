@@ -28,7 +28,7 @@ function InfoPane({ handleSelectedChat }) {
 
   return (
     <>
-      <div className="md:flex-row flex-col flex gap-4">
+      <div className="lg:flex-row flex-col flex items-start gap-4">
         <figure className="relative p-1 border-2 rounded-full cursor-pointer hover:border-black/20">
           <img
             className="w-40 h-40 object-cover rounded-full "

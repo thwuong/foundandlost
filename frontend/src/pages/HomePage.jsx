@@ -53,8 +53,8 @@ function HomePage() {
   }, [filters]);
 
   return (
-    <div className="bg-main bg-no-repeat bg-cover">
-      <div className="w-[80%] xl:min-h-screen mx-auto">
+    <div className="bg-main bg-no-repeat bg-cover min-h-screen">
+      <div className="w-4/5 mx-auto">
         <div className="container">
           <Header activeTab="home" />
           <h1 className="text-5xl mt-8 text-primary font-bold text-center">
@@ -85,7 +85,7 @@ function HomePage() {
           {loading ? (
             <PostSkeleton />
           ) : (
-            <div className="py-8 grid xl:grid-cols-2 gap-5 ">
+            <div className="py-8 grid xl:grid-cols-2 grid-cols-1 gap-5 ">
               {posts && posts.length > 0 ? (
                 posts.map((post) => {
                   return <CardItem key={post.id} item={post} />;

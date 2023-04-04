@@ -9,51 +9,60 @@ function Navigate(props) {
     await logout(dispatch);
   };
   return (
-    <ul className="p-4 bg-white/20 rounded-lg">
+    <ul className="p-4 bg-white/20 rounded-lg flex xl:flex-col justify-around  gap-5">
       <Link to={"/manage/account"}>
         <li
-          className={`my-3 py-2 px-4 flex items-center justify-between bg-primary cursor-pointer rounded  
+          className={`my-2 py-2 px-4 text-sm flex items-center duration-300 xl:justify-between gap-5 bg-primary cursor-pointer rounded  
           ${
             activeNav === "account"
-              ? "shadow-xl translate-x-3"
-              : "hover:-translate-y-1 hover:shadow-xl"
+              ? "text-primary bg-white"
+              : "text-white hover:bg-gray-500/50 hover:-translate-y-1 hover:shadow-xl"
           }`}
         >
-          <span className="text-white font-bold">Quản lý Tài khoản</span>
-          <box-icon name="user" color="white"></box-icon>
+          <span className="sm:block hidden font-bold">Quản lý Tài khoản</span>
+          <box-icon
+            name="user"
+            color={activeNav === "account" ? "#2457C5" : "white"}
+          ></box-icon>
         </li>
       </Link>
       <Link to={"/manage/post"}>
         <li
-          className={`my-3 py-2 px-4 flex items-center justify-between bg-primary cursor-pointer rounded  
+          className={`my-2 py-2 px-4 text-sm flex items-center duration-300 xl:justify-between gap-5  bg-primary cursor-pointer rounded  
           ${
             activeNav === "post"
-              ? "shadow-xl translate-x-3"
-              : "hover:-translate-y-1 hover:shadow-xl"
+              ? "text-primary bg-white"
+              : "text-white hover:bg-gray-500/50 hover:-translate-y-1 hover:shadow-xl"
           }`}
         >
-          <span className="text-white font-bold">Quản lý Đồ vật</span>
-          <box-icon name="news" color="white"></box-icon>
+          <span className="sm:block hidden font-bold">Quản lý Đồ vật</span>
+          <box-icon
+            name="news"
+            color={activeNav === "post" ? "#2457C5" : "white"}
+          ></box-icon>
         </li>
       </Link>
       <Link to={"/manage/category"}>
         <li
-          className={`my-3 py-2 px-4 flex items-center justify-between bg-primary cursor-pointer rounded  
+          className={`my-2 py-2 px-4 text-sm flex items-center duration-300 xl:justify-between gap-5  bg-primary cursor-pointer rounded  
           ${
             activeNav === "category"
-              ? "shadow-xl translate-x-3"
-              : "hover:-translate-y-1 hover:shadow-xl"
+              ? "text-primary bg-white"
+              : "text-white hover:bg-gray-500/50 hover:-translate-y-1 hover:shadow-xl"
           }`}
         >
-          <span className="text-white font-bold">Quản lý Danh mục</span>
-          <box-icon name="category" color="white"></box-icon>
+          <span className="sm:block hidden font-bold">Quản lý Danh mục</span>
+          <box-icon
+            name="category"
+            color={activeNav === "category" ? "#2457C5" : "white"}
+          ></box-icon>
         </li>
       </Link>
       <li
         onClick={handleLogout}
-        className={`my-3 py-2 px-4 flex items-center justify-between bg-primary cursor-pointer rounded hover:-translate-y-1 hover:shadow-xl`}
+        className={`my-2 py-2 px-4 text-sm flex items-center duration-300 xl:justify-between gap-5  hover:bg-gray-500/50 bg-primary cursor-pointer rounded hover:-translate-y-1 hover:shadow-xl`}
       >
-        <span className="text-white font-bold">Đăng xuất</span>
+        <span className="text-white sm:block hidden font-bold">Đăng xuất</span>
         <box-icon name="exit" color="white"></box-icon>
       </li>
     </ul>

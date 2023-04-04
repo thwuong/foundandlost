@@ -38,7 +38,7 @@ function RequestPage() {
           <div className="mt-6">
             <ProfileNav activeTab="request" />
           </div>
-          <div className="md:flex-row flex-col flex gap-5 mt-6">
+          <div className="lg:flex-row flex-col flex gap-5 mt-6">
             <div className="xl:w-1/4">
               <IntroPane />
             </div>

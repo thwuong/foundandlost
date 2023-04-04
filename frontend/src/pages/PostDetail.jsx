@@ -35,21 +35,21 @@ function PostDetail() {
         <h1 className="mt-6 text-3xl text-primary text-center font-bold">
           CHI TIẾT ĐỒ VẬT
         </h1>
-        <div className="flex gap-5 mt-6 max-h-[500px] h-[80%]">
-          <div className="w-[75%]">
+        <div className="xl:flex-row flex-col flex gap-5 mt-6 xl:max-h-[500px] h-[80%] max-h-full">
+          <div className="xl:w-3/4">
             <PostDetailItem
               item={post}
               handleSelectedChat={handleSelectedChat}
             />
           </div>
-          <div className="w-[25%]">
+          <div className="xl:w-1/4">
             <RelatedPost
               typeName={post.category?.typeName}
               categoryId={post.categoryId}
             />
           </div>
         </div>
-        <div className="w-[73.5%] mt-4 h-full">
+        <div className="xl:w-[73.5%] pt-4 h-full">
           <Comments />
         </div>
       </div>

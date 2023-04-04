@@ -40,10 +40,10 @@ function PostRow(props) {
         </Badge>
       </Td>
       <Td>{moment(post.createdAt).fromNow()}</Td>
-      <Td>{post.location}</Td>
+      <Td w={"2"}>{post.location}</Td>
 
       <Td>
-        <ul className=" flex items-center gap-2">
+        <ul className="flex items-center gap-2">
           <li className="cursor-pointer">
             <box-icon name="show" color="#7286D3"></box-icon>
           </li>

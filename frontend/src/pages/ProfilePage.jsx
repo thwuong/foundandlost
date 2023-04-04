@@ -57,7 +57,7 @@ function ProfilePage() {
           <div className="mt-6">
             <ProfileNav activeTab="post" />
           </div>
-          <div className="md:flex-row flex-col flex gap-5 mt-6">
+          <div className="lg:flex-row flex-col flex gap-5 mt-6">
             <div className="xl:w-1/4 ">
               <IntroPane />
             </div>
