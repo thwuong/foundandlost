@@ -6,7 +6,7 @@ module.exports.followPostExpried = async () => {
     const postsExpried = await db.Post.findAll({
       where: {
         createdAt: {
-          [Op.lte]: new Date(Date.now() - 60 * 60 * 24 * 1000 * 30),
+          [Op.lte]: new Date(Date.now() - 60 * 60 * 24 * 1000 * 365),
         },
       },
       raw: true,

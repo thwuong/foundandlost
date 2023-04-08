@@ -1,14 +1,63 @@
-import logo from "../assets/header-logo_500_500.png";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import logo from "../assets/header-logo_500_500.png";
+import moment from "moment";
+
 import { logout } from "../api/authAPI";
+import {
+  deleteNotify,
+  getAllNotify,
+  pushNotify,
+  readNotify,
+} from "../api/notifyAPI";
 function Header(props) {
   const { activeTab } = props;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const currentConversation = useSelector(
+    (state) => state.conversation.currentConversation
+  );
+  const notifications = useSelector((state) => state.notify.notifications);
+  const { socket } = useSelector((state) => state.instanceSocket);
+  const [showNotify, setShowNotify] = useState(false);
   const handleLogout = async () => {
     await logout(dispatch);
   };
+  const createNotify = async (payload) => {
+    await pushNotify(dispatch, payload);
+  };
+  const handleMarkRead = async (notificationId) => {
+    await readNotify(dispatch, notificationId);
+  };
+  const removeNotice = async (notificationId) => {
+    await deleteNotify(dispatch, notificationId);
+  };
+  useEffect(() => {
+    socket?.on("recieveMessage", (data) => {
+      // add notify
+      console.log(currentConversation?.id !== data.conversationId);
+      if (
+        !currentConversation ||
+        currentConversation?.id !== data.conversationId
+      ) {
+        const newNotify = {
+          type: "message",
+          content: `gửi tin nhắn cho bạn`,
+          recieverId: user.id,
+          senderId: data.senderId,
+        };
+
+        createNotify(newNotify);
+      }
+    });
+  }, [socket]);
+  useEffect(() => {
+    const fetchAllNotify = async () => {
+      await getAllNotify(dispatch);
+    };
+    fetchAllNotify();
+  }, []);
   return (
     <div className="h-28 flex justify-between items-center">
       <Link to={"/"} className="h-full w-28">
@@ -38,6 +87,76 @@ function Header(props) {
               Trang chủ
             </li>
           </Link>
+          <li className={`text-lg font-medium cursor-pointer relative`}>
+            {notifications &&
+              notifications?.filter((noti) => noti.isRead !== true).length >
+                0 && (
+                <p className="absolute bottom-5 left-3 w-5 h-5 rounded-full text-sm bg-gray-200 flex justify-center items-center">
+                  {notifications?.filter((noti) => noti.isRead !== true).length}
+                </p>
+              )}
+
+            <span
+              onClick={() => {
+                setShowNotify(!showNotify);
+              }}
+            >
+              <box-icon name="bell"></box-icon>
+            </span>
+            {showNotify && (
+              <div className="absolute top-10 right-0 w-80 bg-white shadow-2xl rounded-lg z-10 overflow-hidden max-h-[80vh] overflow-y-auto">
+                <ul className="py-2 bg-white">
+                  {notifications && notifications.length > 0 ? (
+                    notifications.map((noti) => {
+                      return (
+                        <li
+                          key={noti.id}
+                          className={`relative flex gap-2 items-center justify-between px-2 py-3 rounded hover:bg-gray-200 `}
+                        >
+                          <img
+                            src={noti.sender.avatar}
+                            alt=""
+                            className="w-10 h-10 rounded-full"
+                          />
+                          <div
+                            onClick={() => {
+                              handleMarkRead(noti.id);
+                            }}
+                          >
+                            <p className="text-sm">
+                              {noti.sender.fullName}
+                              <span className="ml-2 text-sm text-gray-500">
+                                {noti.content}
+                              </span>
+                            </p>
+                            <p className="text-s text-gray-500">
+                              {moment(noti.createdAt).fromNow()}
+                            </p>
+                          </div>
+
+                          {!noti.isRead && (
+                            <p className="absolute right-10 w-2 h-2 rounded-full bg-blue-600"></p>
+                          )}
+                          <div
+                            onClick={() => {
+                              removeNotice(noti.id);
+                            }}
+                            className="flex items-center justify-center bg-gray-300 hover:bg-gray-400 w-6 h-6 rounded-full"
+                          >
+                            <box-icon name="x"></box-icon>
+                          </div>
+                        </li>
+                      );
+                    })
+                  ) : (
+                    <li className="px-2">
+                      <span className="text-sm ">Không có thông báo nào.</span>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
+          </li>
         </ul>
         <div className="flex items-center relative group">
           <figure>

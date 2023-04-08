@@ -194,7 +194,7 @@ class PostController {
     const status = req.body.status;
     if (!status) next(createError(400, "Trường trạng thái bị bỏ trống!"));
     try {
-      const updatedPost = await db.Post.update({ where: { id } }, { status });
+      const updatedPost = await db.Post.update({ status }, { where: { id } });
       res.status(200).json({
         success: true,
         message: "Cập nhật trạng thái đồ vật thành công!",

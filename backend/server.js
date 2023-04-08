@@ -39,15 +39,15 @@ const io = new Server(http, {
 io.on("connection", (socket) => {
   socketServer(socket);
 });
-// cron.schedule("*/* * * * *", () => {
-//   console.log("running a task every 10 second");
-//   // write your login here, delete your records
-//   try {
-//     followPostExpried();
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+cron.schedule("*/10 * * * *", () => {
+  console.log("running a task every 10 second");
+  // write your login here, delete your records
+  try {
+    followPostExpried();
+  } catch (error) {
+    console.log(error);
+  }
+});
 const port = process.env.PORT || 5000;
 http.listen(port, () => {
   console.log(`http://localhost:${port}`);

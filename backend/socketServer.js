@@ -29,31 +29,24 @@ module.exports.socketServer = (socket) => {
   //when user chat
   socket.on(
     "sendMessage",
-    ({ message, senderId, sender, conversation, conversationId }) => {
+    ({ message, senderId, sender, conversation, conversationId, id }) => {
+      console.log(message);
       const recieverId = [
         conversation.firstUserId,
         conversation.secondUserId,
       ].find((id) => id !== senderId);
-      let user = getUser(recieverId);
-      socket.to(user?.socketId).emit("recieveMessage", {
-        senderId,
-        message,
-        conversationId,
-        sender,
-      });
+      const user = getUser(recieverId);
+      if (user) {
+        socket.to(user?.socketId).emit("recieveMessage", {
+          senderId,
+          message,
+          conversationId,
+          sender,
+          id,
+        });
+      }
     }
   );
-  //when user post comment my post
-  socket.on("sendComment", ({ senderId, recieverId, content }) => {
-    let user = getUser(recieverId);
-    console.log(users);
-    console.log(user?.socketId);
-    socket.to(user?.socketId).emit("recieveComment", {
-      senderId,
-      message,
-      conversationId,
-    });
-  });
   //when user logout
   socket.on("user disconnect", (userId) => {
     console.log(`${userId} disconnect`);

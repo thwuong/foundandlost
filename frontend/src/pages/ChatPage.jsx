@@ -9,7 +9,6 @@ import {
   createConversation,
   getConversationList,
 } from "../api/conversationAPI";
-import { getMessageList, postMessage } from "../api/messageAPI";
 import {
   selectConversation,
   unSelectConversation,
@@ -17,34 +16,20 @@ import {
 import { findUsers } from "../api/userAPI";
 
 function ChatPage() {
-  const { auth, conversation, instanceSocket } = useSelector((state) => state);
+  const { auth, conversation } = useSelector((state) => state);
   const { conversations, currentConversation } = conversation;
   const { user } = auth;
-  const { socket } = instanceSocket;
-  const [newMessage, setNewMessage] = useState("");
   const [isShow, setIsShow] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const timerSearching = useRef(null);
   const [userList, setUserList] = useState([]);
   const [showUserList, setShowUserList] = useState(false);
+  const timerSearching = useRef(null);
   const dispatch = useDispatch();
   const loading = useLoading();
   // choice user to chat
-  const selectedUser = (conversationId) => {
-    dispatch(selectConversation(conversationId));
+  const selectedUser = async (conversationId) => {
+    await dispatch(selectConversation(conversationId));
   };
-  // send message
-  const sendMessage = async (newMessage) => {
-    setNewMessage("");
-    const message = {
-      senderId: user.id,
-      message: newMessage,
-      conversationId: currentConversation.id,
-    };
-    const data = await postMessage(message);
-    socket.emit("sendMessage", data.messageItem);
-    setMessages([...messages, data.messageItem]);
-  };
+
   // search users
   const searchingUser = (e) => {
     const value = e.target.value;
@@ -70,31 +55,7 @@ function ChatPage() {
       dispatch(unSelectConversation());
     };
   }, [user.id]);
-  // recieve message
-  useEffect(() => {
-    socket?.on("recieveMessage", (data) => {
-      if (
-        !currentConversation ||
-        data.conversationId !== currentConversation.id
-      ) {
-        // show notify
-        console.log("show notify");
-        console.log(data);
-      } else {
-        setMessages([...messages, data]);
-      }
-    });
-  });
-  // get all messages
-  useEffect(() => {
-    const fetchMessages = async (conversationId) => {
-      const data = await getMessageList(conversationId);
-      setMessages(data.messages);
-    };
 
-    if (!currentConversation) return;
-    fetchMessages(currentConversation.id);
-  }, [currentConversation]);
   return (
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto xl:h-screen h-[600px]">
@@ -110,13 +71,7 @@ function ChatPage() {
             {loading ? (
               <ChatSkeleton />
             ) : currentConversation ? (
-              <Conversation
-                sendMessage={sendMessage}
-                currentConversation={currentConversation}
-                newMessage={newMessage}
-                setNewMessage={setNewMessage}
-                messages={messages}
-              />
+              <Conversation />
             ) : (
               <p className="text-date text-5xl text-center mt-[30%]">
                 Open a conversation to start to chat.

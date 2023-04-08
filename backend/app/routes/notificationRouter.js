@@ -3,7 +3,16 @@ const NotificationController = require("../controllers/NotificationController");
 const { verifyToken } = require("../middlewares/verifyToken");
 
 Router.post("/", verifyToken, NotificationController.createNotification);
-Router.delete("/", verifyToken, NotificationController.deleteNotification);
+Router.delete(
+  "/:notificationId",
+  verifyToken,
+  NotificationController.deleteNotification
+);
+Router.put(
+  "/:notificationId",
+  verifyToken,
+  NotificationController.markNotification
+);
 Router.get("/", verifyToken, NotificationController.getNotifications);
 
 module.exports = Router;
