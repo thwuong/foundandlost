@@ -29,8 +29,7 @@ module.exports.socketServer = (socket) => {
   //when user chat
   socket.on(
     "sendMessage",
-    ({ message, senderId, sender, conversation, conversationId, id }) => {
-      console.log(message);
+    ({ message, senderId, sender, conversation, conversationId }) => {
       const recieverId = [
         conversation.firstUserId,
         conversation.secondUserId,
@@ -42,11 +41,23 @@ module.exports.socketServer = (socket) => {
           message,
           conversationId,
           sender,
-          id,
         });
       }
     }
   );
+  socket.on("sendNotify", ({ senderId, conversationId, conversation }) => {
+    const recieverId = [
+      conversation.firstUserId,
+      conversation.secondUserId,
+    ].find((id) => id !== senderId);
+    const user = getUser(recieverId);
+    if (user) {
+      socket.to(user?.socketId).emit("recieveNotify", {
+        senderId,
+        conversationId,
+      });
+    }
+  });
   //when user logout
   socket.on("user disconnect", (userId) => {
     console.log(`${userId} disconnect`);

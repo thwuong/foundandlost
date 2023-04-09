@@ -37,14 +37,12 @@ function Conversation(props) {
       };
       const data = await postMessage(message);
       socket.emit("sendMessage", data.messageItem);
+      socket.emit("sendNotify", data.messageItem);
       setMessages([...messages, data.messageItem]);
     }
     setNewMessage("");
   };
   // recieve message
-  const createNotify = async (payload) => {
-    await pushNotify(dispatch, payload);
-  };
   useEffect(() => {
     socket.on("recieveMessage", (data) => {
       setArrMessage(data);

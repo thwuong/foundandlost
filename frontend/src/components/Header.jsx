@@ -21,6 +21,7 @@ function Header(props) {
   const notifications = useSelector((state) => state.notify.notifications);
   const { socket } = useSelector((state) => state.instanceSocket);
   const [showNotify, setShowNotify] = useState(false);
+  const [arrNotify, setArrNotify] = useState(null);
   const handleLogout = async () => {
     await logout(dispatch);
   };
@@ -34,24 +35,23 @@ function Header(props) {
     await deleteNotify(dispatch, notificationId);
   };
   useEffect(() => {
-    socket?.on("recieveMessage", (data) => {
-      // add notify
-      console.log(currentConversation?.id !== data.conversationId);
-      if (
-        !currentConversation ||
-        currentConversation?.id !== data.conversationId
-      ) {
-        const newNotify = {
-          type: "message",
-          content: `gửi tin nhắn cho bạn`,
-          recieverId: user.id,
-          senderId: data.senderId,
-        };
-
-        createNotify(newNotify);
-      }
+    socket?.on("recieveNotify", (data) => {
+      setArrNotify(data);
     });
   }, [socket]);
+  useEffect(() => {
+    // add notify
+    if (arrNotify && arrNotify.conversationId !== currentConversation?.id) {
+      const newNotify = {
+        type: "message",
+        content: `gửi tin nhắn cho bạn`,
+        recieverId: user.id,
+        senderId: arrNotify.senderId,
+      };
+
+      createNotify(newNotify);
+    }
+  }, [arrNotify]);
   useEffect(() => {
     const fetchAllNotify = async () => {
       await getAllNotify(dispatch);

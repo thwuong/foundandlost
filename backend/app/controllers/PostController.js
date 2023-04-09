@@ -104,7 +104,7 @@ class PostController {
       });
       res.status(200).json({
         success: true,
-        message: "Lấy danh sách đồ vật thành công!",
+        message: "Successfully",
         posts,
       });
     } catch (error) {
@@ -123,7 +123,7 @@ class PostController {
 
       res.status(200).json({
         success: true,
-        message: "Nhận danh sách đồ vật của bạn thành công!",
+        message: "Successfully",
         posts,
       });
     } catch (error) {
@@ -143,7 +143,7 @@ class PostController {
 
       res.status(200).json({
         success: true,
-        message: "Nhận danh sách đồ vật của bạn thành công!",
+        message: "Successfully",
         posts,
       });
     } catch (error) {
@@ -160,7 +160,7 @@ class PostController {
       const deletedPost = await db.Post.destroy({ where: { id } });
       res.status(200).json({
         success: true,
-        message: "Xóa đồ vật thành công!",
+        message: "Đã xóa đồ vật",
         deletedPost,
       });
     } catch (error) {
@@ -178,7 +178,7 @@ class PostController {
       });
       res.status(200).json({
         success: true,
-        message: "Xóa đồ vật thành công!",
+        message: "Đã xóa đồ vật",
         deletedPost,
       });
     } catch (error) {
@@ -197,7 +197,39 @@ class PostController {
       const updatedPost = await db.Post.update({ status }, { where: { id } });
       res.status(200).json({
         success: true,
-        message: "Cập nhật trạng thái đồ vật thành công!",
+        message: "Đã cập nhật trạng thái",
+        updatedPost,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async editPost(req, res, next) {
+    const id = req.params.postId;
+    const { categoryId, title, desc, location, postType, oldImages } = req.body;
+    const images = [];
+    let updatedPost = {
+      categoryId,
+      title,
+      desc,
+      location,
+      postType,
+    };
+    try {
+      if (req.files) {
+        for (const file of req.files) {
+          const result = await uploadMultiple(file.path);
+          images.push(result.url);
+        }
+      }
+      images.concat(oldImages);
+      updatedPost.images = images;
+
+      updatedPost = await db.Post.update({ updatedPost }, { where: { id } });
+      res.status(200).json({
+        success: true,
+        message: "Đã cập nhật trạng thái",
         updatedPost,
       });
     } catch (error) {
