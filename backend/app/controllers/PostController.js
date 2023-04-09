@@ -204,18 +204,16 @@ class PostController {
       next(error);
     }
   }
-
+  // DESC [delete a post]
+  // @URL [DELETE] /api/post/:postId
+  // params : [postId]
+  // body [status]
   async editPost(req, res, next) {
     const id = req.params.postId;
     const { categoryId, title, desc, location, postType, oldImages } = req.body;
+    const stringToArr = oldImages.split(",");
     const images = [];
-    let updatedPost = {
-      categoryId,
-      title,
-      desc,
-      location,
-      postType,
-    };
+
     try {
       if (req.files) {
         for (const file of req.files) {
@@ -223,13 +221,18 @@ class PostController {
           images.push(result.url);
         }
       }
-      images.concat(oldImages);
-      updatedPost.images = images;
-
-      updatedPost = await db.Post.update({ updatedPost }, { where: { id } });
+      let updatedPost = {
+        categoryId,
+        title,
+        desc,
+        location,
+        postType,
+        images: images.concat(stringToArr),
+      };
+      updatedPost = await db.Post.update(updatedPost, { where: { id } });
       res.status(200).json({
         success: true,
-        message: "Đã cập nhật trạng thái",
+        message: "Đã cập nhật đồ vật",
         updatedPost,
       });
     } catch (error) {

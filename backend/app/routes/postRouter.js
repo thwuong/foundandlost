@@ -16,7 +16,13 @@ Router.post(
   upload.array("images", 6),
   PostController.createPost
 );
-Router.put("/:postId", verifyToken, PostController.updateStatusPost);
+Router.put(
+  "/:postId",
+  verifyToken,
+  upload.array("images", 6),
+  PostController.editPost
+);
+Router.put("/:postId/status", verifyToken, PostController.updateStatusPost);
 Router.get("/:userId/user", verifyToken, PostController.getUserPost);
 Router.get("/mypost", verifyToken, PostController.getMyPost);
 Router.get("/:postId", verifyToken, PostController.getPost);

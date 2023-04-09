@@ -30,7 +30,7 @@ export const deleteItem = async (dispatch, postId) => {
 };
 export const editStatusItem = async (dispatch, payload, postId) => {
   try {
-    const data = await axiosClient.put(`/api/post/${postId}`, payload);
+    const data = await axiosClient.put(`/api/post/${postId}/status`, payload);
     dispatch(updatePost({ ...payload, postId }));
     showStoats("success", data);
   } catch (error) {
@@ -74,6 +74,16 @@ export const deleteComfirmedItem = async (dispatch, postId) => {
     const data = await axiosClient.delete(`/api/post/${postId}/confirmed`);
     dispatch(removePost(postId));
     showStoats("success", data);
+  } catch (error) {
+    showStoats("error", error.message);
+  }
+};
+
+export const editItem = async (dispatch, postId, payload) => {
+  try {
+    const data = await axiosClient.put(`/api/post/${postId}`, payload);
+    showStoats("success", data.message);
+    return data;
   } catch (error) {
     showStoats("error", error.message);
   }

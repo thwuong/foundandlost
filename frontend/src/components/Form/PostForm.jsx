@@ -17,7 +17,7 @@ import imageUpload from "../../assets/image-upload.jpg";
 import PreviewImage from "../PreviewImage";
 import { validationMultipleImage } from "../../utils/validationImage";
 import { getAllCategory } from "../../api/categoryAPI";
-import { postItem } from "../../api/postAPI";
+import { editItem, postItem } from "../../api/postAPI";
 function PostForm(props) {
   const categories = useSelector((state) => state.category.categories);
   const dispatch = useDispatch();
@@ -70,6 +70,8 @@ function PostForm(props) {
         setIsLoading(true);
 
         if (isEdit) {
+          formData.append("oldImages", oldImages);
+          console.log(formData);
           handleEditPost(formData);
         } else {
           handleCreatePost(formData);
@@ -86,9 +88,13 @@ function PostForm(props) {
       navigate("/");
     }
   };
-  const handleEditPost = (values) => {
-    console.log(values);
-    // CallAPi
+  const handleEditPost = async (values) => {
+    const { success } = await editItem(dispatch, post.id, values);
+    if (success) {
+      setIsLoading(false);
+      resetForm();
+      navigate("/");
+    }
   };
   const handlePhotoChange = (e) => {
     const error = validationMultipleImage(e.target.files);
@@ -279,15 +285,14 @@ function PostForm(props) {
                 {oldImages && oldImages.length > 0
                   ? oldImages.map((img, index) => {
                       return (
-                        <figure className="relative">
+                        <figure className="relative" key={index}>
                           <img
-                            key={index}
                             src={img}
                             alt="img"
                             className="w-40 h-40 object-cover"
                           />
                           <span
-                            onClick={() => {
+                            onClick={async () => {
                               setOldImages(
                                 oldImages.filter((src) => img !== src)
                               );

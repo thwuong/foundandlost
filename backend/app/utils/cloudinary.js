@@ -29,6 +29,14 @@ const uploadMultiple = async (file) => {
     url: result.secure_url,
   };
 };
+const removeMultipe = async (image) => {
+  const arrTempt = image.split("/");
+  const imageName = arrTempt[arrTempt.length - 1];
+  let publicId = imageName.split(".")[0];
+  await cloudinary.uploader.destroy(publicId, {
+    folder: "post",
+  });
+};
 
 module.exports = {
   uploadSingle,
