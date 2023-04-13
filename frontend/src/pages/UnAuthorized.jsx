@@ -13,8 +13,8 @@ function UnAuthorized() {
               Chúng tôi xin lỗi. Tài khoản của bạn không có quyền truy cập vào
               trang bạn yêu cầu
             </p>
-            <Link to="/">
-              <Button colorScheme={"messenger"}>Trang chủ</Button>
+            <Link to={-1}>
+              <Button colorScheme={"messenger"}>Quay về</Button>
             </Link>
           </div>
         </div>

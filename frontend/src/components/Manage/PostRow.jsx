@@ -44,9 +44,6 @@ function PostRow(props) {
 
       <Td>
         <ul className="flex items-center gap-2">
-          <li className="cursor-pointer">
-            <box-icon name="show" color="#7286D3"></box-icon>
-          </li>
           {post.status === "comfirmed" ? (
             <li className="cursor-pointer" onClick={onOpenVerifyModal}>
               <box-icon name="trash" color="#7286D3"></box-icon>

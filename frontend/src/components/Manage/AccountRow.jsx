@@ -38,11 +38,6 @@ function AccountRow(props) {
           <li className="cursor-pointer">
             <box-icon name="pencil" color="#7286D3"></box-icon>
           </li>
-          <Link to={`/profile/${account.id}`}>
-            <li className="cursor-pointer">
-              <box-icon name="show" color="#7286D3"></box-icon>
-            </li>
-          </Link>
         </ul>
         <InstanceModal
           show={isOpenVerifyModal}

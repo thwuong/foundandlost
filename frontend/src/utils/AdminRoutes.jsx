@@ -1,6 +1,6 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-const PrivateRoutes = () => {
+const AdminRoutes = () => {
   const user = useSelector((state) => state.auth.user);
   return user.isAdmin ? (
     <Outlet />
@@ -9,4 +9,4 @@ const PrivateRoutes = () => {
   );
 };
 
-export default PrivateRoutes;
+export default AdminRoutes;

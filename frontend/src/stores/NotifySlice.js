@@ -20,7 +20,7 @@ const notifySlice = createSlice({
     markNotification: (state, actions) => {
       state.notifications = state.notifications.map((noti) => {
         if (noti.id === actions.payload) {
-          noti.isRead = true;
+          noti.isRead = 1;
         }
         return noti;
       });

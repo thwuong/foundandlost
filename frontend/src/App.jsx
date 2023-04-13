@@ -17,7 +17,8 @@ import ManagePost from "./pages/ManagePost";
 import ManageCategory from "./pages/ManageCategory";
 import NotFound from "./pages/NotFound";
 import UnAuthorized from "./pages/UnAuthorized";
-import PrivateRoutes from "./utils/PrivateRoutes";
+import AdminRoutes from "./utils/AdminRoutes";
+import StudentRoutes from "./utils/StudentRoutes";
 import RequireAuth from "./utils/RequireAuth";
 
 function App() {
@@ -31,16 +32,20 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />}></Route>
         <Route element={<RequireAuth />}>
-          <Route index path="/" element={<HomePage />}></Route>
-          <Route path="/post/create-post" element={<CreatePost />}></Route>
-          <Route path="/post/:postId/edit-post" element={<EditPost />}></Route>
-          <Route path="/post/:postId" element={<PostDetail />}></Route>
-          <Route path="/profile" element={<ProfilePage />}></Route>
-          <Route path="/profile/:userId" element={<ProfilePage />}></Route>
-          <Route path="/profile/request" element={<RequestPage />}></Route>
-          <Route path="/chat" element={<ChatPage />}></Route>
-          {/* Admin */}
-          <Route element={<PrivateRoutes />}>
+          <Route element={<StudentRoutes />}>
+            <Route index path="/" element={<HomePage />}></Route>
+            <Route path="/post/create-post" element={<CreatePost />}></Route>
+            <Route
+              path="/post/:postId/edit-post"
+              element={<EditPost />}
+            ></Route>
+            <Route path="/post/:postId" element={<PostDetail />}></Route>
+            <Route path="/profile" element={<ProfilePage />}></Route>
+            <Route path="/profile/:userId" element={<ProfilePage />}></Route>
+            <Route path="/profile/request" element={<RequestPage />}></Route>
+            <Route path="/chat" element={<ChatPage />}></Route>
+          </Route>
+          <Route element={<AdminRoutes />}>
             <Route path="/manage/account" element={<ManageAccount />}></Route>
             <Route path="/manage/post" element={<ManagePost />}></Route>
             <Route path="/manage/category" element={<ManageCategory />}></Route>

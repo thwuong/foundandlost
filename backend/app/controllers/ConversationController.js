@@ -137,6 +137,23 @@ class ConverstationController {
       next(error);
     }
   }
+  async deleteConversation(req, res, next) {
+    const conversationId = req.params.conversationId;
+    try {
+      await db.Message.destroy({ where: { conversationId } });
+
+      const deletedConversation = await db.Conversation.destroy({
+        where: { id: conversationId },
+      });
+      console.log(deletedConversation);
+      res.status(200).json({
+        success: true,
+        message: "Đã xóa cuộc hội thoại",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new ConverstationController();

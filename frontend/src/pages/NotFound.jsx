@@ -13,8 +13,8 @@ function NotFound() {
               Chúng tôi xin lỗi. Trang bạn yêu cầu không thể được tìm thấy vui
               lòng quay lại trang chủ
             </p>
-            <Link to="/">
-              <Button colorScheme={"messenger"}>Trang chủ</Button>
+            <Link to={-1}>
+              <Button colorScheme={"messenger"}>Quay về</Button>
             </Link>
           </div>
         </div>

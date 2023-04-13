@@ -8,6 +8,11 @@ Router.get(
   verifyToken,
   ConversationController.getConversation
 );
+Router.delete(
+  "/:conversationId",
+  verifyToken,
+  ConversationController.deleteConversation
+);
 Router.get("/", verifyToken, ConversationController.getConversations);
 
 module.exports = Router;

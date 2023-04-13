@@ -10,6 +10,11 @@ const conversationSlice = createSlice({
     saveConversations: (state, actions) => {
       state.conversations = actions.payload.conversations;
     },
+    saveConversationAfterDelete: (state, actions) => {
+      state.conversations = state.conversations.filter(
+        (conversation) => conversation.id !== actions.payload
+      );
+    },
     addConversation: (state, actions) => {
       state.conversations = [
         ...state.conversations,
@@ -30,6 +35,7 @@ const conversationSlice = createSlice({
 
 export const {
   saveConversations,
+  saveConversationAfterDelete,
   addConversation,
   selectConversation,
   unSelectConversation,

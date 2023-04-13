@@ -13,7 +13,7 @@ function LoginPage() {
     e.preventDefault();
     const { success } = await login({ idNumber, password }, dispatch);
     if (success) {
-      navigate("/");
+      auth.user.admin ? navigate("/manage/account") : navigate("/");
     }
   };
   useEffect(() => {

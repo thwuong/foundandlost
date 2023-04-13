@@ -77,22 +77,24 @@ function Header(props) {
                 Quản Trị viên
               </li>
             </Link>
-          ) : null}
-          <Link to={"/"}>
-            <li
-              className={`text-lg font-medium ${
-                activeTab === "home" ? "text-primary" : "text-black"
-              }`}
-            >
-              Trang chủ
-            </li>
-          </Link>
+          ) : (
+            <Link to={"/"}>
+              <li
+                className={`text-lg font-medium ${
+                  activeTab === "home" ? "text-primary" : "text-black"
+                }`}
+              >
+                Trang chủ
+              </li>
+            </Link>
+          )}
+
           <li className={`text-lg font-medium cursor-pointer relative`}>
             {notifications &&
               notifications?.filter((noti) => noti.isRead !== true).length >
                 0 && (
                 <p className="absolute bottom-5 left-3 w-5 h-5 rounded-full text-sm bg-gray-200 flex justify-center items-center">
-                  {notifications?.filter((noti) => noti.isRead !== true).length}
+                  {notifications?.filter((noti) => noti.isRead !== 1).length}
                 </p>
               )}
 
@@ -175,24 +177,30 @@ function Header(props) {
             </p>
           </div>
           <ul className="z-10 absolute overflow-hidden duration-300 top-6 w-full bg-white  rounded shadow-md opacity-0 invisible group-hover:top-12 group-hover:opacity-100 group-hover:visible">
-            <Link to={"/profile"}>
-              <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
-                <box-icon type="solid" name="user-account"></box-icon>
-                <span>Thông tin cá nhân</span>
-              </li>
-            </Link>
-            <Link to={"/profile/request"}>
-              <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
-                <box-icon name="receipt"></box-icon>
-                <span>Quản lý yêu cầu</span>
-              </li>
-            </Link>
-            <Link to={"/chat"}>
-              <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
-                <box-icon type="logo" name="messenger"></box-icon>
-                <span>Tin Nhắn</span>
-              </li>
-            </Link>
+            {!user.isAdmin && (
+              <Link to={"/profile"}>
+                <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
+                  <box-icon type="solid" name="user-account"></box-icon>
+                  <span>Thông tin cá nhân</span>
+                </li>
+              </Link>
+            )}
+            {!user.isAdmin && (
+              <Link to={"/profile/request"}>
+                <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
+                  <box-icon name="receipt"></box-icon>
+                  <span>Quản lý yêu cầu</span>
+                </li>
+              </Link>
+            )}
+            {!user.isAdmin && (
+              <Link to={"/chat"}>
+                <li className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60">
+                  <box-icon type="logo" name="messenger"></box-icon>
+                  <span>Tin Nhắn</span>
+                </li>
+              </Link>
+            )}
 
             <li
               className="p-2 text-ms font-medium flex items-center gap-2 hover:bg-gray-300/60 cursor-pointer"
