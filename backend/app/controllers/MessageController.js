@@ -8,7 +8,7 @@ class MessageController {
     const userId = req.user.userId;
     const { message, conversationId } = req.body;
 
-    if (!message) return next(createError(401, "Trường nội dung bị bỏ trống!"));
+    if (!message) return next(createError(401, "Vui lòng nhập nội dung"));
     try {
       const newMessage = await db.Message.create({
         message,
@@ -34,7 +34,7 @@ class MessageController {
       });
       res.status(200).json({
         success: true,
-        message: "Tạo tin nhắn thành công!",
+        message: "Đã gửi tin nhắn",
         messageItem,
       });
     } catch (error) {
@@ -60,7 +60,7 @@ class MessageController {
 
       res.status(200).json({
         success: true,
-        message: "Lấy tin nhắn thành công!",
+        message: "Tải tin nhắn thành công",
         messages,
       });
     } catch (error) {

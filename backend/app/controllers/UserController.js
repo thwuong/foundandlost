@@ -12,13 +12,13 @@ class UserController {
   async createUser(req, res, next) {
     const { idNumber, password, fullName, phone, email } = req.body;
     if (!idNumber) {
-      return next(createError(401, "Trường mã số sinh viên bị bỏ trống!"));
+      return next(createError(400, "Vui lòng nhập mã số"));
     }
     if (!password) {
-      return next(createError(401, "Trường mật khẩu bị bỏ trống!"));
+      return next(createError(400, "Vui lòng nhập mật khẩu"));
     }
     if (!fullName) {
-      return next(createError(401, "Trường họ và tên bị bỏ trống!"));
+      return next(createError(400, "Vui lòng nhập tên đầy đủ"));
     }
     try {
       const oldUser = await db.User.findOne({
@@ -64,7 +64,7 @@ class UserController {
       });
       res.status(200).json({
         success: true,
-        message: "Lấy danh sách sinh viên thành công!",
+        message: "Successful",
         users,
       });
     } catch (error) {
@@ -102,14 +102,14 @@ class UserController {
         raw: true,
       });
       if (!currentPassword || !newPassword || !comfirmPassword) {
-        return next(createError(401, "Vui lòng không được bỏ trống!"));
+        return next(createError(401, "Vui lòng không được bỏ trống"));
       }
 
       if (cryptr.decrypt(user.password) !== currentPassword) {
-        return next(createError(401, "Mật khẩu hiện tại không đúng!"));
+        return next(createError(401, "Mật khẩu hiện tại không đúng"));
       }
       if (newPassword !== comfirmPassword) {
-        return next(createError(401, "Mật khẩu không khớp!"));
+        return next(createError(401, "Mật khẩu không khớp"));
       }
 
       const hashPassword = cryptr.encrypt(newPassword);
@@ -138,11 +138,10 @@ class UserController {
         where: { id },
         raw: true,
       });
-      if (!user)
-        return next(createError(404, "Sinh viên không có trong hệ thông!"));
+      if (!user) return next(createError(404, "Sinh viên không có trong hệ thống"));
       res.status(200).json({
         success: true,
-        message: `Lấy thông tin sinh viên thành công!`,
+        message: `Successful`,
         user,
       });
     } catch (error) {
@@ -161,7 +160,7 @@ class UserController {
 
       res.status(200).json({
         success: true,
-        message: `Lấy thông tin sinh viên thành công!`,
+        message: `Tải thông tin thành công`,
         user,
       });
     } catch (error) {
@@ -191,7 +190,7 @@ class UserController {
       });
       res.status(200).json({
         success: true,
-        message: `Cập nhật thông tin thành công!`,
+        message: `Cập nhật thông tin thành công`,
         newUser,
       });
     } catch (error) {
@@ -217,7 +216,7 @@ class UserController {
 
       res.status(200).json({
         success: true,
-        message: "successfull",
+        message: "Successful",
         users,
       });
     } catch (error) {

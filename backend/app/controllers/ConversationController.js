@@ -41,7 +41,7 @@ class ConverstationController {
       if (exitsConversation) {
         return res.status(200).json({
           success: true,
-          message: "succeffully!",
+          message: "Successful",
           conversation: exitsConversation,
         });
       }
@@ -70,7 +70,7 @@ class ConverstationController {
       });
       res.status(200).json({
         success: true,
-        message: "Created conversation succeffully!",
+        message: "Đã tạo cuộc hội thoại",
         conversation,
       });
     } catch (error) {
@@ -93,7 +93,7 @@ class ConverstationController {
 
       res.status(200).json({
         success: true,
-        message: "got conversation succeffully!",
+        message: "Successful",
         converstion,
       });
     } catch (error) {
@@ -130,13 +130,15 @@ class ConverstationController {
 
       res.status(200).json({
         success: true,
-        message: "got conversations succeffully!",
+        message: "Successful",
         conversations,
       });
     } catch (error) {
       next(error);
     }
   }
+  // DESC delete a conversation
+  // @URL [DELETE] /api/conversation/:conversationId
   async deleteConversation(req, res, next) {
     const conversationId = req.params.conversationId;
     try {

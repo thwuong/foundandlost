@@ -26,7 +26,7 @@ class NotificationController {
       });
       res.status(200).json({
         success: true,
-        message: "successfully!",
+        message: "Successful",
         notification,
       });
     } catch (error) {
@@ -61,13 +61,10 @@ class NotificationController {
     const notificationId = req.params.notificationId;
     console.log(notificationId, userId);
     try {
-      await db.Notification.update(
-        { isRead: true },
-        { where: { id: notificationId, recieverId: userId } }
-      );
+      await db.Notification.update({ isRead: true }, { where: { id: notificationId, recieverId: userId } });
       res.status(200).json({
         success: true,
-        message: "successfully!",
+        message: "Successful",
       });
     } catch (error) {
       next(error);
@@ -91,7 +88,7 @@ class NotificationController {
 
       res.status(200).json({
         success: true,
-        message: "Lấy tin nhắn thành công!",
+        message: "Successful",
         notifications,
       });
     } catch (error) {

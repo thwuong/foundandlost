@@ -7,13 +7,13 @@ class CategoryController {
   // body : [typeName]
   async addCategory(req, res, next) {
     const typeName = req.body.typeName;
-    if (!typeName) return next(createError(400, "Thiếu trường tên danh mục!"));
+    if (!typeName) return next(createError(400, "Vui lòng nhập tên danh mục"));
     try {
       const category = await db.Category.create({ typeName });
 
       res.status(200).json({
         success: true,
-        message: "Tạo danh mục mới thành công!",
+        message: "Đã tạo danh mục",
         category,
       });
     } catch (error) {
@@ -29,7 +29,7 @@ class CategoryController {
       const category = await db.Category.destroy({ where: { id } });
       res.status(200).json({
         success: true,
-        message: "Xóa danh mục thành công!",
+        message: "Đã xóa",
         category,
       });
     } catch (error) {
@@ -43,15 +43,12 @@ class CategoryController {
   async editCategory(req, res, next) {
     const id = req.params.categoryId;
     const typeName = req.body.typeName;
-    if (!typeName) return next(createError(400, "Thiếu trường tên danh mục!"));
+    if (!typeName) return next(createError(400, "Vui lòng nhập tên danh mục"));
     try {
-      const category = await db.Category.update(
-        { typeName },
-        { where: { id } }
-      );
+      const category = await db.Category.update({ typeName }, { where: { id } });
       res.status(200).json({
         success: true,
-        message: "Câp nhật danh mục thành công!",
+        message: "Đã cập nhật",
       });
     } catch (error) {
       next(error);
@@ -66,7 +63,7 @@ class CategoryController {
       const category = await db.Category.findOne({ where: { id } });
       res.status(200).json({
         success: true,
-        message: "Lấy danh mục thành công!",
+        message: "Successful",
         category,
       });
     } catch (error) {
@@ -80,7 +77,7 @@ class CategoryController {
       const categories = await db.Category.findAll({});
       res.status(200).json({
         success: true,
-        message: "Lấy danh sách danh mục thành công!",
+        message: "Successful",
         categories,
       });
     } catch (error) {

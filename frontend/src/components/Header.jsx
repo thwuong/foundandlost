@@ -5,19 +5,12 @@ import logo from "../assets/header-logo_500_500.png";
 import moment from "moment";
 
 import { logout } from "../api/authAPI";
-import {
-  deleteNotify,
-  getAllNotify,
-  pushNotify,
-  readNotify,
-} from "../api/notifyAPI";
+import { deleteNotify, getAllNotify, pushNotify, readNotify } from "../api/notifyAPI";
 function Header(props) {
   const { activeTab } = props;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const currentConversation = useSelector(
-    (state) => state.conversation.currentConversation
-  );
+  const currentConversation = useSelector((state) => state.conversation.currentConversation);
   const notifications = useSelector((state) => state.notify.notifications);
   const { socket } = useSelector((state) => state.instanceSocket);
   const [showNotify, setShowNotify] = useState(false);
@@ -69,34 +62,24 @@ function Header(props) {
         <ul className="mr-10 flex gap-10">
           {user?.isAdmin ? (
             <Link to={"/manage/account"}>
-              <li
-                className={`text-lg font-medium  ${
-                  activeTab === "manage" ? "text-primary" : "text-black"
-                }`}
-              >
+              <li className={`text-lg font-medium  ${activeTab === "manage" ? "text-primary" : "text-black"}`}>
                 Quản Trị viên
               </li>
             </Link>
           ) : (
             <Link to={"/"}>
-              <li
-                className={`text-lg font-medium ${
-                  activeTab === "home" ? "text-primary" : "text-black"
-                }`}
-              >
+              <li className={`text-lg font-medium ${activeTab === "home" ? "text-primary" : "text-black"}`}>
                 Trang chủ
               </li>
             </Link>
           )}
 
           <li className={`text-lg font-medium cursor-pointer relative`}>
-            {notifications &&
-              notifications?.filter((noti) => noti.isRead !== true).length >
-                0 && (
-                <p className="absolute bottom-5 left-3 w-5 h-5 rounded-full text-sm bg-gray-200 flex justify-center items-center">
-                  {notifications?.filter((noti) => noti.isRead !== 1).length}
-                </p>
-              )}
+            {notifications && notifications?.filter((noti) => noti.isRead !== true).length > 0 && (
+              <p className="absolute bottom-5 left-3 w-5 h-5 rounded-full text-sm bg-red-500/90 text-white flex justify-center items-center">
+                {notifications?.filter((noti) => noti.isRead !== 1).length}
+              </p>
+            )}
 
             <span
               onClick={() => {
@@ -115,11 +98,7 @@ function Header(props) {
                           key={noti.id}
                           className={`relative flex gap-2 items-center justify-between px-2 py-3 rounded hover:bg-gray-200 `}
                         >
-                          <img
-                            src={noti.sender.avatar}
-                            alt=""
-                            className="w-10 h-10 rounded-full"
-                          />
+                          <img src={noti.sender.avatar} alt="" className="w-10 h-10 rounded-full" />
                           <div
                             onClick={() => {
                               handleMarkRead(noti.id);
@@ -127,18 +106,12 @@ function Header(props) {
                           >
                             <p className="text-sm">
                               {noti.sender.fullName}
-                              <span className="ml-2 text-sm text-gray-500">
-                                {noti.content}
-                              </span>
+                              <span className="ml-2 text-sm text-gray-500">{noti.content}</span>
                             </p>
-                            <p className="text-s text-gray-500">
-                              {moment(noti.createdAt).fromNow()}
-                            </p>
+                            <p className="text-s text-gray-500">{moment(noti.createdAt).fromNow()}</p>
                           </div>
 
-                          {!noti.isRead && (
-                            <p className="absolute right-10 w-2 h-2 rounded-full bg-blue-600"></p>
-                          )}
+                          {!noti.isRead && <p className="absolute right-10 w-2 h-2 rounded-full bg-blue-600"></p>}
                           <div
                             onClick={() => {
                               removeNotice(noti.id);
@@ -172,9 +145,7 @@ function Header(props) {
             <p className="text-primary font-bold">
               {user?.fullName} {user?.idNumber}
             </p>
-            <p className="text-sm text-gray-500">
-              {user?.isAdmin ? "Quản trị viên" : "Sinh viên"}
-            </p>
+            <p className="text-sm text-gray-500">{user?.isAdmin ? "Quản trị viên" : "Sinh viên"}</p>
           </div>
           <ul className="z-10 absolute overflow-hidden duration-300 top-6 w-full bg-white  rounded shadow-md opacity-0 invisible group-hover:top-12 group-hover:opacity-100 group-hover:visible">
             {!user.isAdmin && (

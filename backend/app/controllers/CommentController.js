@@ -7,7 +7,7 @@ class CommentController {
   async postComment(req, res, next) {
     const userId = req.user.userId;
     const { content, postId, parentId } = req.body;
-    if (!content) return next(createError(400, "Trường nội dung bị bỏ trống!"));
+    if (!content) return next(createError(400, "Vui lòng nhập nội dung"));
     try {
       const comment = await db.Comment.create({
         userId,
@@ -28,7 +28,7 @@ class CommentController {
       });
       res.status(200).json({
         success: true,
-        message: "Đăng bình luận thành công!",
+        message: "Đã đăng bình luận",
         newComment,
       });
     } catch (error) {
@@ -41,7 +41,7 @@ class CommentController {
   async editComment(req, res, next) {
     const id = req.params.commentId;
     const content = req.body.content;
-    if (!content) return next(createError(400, "Trường nội dung bị bỏ trống!"));
+    if (!content) return next(createError(400, "Vui lòng nhập nội dung"));
     try {
       await db.Comment.update(
         { content },
@@ -51,7 +51,7 @@ class CommentController {
       );
       res.status(200).json({
         success: true,
-        message: "Chỉnh sửa bình luận thành công!",
+        message: "Đã chỉnh sứa",
       });
     } catch (error) {
       next(error);
@@ -66,7 +66,7 @@ class CommentController {
       await db.Comment.destroy({ where: { id } });
       res.status(200).json({
         success: true,
-        message: "Xóa bình luận thành công!",
+        message: "Đã xóa",
       });
     } catch (error) {
       next(error);
@@ -95,7 +95,7 @@ class CommentController {
 
       res.status(200).json({
         success: true,
-        message: "Lấy danh sách bình luận thành công!",
+        message: "Successful",
         comments,
       });
     } catch (error) {

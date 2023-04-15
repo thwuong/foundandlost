@@ -8,7 +8,7 @@ class RequestController {
     const userId = req.user.userId;
     const { desc, postId } = req.body;
 
-    if (!desc) return next(createError(400, "Trường mô tả yêu cầu bị trống!"));
+    if (!desc) return next(createError(400, "Vui lòng nhập mô tả yêu cầu"));
     try {
       const newRequest = await db.Request.create({
         userId,
@@ -17,7 +17,7 @@ class RequestController {
       });
       res.status(200).json({
         success: true,
-        message: "Tạo thành Công!",
+        message: "Đã gửi yêu cầu",
         newRequest,
       });
     } catch (error) {
@@ -39,15 +39,12 @@ class RequestController {
         }
       );
       if (status === "accepted") {
-        await db.Post.update(
-          { status: "confirmed" },
-          { where: { id: postId } }
-        );
+        await db.Post.update({ status: "confirmed" }, { where: { id: postId } });
       }
 
       res.status(200).json({
         success: true,
-        message: "Cập nhật thành công!",
+        message: "Đã phản hồi yêu cầu",
       });
     } catch (error) {
       next(error);
@@ -66,13 +63,14 @@ class RequestController {
       });
       res.status(200).json({
         success: true,
-        message: "Xóa thành công!",
+        message: "Đã xóa yêu cầu",
         deletedRequest,
       });
     } catch (error) {
       next(error);
     }
   }
+
   async getRequest(req, res, next) {
     const id = req.params.requestId;
     try {
@@ -83,7 +81,7 @@ class RequestController {
       });
       res.status(200).json({
         success: true,
-        message: "Lấy yêu cầu thành công!",
+        message: "Successful",
         request,
       });
     } catch (error) {
@@ -112,7 +110,7 @@ class RequestController {
       });
       res.status(200).json({
         success: true,
-        message: "Láy danh sách yêu cầu của tôi thành công!",
+        message: "Successful",
         requests,
       });
     } catch (error) {
@@ -131,7 +129,7 @@ class RequestController {
       });
       res.status(200).json({
         success: true,
-        message: "Lấy yêu cầu cho tôi thành công!",
+        message: "Successful",
         requests,
       });
     } catch (error) {
@@ -158,7 +156,7 @@ class RequestController {
       });
       res.status(200).json({
         success: true,
-        message: "Lấy yêu cầu cho tôi thành công!",
+        message: "Successful",
         requests,
       });
     } catch (error) {

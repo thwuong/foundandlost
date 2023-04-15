@@ -10,9 +10,8 @@ class PostController {
     const userId = req.user.userId;
     const { categoryId, title, desc, location, postType } = req.body;
     const images = [];
-    if (!title) return next(createError(400, "Trường tiêu đề bị bỏ trống!"));
-    if (!postType)
-      return next(createError(400, "Trường loại đồ vật bị bỏ trống!"));
+    if (!title) return next(createError(400, "Vui lòng nhập tiêu đề"));
+    if (!postType) return next(createError(400, "Vui lòng chọn loại bài viết"));
 
     try {
       if (req.files) {
@@ -33,7 +32,7 @@ class PostController {
       });
       res.status(200).json({
         success: true,
-        message: "Đăng đồ vật thành công!",
+        message: "Đã đăng đồ vật",
         newPost,
       });
     } catch (error) {
@@ -59,7 +58,7 @@ class PostController {
 
       res.status(200).json({
         success: true,
-        message: "lấy thông tin đồ vật thành công!",
+        message: "Tải đồ vật thành công",
         post,
       });
     } catch (error) {
@@ -70,8 +69,7 @@ class PostController {
   // @URL [GET] /api/post/
   // query : [keyword,postType,categoryId,page]
   async getAllPost(req, res, next) {
-    const { keyword, postType, categoryId, _page, _limit, status, sort } =
-      req.query;
+    const { keyword, postType, categoryId, _page, _limit, status, sort } = req.query;
     let offset = !_page || +_page <= 1 ? 0 : +_page - 1;
     const condition = {
       title: { [Op.regexp]: keyword || " " },
@@ -104,7 +102,7 @@ class PostController {
       });
       res.status(200).json({
         success: true,
-        message: "Successfully",
+        message: "Successful",
         posts,
       });
     } catch (error) {
@@ -123,7 +121,7 @@ class PostController {
 
       res.status(200).json({
         success: true,
-        message: "Successfully",
+        message: "Successful",
         posts,
       });
     } catch (error) {
@@ -143,7 +141,7 @@ class PostController {
 
       res.status(200).json({
         success: true,
-        message: "Successfully",
+        message: "Successful",
         posts,
       });
     } catch (error) {
@@ -192,7 +190,7 @@ class PostController {
   async updateStatusPost(req, res, next) {
     const id = req.params.postId;
     const status = req.body.status;
-    if (!status) next(createError(400, "Trường trạng thái bị bỏ trống!"));
+    if (!status) next(createError(400, "Vui lòng nhập trạng thái"));
     try {
       const updatedPost = await db.Post.update({ status }, { where: { id } });
       res.status(200).json({
@@ -207,7 +205,8 @@ class PostController {
   // DESC [delete a post]
   // @URL [DELETE] /api/post/:postId
   // params : [postId]
-  // body [status]
+  // body [title,postType,categoryId,desc]
+  // files [images]
   async editPost(req, res, next) {
     const id = req.params.postId;
     const { categoryId, title, desc, location, postType, oldImages } = req.body;
@@ -232,7 +231,7 @@ class PostController {
       updatedPost = await db.Post.update(updatedPost, { where: { id } });
       res.status(200).json({
         success: true,
-        message: "Đã cập nhật đồ vật",
+        message: "Đã cập nhật thông tin đồ vật",
         updatedPost,
       });
     } catch (error) {

@@ -8,9 +8,7 @@ class AuthController {
     const { idNumber, password } = req.body;
 
     if (!idNumber || !password) {
-      return next(
-        createError(401, "Trường mật khẩu hoặc mã số sinh viên bị thiếu!")
-      );
+      return next(createError(401, "Vui lòng nhập mã số và mật khẩu"));
     }
     try {
       const user = await db.User.findOne({
@@ -20,18 +18,16 @@ class AuthController {
       });
 
       if (!user) {
-        return next(createError(401, "Người dùng không có trong hệ thống!"));
+        return next(createError(401, "Người dùng không có trong hệ thống"));
       }
       const cryptr = new Cryptr(process.env.HASH_KEY);
       const invalidPassword = cryptr.decrypt(user.password) === password;
       if (!invalidPassword) {
-        return next(createError(401, "Mật khẩu không đúng!"));
+        return next(createError(401, "Mật khẩu không đúng"));
       }
-      const accessToken = jwt.sign(
-        { userId: user.id, isAdmin: user.isAdmin },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "5m" }
-      );
+      const accessToken = jwt.sign({ userId: user.id, isAdmin: user.isAdmin }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "5m",
+      });
       const refreshToken = jwt.sign(
         { userId: user.id, isAdmin: user.isAdmin },
         process.env.ACCESS_REFRESH_TOKEN_SECRET,
@@ -46,7 +42,7 @@ class AuthController {
       delete user.password;
       res.status(200).json({
         success: true,
-        message: `Đăng nhập thành công!`,
+        message: `Đăng nhập thành công`,
         accessToken,
         user,
       });
@@ -61,20 +57,13 @@ class AuthController {
         return next(createError(401, "Người dùng chưa đăng nhập"));
       }
 
-      const user = jwt.verify(
-        refreshToken,
-        process.env.ACCESS_REFRESH_TOKEN_SECRET
-      );
-      const accessToken = jwt.sign(
-        { userId: user.userId, isAdmin: user.isAdmin },
-        process.env.ACCESS_TOKEN_SECRET,
-        {
-          expiresIn: "5m",
-        }
-      );
+      const user = jwt.verify(refreshToken, process.env.ACCESS_REFRESH_TOKEN_SECRET);
+      const accessToken = jwt.sign({ userId: user.userId, isAdmin: user.isAdmin }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "5m",
+      });
       res.status(200).json({
         success: true,
-        message: "refresh token successfully!",
+        message: "Refresh token successfully",
         accessToken,
       });
     } catch (error) {
@@ -85,7 +74,7 @@ class AuthController {
     res.clearCookie("jwt");
     res.status(200).json({
       success: true,
-      message: "Đăng xuất thành công!",
+      message: "Đăng xuất thành công",
     });
   }
 }

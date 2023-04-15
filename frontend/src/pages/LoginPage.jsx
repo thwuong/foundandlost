@@ -11,16 +11,16 @@ function LoginPage() {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { success } = await login({ idNumber, password }, dispatch);
-    if (success) {
-      auth.user.admin ? navigate("/manage/account") : navigate("/");
-    }
+    await login({ idNumber, password }, dispatch);
   };
   useEffect(() => {
-    if (auth.token) {
+    if (!auth.user) return;
+    if (auth.user && auth.user.isAdmin) {
+      navigate("/manage/account");
+    } else {
       navigate("/");
     }
-  }, []);
+  }, [auth]);
   return (
     <div className="w-4/5 mx-auto min-h-screen xl:my-0 mt-10">
       <div className="container">
@@ -29,9 +29,7 @@ function LoginPage() {
             <h1 className="sm:text-5xl sm:text-left font-bold text-primary leading-tight text-6xl text-center">
               Welcome to FOUND&LOST SYSTEM
             </h1>
-            <h4 className="mt-12 text-2xl text-primary font-medium text-center">
-              Đăng nhập tài khoản
-            </h4>
+            <h4 className="mt-12 text-2xl text-primary font-medium text-center">Đăng nhập tài khoản</h4>
             <form className="mt-8 w-full mx-auto">
               <div className="mt-8">
                 <input
@@ -59,10 +57,7 @@ function LoginPage() {
                   className="w-full py-2 px-4 outline-primary rounded shadow-xl"
                 />
               </div>
-              <button
-                onClick={handleSubmit}
-                className="w-full mt-16 py-2 px-4 bg-primary text-white rounded"
-              >
+              <button onClick={handleSubmit} className="w-full mt-16 py-2 px-4 bg-primary text-white rounded">
                 Đăng nhập
               </button>
             </form>
