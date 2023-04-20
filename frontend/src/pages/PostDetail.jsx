@@ -30,23 +30,15 @@ function PostDetail() {
   }, [postId]);
   return (
     <div className="bg-main bg-no-repeat bg-cover min-h-screen">
-      <div className="w-4/5 mx-auto pb-4 h-full">
+      <div className="sm:w-4/5 sm:px-0 px-2 w-full mx-auto overflow-hidden pb-4 h-full">
         <Header />
-        <h1 className="mt-6 text-3xl text-primary text-center font-bold">
-          CHI TIẾT ĐỒ VẬT
-        </h1>
+        <h1 className="mt-6 text-3xl text-primary text-center font-bold">CHI TIẾT ĐỒ VẬT</h1>
         <div className="xl:flex-row flex-col flex gap-5 mt-6 xl:max-h-[500px] h-[80%] max-h-full">
           <div className="xl:w-3/4">
-            <PostDetailItem
-              item={post}
-              handleSelectedChat={handleSelectedChat}
-            />
+            <PostDetailItem item={post} handleSelectedChat={handleSelectedChat} />
           </div>
           <div className="xl:w-1/4">
-            <RelatedPost
-              typeName={post.category?.typeName}
-              categoryId={post.categoryId}
-            />
+            <RelatedPost typeName={post.category?.typeName} categoryId={post.categoryId} />
           </div>
         </div>
         <div className="xl:w-[73.5%] pt-4 h-full">

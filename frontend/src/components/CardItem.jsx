@@ -11,18 +11,14 @@ function CardItem(props) {
   const user = useSelector((state) => state.auth.user);
   const { item } = props;
   const [option, setOption] = useState(false);
-  const {
-    isOpen: isOpenVerifyModal,
-    onOpen: onOpenVerifyModal,
-    onClose: onCloseVerifyModal,
-  } = useDisclosure();
+  const { isOpen: isOpenVerifyModal, onOpen: onOpenVerifyModal, onClose: onCloseVerifyModal } = useDisclosure();
   const handleRemove = (status) => {
     console.log(status);
   };
   return (
     <>
-      <div className="sm:h-[240px] sm:flex-row bg-white rounded-lg flex flex-col h-[400px]">
-        <figure className="sm:w-2/5 sm:h-full h-1/2">
+      <div className=" sm:h-[240px] sm:flex-row bg-white rounded-lg flex flex-col h-[400px]">
+        <figure className="sm:w-2/5 sm:h-full h-1/2 relative">
           <img
             src={item?.images.length > 0 ? item?.images[0] : ""}
             alt={ExtraImage}
@@ -31,25 +27,23 @@ function CardItem(props) {
             }}
             className="sm:object-fill object-cover w-full h-full sm:rounded-tl-lg sm:rounded-bl-lg rounded-lg"
           />
+          {item.status === "comfirmed" && (
+            <div className="absolute top-0 w-full h-full bg-black/25 rounded-lg flex justify-center items-center">
+              <h1 className="text-xl font-bold text-white rotate-45">Đã xác nhận</h1>
+            </div>
+          )}
         </figure>
         <div className="sm:w-3/5 h-full p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <Badge
-              variant="outline"
-              colorScheme={renderTypePost(item?.postType)}
-            >
+            <Badge variant="outline" colorScheme={renderTypePost(item?.postType)}>
               {item?.postType}
             </Badge>
-            <span className="text-sm text-date ">
-              {moment(item?.createdAt).fromNow()}
-            </span>
+            <span className="text-sm text-date ">{moment(item?.createdAt).fromNow()}</span>
           </div>
 
           <h3 className="my-2 font-bold text-2xl truncate">{item?.title}</h3>
 
-          <span className="text-paragarph-black/60 font-medium line-clamp-3">
-            {item?.desc}
-          </span>
+          <span className="text-paragarph-black/60 font-medium line-clamp-3">{item?.desc}</span>
           <div className="flex items-center justify-between">
             {user && user.id === item?.ownerId ? (
               <div className="relative">
@@ -68,10 +62,7 @@ function CardItem(props) {
                         <box-icon name="pencil" color="#3364C9"></box-icon>
                       </li>
                     </Link>
-                    <li
-                      className="flex items-center cursor-pointer"
-                      onClick={onOpenVerifyModal}
-                    >
+                    <li className="flex items-center cursor-pointer" onClick={onOpenVerifyModal}>
                       <box-icon name="trash" color="#3364C9"></box-icon>
                     </li>
                   </ul>
@@ -79,11 +70,7 @@ function CardItem(props) {
               </div>
             ) : (
               <div className="flex items-center gap-1">
-                <img
-                  src={item?.author?.avatar}
-                  alt=""
-                  className="w-8 h-8 rounded-full object-cover"
-                />
+                <img src={item?.author?.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
                 <span>{item?.author?.fullName}</span>
               </div>
             )}
@@ -102,11 +89,7 @@ function CardItem(props) {
         modalName={"Xác nhận"}
         hide={onCloseVerifyModal}
         content={
-          <VerifyModal
-            hide={onCloseVerifyModal}
-            title={"Chắc chắn xóa bài viết này!"}
-            handleVerify={handleRemove}
-          />
+          <VerifyModal hide={onCloseVerifyModal} title={"Chắc chắn xóa bài viết này!"} handleVerify={handleRemove} />
         }
       />
     </>

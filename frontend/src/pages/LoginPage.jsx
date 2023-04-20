@@ -11,16 +11,14 @@ function LoginPage() {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login({ idNumber, password }, dispatch);
+    const data = await login({ idNumber, password }, dispatch);
+    data.user.isAdmin === 1 ? navigate("/manage/account") : navigate(-1);
   };
   useEffect(() => {
-    if (!auth.user) return;
-    if (auth.user && auth.user.isAdmin) {
-      navigate("/manage/account");
-    } else {
-      navigate("/");
+    if (auth.user) {
+      navigate(-1);
     }
-  }, [auth]);
+  }, []);
   return (
     <div className="w-4/5 mx-auto min-h-screen xl:my-0 mt-10">
       <div className="container">

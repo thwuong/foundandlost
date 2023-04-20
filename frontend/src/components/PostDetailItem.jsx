@@ -65,16 +65,10 @@ function PostItem(props) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <figure>
-                <img
-                  className="lg:w-8 lg:h-8 w-7 h-7 rounded-full"
-                  src={item?.author?.avatar}
-                  alt=""
-                />
+                <img className="lg:w-8 lg:h-8 w-7 h-7 rounded-full" src={item?.author?.avatar} alt="" />
               </figure>
               <Link to={`/profile/${item?.ownerId}`}>
-                <p className="font-bold">
-                  {item?.author?.fullName + " " + item?.author?.idNumber}
-                </p>
+                <p className="font-bold">{item?.author?.fullName + " " + item?.author?.idNumber}</p>
               </Link>
             </div>
             {user && user.id !== item?.ownerId ? (
@@ -95,20 +89,13 @@ function PostItem(props) {
           </div>
           <div className="mt-2 flex items-center gap-2">
             <box-icon name="time" color="#E5E7EB"></box-icon>
-            <span className="text-sm text-gray-200">
-              {moment(item?.createdAt).fromNow()}
-            </span>
+            <span className="text-sm text-gray-200">{moment(item?.createdAt).fromNow()}</span>
           </div>
           <div className="mt-2 flex items-center justify-between">
-            <Badge
-              variant="outline"
-              colorScheme={renderTypePost(item?.typePost)}
-            >
+            <Badge variant="outline" colorScheme={renderTypePost(item?.typePost)}>
               Found item
             </Badge>
-            <span className="text-primary text-sm font-bold">
-              #{item?.category?.typeName}
-            </span>
+            <span className="text-primary text-sm font-bold">#{item?.category?.typeName}</span>
           </div>
           <div className="mt-2">
             <p className="font-bold">Mô tả: </p>
@@ -118,24 +105,21 @@ function PostItem(props) {
           <div className="flex justify-between flex-wrap">
             <div className="flex items-center gap-2">
               <box-icon name="phone" color="#E5E7EB"></box-icon>
-              <span className="text-sm text-gray-200">
-                {item?.author?.phone}
-              </span>
+              <span className="text-sm text-gray-200">{item?.author?.phone}</span>
             </div>
             <div className="flex items-center gap-2">
               <box-icon name="envelope" color="#E5E7EB"></box-icon>
-              <span className="text-sm text-gray-200">
-                {item?.author?.email}
-              </span>
+              <span className="text-sm text-gray-200">{item?.author?.email}</span>
             </div>
           </div>
           {user && user.id !== item?.ownerId ? (
-            <p
+            <button
+              disabled={item?.status === "comfirmed"}
               onClick={onOpen}
-              className="mt-2 px-2 ml-auto text-center cursor-pointer py-1 lg:w-[30%] text-white bg-primary rounded hover:bg-primary/90"
+              className="disabled:bg-primary/60 mt-2 px-2 ml-auto text-center cursor-pointer py-1 lg:w-[30%] text-white bg-primary rounded hover:bg-primary/90"
             >
-              Gửi yêu cầu
-            </p>
+              {item?.status === "comfirmed" ? "Đã xác nhận" : "Gửi yêu cầu"}
+            </button>
           ) : null}
         </div>
       </div>

@@ -16,7 +16,7 @@ function EditPost() {
     post.id !== Number(postId) && fetchPostById(postId);
   }, [postId]);
   return (
-    <div className="w-4/5 mx-auto">
+    <div className="sm:w-4/5 sm:px-0 px-2 w-full mx-auto overflow-hidden">
       <div className="container mx-auto">
         <Header />
         <PostForm isEdit={true} post={post} />

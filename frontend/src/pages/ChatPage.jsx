@@ -5,14 +5,8 @@ import ChatSkeleton from "../components/Loading/ChatSkeleton";
 import Conversation from "../components/Chat/Conversation";
 import UserChat from "../components/Chat/UserChat";
 import Header from "../components/Header";
-import {
-  createConversation,
-  getConversationList,
-} from "../api/conversationAPI";
-import {
-  selectConversation,
-  unSelectConversation,
-} from "../stores/ConversationSlice";
+import { createConversation, getConversationList } from "../api/conversationAPI";
+import { selectConversation, unSelectConversation } from "../stores/ConversationSlice";
 import { findUsers } from "../api/userAPI";
 
 function ChatPage() {
@@ -57,7 +51,7 @@ function ChatPage() {
   }, [user.id]);
 
   return (
-    <div className="w-[80%] mx-auto">
+    <div className="sm:w-4/5 sm:px-0 px-2 w-full mx-auto overflow-hidden">
       <div className="container mx-auto xl:h-screen h-[600px]">
         <Header />
         <div className="flex h-[83%] relative bg-gray-100 pb-2 shadow-2xl rounded-lg overflow-hidden">
@@ -73,21 +67,16 @@ function ChatPage() {
             ) : currentConversation ? (
               <Conversation />
             ) : (
-              <p className="text-date text-5xl text-center mt-[30%]">
-                Open a conversation to start to chat.
-              </p>
+              <p className="text-date text-5xl text-center mt-[30%]">Open a conversation to start to chat.</p>
             )}
           </div>
           <p
-            className="md:hidden absolute right-0 block text-right p-4 z-10 cursor-pointer"
+            className="md:hidden absolute right-0 block text-right p-4 z-10 sm:z-0 cursor-pointer"
             onClick={() => {
               setIsShow(!isShow);
             }}
           >
-            <box-icon
-              name={`${isShow ? "right-arrow-circle" : "menu-alt-right"}`}
-              color="gray"
-            ></box-icon>
+            <box-icon name={`${isShow ? "right-arrow-circle" : "menu-alt-right"}`} color="gray"></box-icon>
           </p>
           <div
             className={`xl:w-1/4 md:w-2/6 md:static md:translate-x-0 md:h-full w-2/4 absolute h-[88%] right-0 top-14 overflow-hidden duration-300 bg-white
@@ -108,9 +97,7 @@ function ChatPage() {
                   }}
                 />
                 {showUserList && (
-                  <ul
-                    className={`absolute top-14 right-0 w-full bg-gray-200 shadow-xl duration-300 rounded py-2`}
-                  >
+                  <ul className={`absolute top-14 right-0 w-full bg-gray-200 shadow-xl duration-300 rounded py-2`}>
                     {userList && userList.length > 0 ? (
                       userList.map((user) => {
                         return (
@@ -121,22 +108,14 @@ function ChatPage() {
                             key={user.id}
                             className=" p-2 flex gap-2 items-center cursor-pointer duration-300 hover:bg-gray-300"
                           >
-                            <img
-                              src={user.avatar}
-                              alt="asd"
-                              className="w-8 h-8 object-cover rounded-full"
-                            />
-                            <span className="font-semibold">
-                              {user.fullName + " " + user.idNumber}
-                            </span>
+                            <img src={user.avatar} alt="asd" className="w-8 h-8 object-cover rounded-full" />
+                            <span className="font-semibold">{user.fullName + " " + user.idNumber}</span>
                           </li>
                         );
                       })
                     ) : (
                       <li className=" p-2 flex gap-2 items-center cursor-pointer duration-300 hover:bg-gray-300">
-                        <span className="font-semibold">
-                          Gõ vào để tìm kiếm..
-                        </span>
+                        <span className="font-semibold">Gõ vào để tìm kiếm..</span>
                       </li>
                     )}
                   </ul>

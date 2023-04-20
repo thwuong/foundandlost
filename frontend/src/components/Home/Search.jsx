@@ -27,14 +27,15 @@ function Search(props) {
   return (
     <div className="relative flex items-center gap-4 rounded-lg">
       <span className="absolute top-2.5 left-3">
-        <box-icon name="search-alt-2" color="white"></box-icon>
+        <box-icon name="search-alt-2" color="gray"></box-icon>
       </span>
       <input
         value={keyword}
         onChange={handleSearching}
         type="text"
         placeholder="Tìm kiếm"
-        className="w-full px-12 py-2 outline-none rounded-lg bg-transparent border border-white text-white placeholder:text-white/40 focus:border-primary focus:border-2"
+        className="w-full px-12 py-2 outline-none rounded-lg bg-transparent border
+         border-gray-300 text-gray-400 placeholder:text-gray-400 focus:border-primary focus:border-2"
       />
       {closeX && (
         <span
@@ -44,7 +45,7 @@ function Search(props) {
             handleSearching(e);
           }}
         >
-          <box-icon name="x" color="white"></box-icon>
+          <box-icon name="x" color="gray"></box-icon>
         </span>
       )}
     </div>

@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionIcon,
-  AccordionPanel,
-  Box,
-} from "@chakra-ui/react";
+import { Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Box } from "@chakra-ui/react";
 import CardItem from "../CardItem";
 import { useDispatch, useSelector } from "react-redux";
 import RequestItem from "./RequestItem";
@@ -30,12 +23,7 @@ function CardList() {
                 <Accordion allowToggle>
                   <AccordionItem border={"none"}>
                     <AccordionButton>
-                      <Box
-                        as="span"
-                        flex="1"
-                        textAlign="left"
-                        className="font-bold"
-                      >
+                      <Box as="span" flex="1" textAlign="left" className="font-bold">
                         Yêu cầu bài viết
                       </Box>
                       <AccordionIcon />
@@ -43,17 +31,8 @@ function CardList() {
                     <AccordionPanel pb={2}>
                       {requests && requests.length > 0
                         ? requests.map((request) => {
-                            if (
-                              request.postId === post.id &&
-                              request.status === "pending"
-                            ) {
-                              return (
-                                <RequestItem
-                                  key={request.id}
-                                  request={request}
-                                  handleRespone={handleRespone}
-                                />
-                              );
+                            if (request.postId === post.id) {
+                              return <RequestItem key={request.id} request={request} handleRespone={handleRespone} />;
                             }
                           })
                         : null}

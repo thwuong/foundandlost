@@ -29,7 +29,7 @@ function RequestPage() {
   }, []);
   return (
     <div className="bg-[#F0F2F5] min-h-screen">
-      <div className="w-[80%] mx-auto ">
+      <div className="sm:w-4/5 sm:px-0 px-2 w-full mx-auto overflow-hidden">
         <div className="container h-full">
           <Header />
           <div className="bg-white p-4 rounded-lg ">

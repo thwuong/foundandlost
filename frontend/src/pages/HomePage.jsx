@@ -53,32 +53,28 @@ function HomePage() {
   }, [filters]);
 
   return (
-    <div className="bg-main bg-no-repeat bg-cover min-h-screen">
-      <div className="w-4/5 mx-auto">
-        <div className="container">
+    <div className="bg-main bg-no-repeat bg-cover min-h-screen overflow-hidden">
+      <div className="sm:w-4/5 sm:px-0 px-2 w-full mx-auto">
+        <div className="container ">
           <Header activeTab="home" />
-          <h1 className="text-5xl mt-8 text-primary font-bold text-center">
-            Found & Lost List
-          </h1>
-          <div className="mt-8 grid xl:grid-cols-12 gap-5">
-            <div className="xl:col-span-3">
+          <h1 className="text-5xl mt-8 text-primary font-bold text-center">Found & Lost List</h1>
+          <div className="mt-8 grid xl:grid-cols-12 gap-5 p-2 bg-white shadow-xl rounded-xl">
+            <div className="xl:col-span-3 md:col-span-3">
               <TabPostType onTabChange={handleTabChange} />
             </div>
-            <div className="xl:col-span-5">
+            <div className="xl:col-span-5 md:col-span-3">
               <Search onSearch={handleSearching} />
             </div>
-            <div className="xl:col-span-2">
+            <div className="xl:col-span-2 md:col-span-3">
               <SelectCategory onSelect={handleSelecting} />
             </div>
-            <div className="xl:col-span-2 ">
+            <div className="xl:col-span-2  md:col-span-3">
               <Link
                 to={"/post/create-post"}
                 className="flex justify-center items-center gap-2 px-4 py-2 rounded-lg cursor-pointer bg-primary hover:bg-primary/90"
               >
                 <box-icon name="plus-circle" color="white"></box-icon>
-                <span className="font-bold text-paragarph-white">
-                  Đăng đồ vật
-                </span>
+                <span className="font-bold text-paragarph-white">Đăng đồ vật</span>
               </Link>
             </div>
           </div>

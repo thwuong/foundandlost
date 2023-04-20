@@ -1,6 +1,6 @@
 const db = require("../models/index");
 const { Op } = require("sequelize");
-const { createError } = require("../utils/createError");
+// const { createError } = require("../utils/createError");
 class ConverstationController {
   // DESC Create a conversation
   // @URL [POST] /api/conversation/
@@ -78,23 +78,37 @@ class ConverstationController {
     }
   }
   // DESC get conversation
-  // @URL [GET] /api/conversation/:conversationId
+  // @URL [GET] /api/conversation/:userId
   async getConversation(req, res, next) {
-    const { userId } = req.user;
+    const userId = req.params.userId;
     try {
-      const converstion = await db.Conversation.findOne({
+      const conversation = await db.Conversation.findOne({
         where: {
           [Op.or]: {
             firstUserId: userId,
             secondUserId: userId,
           },
         },
+        nest: true,
+        raw: true,
+        include: [
+          {
+            model: db.User,
+            as: "firstUser",
+            attributes: ["fullName", "idNumber", "isAdmin", "avatar", "id"],
+          },
+          {
+            model: db.User,
+            as: "secondUser",
+            attributes: ["fullName", "idNumber", "isAdmin", "avatar", "id"],
+          },
+        ],
       });
 
       res.status(200).json({
         success: true,
         message: "Successful",
-        converstion,
+        conversation,
       });
     } catch (error) {
       next(error);

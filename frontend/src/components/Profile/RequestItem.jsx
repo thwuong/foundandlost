@@ -13,11 +13,7 @@ function RequestItem(props) {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const [option, setOption] = useState(false);
-  const {
-    isOpen: isOpenVerifyModal,
-    onOpen: onOpenVerifyModal,
-    onClose: onCloseVefiryModal,
-  } = useDisclosure();
+  const { isOpen: isOpenVerifyModal, onOpen: onOpenVerifyModal, onClose: onCloseVefiryModal } = useDisclosure();
   const handleRemove = async (status, id) => {
     if (status) {
       await deleteRequest(dispatch, id);
@@ -30,27 +26,16 @@ function RequestItem(props) {
         <div className="flex justify-between">
           <div className="flex gap-2 items-start">
             <figure>
-              <img
-                className="w-10 h-10 rounded-full object-cover"
-                src={request?.author?.avatar}
-                alt=""
-              />
+              <img className="w-10 h-10 rounded-full object-cover" src={request?.author?.avatar} alt="" />
             </figure>
             <div>
               <Link to={`/profile/${request?.userId}`}>
-                <p className="font-bold leading-4 cursor-pointer hover:text-gray-600">
-                  {request?.author?.fullName}
-                </p>
+                <p className="font-bold leading-4 cursor-pointer hover:text-gray-600">{request?.author?.fullName}</p>
               </Link>
-              <span className="text-sm text-gray-400 leading-4">
-                {request?.author?.email}
-              </span>
+              <span className="text-sm text-gray-400 leading-4">{request?.author?.email}</span>
             </div>
 
-            <Badge
-              variant="solid"
-              colorScheme={renderStatusRequest(request?.status)}
-            >
+            <Badge variant="solid" colorScheme={renderStatusRequest(request?.status)}>
               {request?.status}
             </Badge>
           </div>
@@ -66,17 +51,10 @@ function RequestItem(props) {
               </p>
               {option && (
                 <ul className="absolute top-full right-0 bg-white p-1 rounded-lg flex gap-2 z-10">
-                  <li
-                    className="flex items-center cursor-pointer"
-                    title="Chỉnh sửa"
-                  >
+                  <li className="flex items-center cursor-pointer" title="Chỉnh sửa">
                     <box-icon name="pencil" color="#3364C9"></box-icon>
                   </li>
-                  <li
-                    className="flex items-center cursor-pointer"
-                    title="Xóa"
-                    onClick={onOpenVerifyModal}
-                  >
+                  <li className="flex items-center cursor-pointer" title="Xóa" onClick={onOpenVerifyModal}>
                     <box-icon name="trash" color="#3364C9"></box-icon>
                   </li>
                 </ul>
@@ -86,13 +64,11 @@ function RequestItem(props) {
         </div>
         {user.id === request?.userId && (
           <Link to={`/post/${request?.postId}`}>
-            <h5 className="mt-2 font-semibold hover:text-black/70">
-              Yêu cầu cho bài viết : {request?.post?.title}
-            </h5>
+            <h5 className="mt-2 font-semibold hover:text-black/70">Yêu cầu cho bài viết : {request?.post?.title}</h5>
           </Link>
         )}
-        <p className="mt-2">tôi muốn nhận lại cái này</p>
-        {user.id !== request?.userId && (
+        <p className="mt-2">{request.desc}</p>
+        {user.id !== request?.userId && request.status === "pending" && (
           <div className="mt-2 flex gap-2">
             <Button
               onClick={() => {

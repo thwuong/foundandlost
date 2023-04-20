@@ -4,11 +4,20 @@ import {
   saveConversations,
   addConversation,
   saveConversationAfterDelete,
+  selectConversation,
 } from "../stores/ConversationSlice";
 export const createConversation = async (dispatch, payload) => {
   try {
     const data = await axiosClient.post("/api/conversation/", payload);
     dispatch(addConversation(data));
+  } catch (error) {
+    showStoats("error", error.message);
+  }
+};
+export const getConversation = async (dispatch, senderId) => {
+  try {
+    const data = await axiosClient.get(`/api/conversation/${senderId}`);
+    await dispatch(selectConversation(data.conversation.id));
   } catch (error) {
     showStoats("error", error.message);
   }
