@@ -19,6 +19,14 @@ export const getUser = async (userId, dispatch) => {
     showToast("error", error.message);
   }
 };
+export const getUserFullInfo = async (userId) => {
+  try {
+    const data = await axiosClient.get(`/api/user/${userId}/full`);
+    return data.user;
+  } catch (error) {
+    showToast("error", error.message);
+  }
+};
 export const updateProfile = async (payload, dispatch) => {
   try {
     const data = await axiosClient.put("/api/user/profile", payload);

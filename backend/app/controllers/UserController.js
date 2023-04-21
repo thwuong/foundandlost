@@ -52,6 +52,42 @@ class UserController {
       next(error);
     }
   }
+  // DESC [edit a user]
+  // @URL [PUT] /api/user/:userId
+  // body : [password, email, fullName, phone, address]
+  async editUser(req, res, next) {
+    const userId = req.params.userId;
+    const { password, fullName, phone, email } = req.body;
+    if (!password) {
+      return next(createError(400, "Vui lòng nhập mật khẩu"));
+    }
+    if (!fullName) {
+      return next(createError(400, "Vui lòng nhập tên đầy đủ"));
+    }
+    try {
+      const cryptr = new Cryptr(process.env.HASH_KEY);
+      const hashPassword = cryptr.encrypt(password);
+
+      const updatedUser = await db.User.update(
+        {
+          password: hashPassword,
+          fullName,
+          phone,
+          email,
+        },
+        { where: { id: userId } }
+      );
+      const user = await db.User.findByPk(userId, { raw: true });
+      console.log(user);
+      res.status(200).json({
+        success: true,
+        message: `Đã cập nhật tài khoản ${user.idNumber}`,
+        user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
   // DESC [get all user]
   // @URL [GET] /api/user/
   async getAllUser(req, res, next) {
@@ -139,6 +175,31 @@ class UserController {
         raw: true,
       });
       if (!user) return next(createError(404, "Sinh viên không có trong hệ thống"));
+      res.status(200).json({
+        success: true,
+        message: `Successful`,
+        user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  // DESC [get a user]
+  // @URL [GET] /api/user/:userId/full
+  async getUserFullInfo(req, res, next) {
+    const id = req.params.userId;
+    try {
+      const userData = await db.User.findOne({
+        where: { id },
+        raw: true,
+        attributes: {
+          include: "password",
+        },
+      });
+      if (!userData) return next(createError(404, "Sinh viên không có trong hệ thống"));
+      const cryptr = new Cryptr(process.env.HASH_KEY);
+      const { password, ...user } = userData;
+      user.password = cryptr.decrypt(password);
       res.status(200).json({
         success: true,
         message: `Successful`,

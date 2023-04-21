@@ -1,10 +1,5 @@
 import axiosClient from "./axiosClient";
-import {
-  addAccount,
-  removeAccount,
-  saveAccounts,
-  selectedAccount,
-} from "../stores/AccountSlice";
+import { addAccount, removeAccount, saveAccounts, selectedAccount, saveAccount } from "../stores/AccountSlice";
 import showToast from "../utils/showToast";
 
 export const createAccount = async (payload, dispatch) => {
@@ -37,6 +32,15 @@ export const getAccount = async (userId, dispatch) => {
   try {
     const data = await axiosClient.get(`/api/user/${userId}`);
     dispatch(selectedAccount(data));
+  } catch (error) {
+    showToast("error", error.message);
+  }
+};
+export const editAccount = async (values, userId, dispatch) => {
+  try {
+    const data = await axiosClient.put(`/api/user/${userId}`, values);
+    dispatch(saveAccount(data));
+    showToast("success", data.message);
   } catch (error) {
     showToast("error", error.message);
   }

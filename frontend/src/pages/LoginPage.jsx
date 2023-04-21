@@ -12,7 +12,7 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await login({ idNumber, password }, dispatch);
-    data.user.isAdmin === 1 ? navigate("/manage/account") : navigate(-1);
+    data.user.isAdmin === 1 ? navigate("/manage/account") : navigate("/");
   };
   useEffect(() => {
     if (auth.user) {

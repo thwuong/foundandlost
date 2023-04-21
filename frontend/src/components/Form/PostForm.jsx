@@ -2,16 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  Select,
-  FormErrorMessage,
-  Badge,
-} from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, Textarea, Select, FormErrorMessage, Badge } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import imageUpload from "../../assets/image-upload.jpg";
 import PreviewImage from "../PreviewImage";
@@ -27,16 +18,7 @@ function PostForm(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
   const [oldImages, setOldImages] = useState([]);
-  const {
-    values,
-    errors,
-    touched,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    resetForm,
-    setValues,
-  } = useFormik({
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm, setValues } = useFormik({
     initialValues: {
       title: "",
       desc: "",
@@ -133,15 +115,12 @@ function PostForm(props) {
   return (
     <>
       <h1 className="text-3xl text-primary text-center font-bold">
-        {!isEdit ? "ĐĂNG ĐỒ VẬT" : "Chỉnh sửa thông tin đồ vật"}
+        {!isEdit ? "ĐĂNG HỒ SƠ ĐỒ VẬT" : "CHỈNH SỬA HỒ SƠ ĐỒ VẬT"}
       </h1>
       <form onSubmit={handleSubmit} className="py-8">
         <div className="lg:flex-row flex-col flex gap-5">
           <div className="xl:w-3/5 lg:w-2/4">
-            <FormControl
-              className="mt-4"
-              isInvalid={errors.title && touched.title}
-            >
+            <FormControl className="mt-4" isInvalid={errors.title && touched.title}>
               <FormLabel htmlFor="title">Tiêu đề</FormLabel>
               <Input
                 onBlur={handleBlur}
@@ -152,14 +131,9 @@ function PostForm(props) {
                 type="text"
                 placeholder="Nhập tiêu đề"
               />
-              {errors.title && touched.title && (
-                <FormErrorMessage>{errors.title}</FormErrorMessage>
-              )}
+              {errors.title && touched.title && <FormErrorMessage>{errors.title}</FormErrorMessage>}
             </FormControl>
-            <FormControl
-              className="mt-4"
-              isInvalid={errors.desc && touched.desc}
-            >
+            <FormControl className="mt-4" isInvalid={errors.desc && touched.desc}>
               <FormLabel htmlFor="desc">Mô tả</FormLabel>
 
               <Textarea
@@ -173,17 +147,12 @@ function PostForm(props) {
                 placeholder="Nhập mô tả"
                 resize="none"
               />
-              {errors.desc && touched.desc && (
-                <FormErrorMessage>{errors.desc}</FormErrorMessage>
-              )}
+              {errors.desc && touched.desc && <FormErrorMessage>{errors.desc}</FormErrorMessage>}
             </FormControl>
           </div>
           <div className="xl:w-2/5 lg:w-2/4">
             <div className="flex gap-5">
-              <FormControl
-                className="mt-4"
-                isInvalid={errors.postType && touched.postType}
-              >
+              <FormControl className="mt-4" isInvalid={errors.postType && touched.postType}>
                 <FormLabel htmlFor="postType">Loại bài viết</FormLabel>
                 <Select
                   placeholder="Chọn Loại bài viết"
@@ -195,14 +164,9 @@ function PostForm(props) {
                   <option value={"Found item"}>Found Item</option>
                   <option value={"Lost item"}>Lost Item</option>
                 </Select>
-                {errors.postType && touched.postType && (
-                  <FormErrorMessage>{errors.postType}</FormErrorMessage>
-                )}
+                {errors.postType && touched.postType && <FormErrorMessage>{errors.postType}</FormErrorMessage>}
               </FormControl>
-              <FormControl
-                className="mt-4"
-                isInvalid={errors.categoryId && touched.categoryId}
-              >
+              <FormControl className="mt-4" isInvalid={errors.categoryId && touched.categoryId}>
                 <FormLabel htmlFor="categoryId">Danh mục đồ vật</FormLabel>
                 <Select
                   placeholder="Chọn danh mục"
@@ -221,15 +185,10 @@ function PostForm(props) {
                       })
                     : null}
                 </Select>
-                {errors.categoryId && touched.categoryId && (
-                  <FormErrorMessage>{errors.categoryId}</FormErrorMessage>
-                )}
+                {errors.categoryId && touched.categoryId && <FormErrorMessage>{errors.categoryId}</FormErrorMessage>}
               </FormControl>
             </div>
-            <FormControl
-              className="mt-4"
-              isInvalid={errors.location && touched.location}
-            >
+            <FormControl className="mt-4" isInvalid={errors.location && touched.location}>
               <FormLabel htmlFor="location">Địa điểm</FormLabel>
 
               <Input
@@ -241,9 +200,7 @@ function PostForm(props) {
                 type="text"
                 placeholder="Địa điểm đồ vật được tìm thấy hoặc thất lạc"
               />
-              {errors.location && touched.location && (
-                <FormErrorMessage>{errors.location}</FormErrorMessage>
-              )}
+              {errors.location && touched.location && <FormErrorMessage>{errors.location}</FormErrorMessage>}
             </FormControl>
           </div>
         </div>
@@ -251,24 +208,12 @@ function PostForm(props) {
           <div className="w-40 h-40">
             <FormControl isInvalid={errUpload}>
               <FormLabel>Hình Ảnh</FormLabel>
-              <FormLabel
-                htmlFor="images"
-                className="block border-dashed border-4 cursor-pointer"
-              >
+              <FormLabel htmlFor="images" className="block border-dashed border-4 cursor-pointer">
                 <img src={imageUpload} alt="" />
               </FormLabel>
 
-              <Input
-                hidden
-                onChange={handlePhotoChange}
-                id="images"
-                name="images"
-                type="file"
-                multiple
-              ></Input>
-              <span className="text-gray-400 text-s block">
-                File type: jpg, jpeg, png
-              </span>
+              <Input hidden onChange={handlePhotoChange} id="images" name="images" type="file" multiple></Input>
+              <span className="text-gray-400 text-s block">File type: jpg, jpeg, png</span>
               {errUpload && <FormErrorMessage>{errUpload}</FormErrorMessage>}
             </FormControl>
           </div>
@@ -286,16 +231,10 @@ function PostForm(props) {
                   ? oldImages.map((img, index) => {
                       return (
                         <figure className="relative" key={index}>
-                          <img
-                            src={img}
-                            alt="img"
-                            className="w-40 h-40 object-cover"
-                          />
+                          <img src={img} alt="img" className="w-40 h-40 object-cover" />
                           <span
                             onClick={async () => {
-                              setOldImages(
-                                oldImages.filter((src) => img !== src)
-                              );
+                              setOldImages(oldImages.filter((src) => img !== src));
                             }}
                             className="absolute -top-2 -right-2 w-6 h-6 rounded-full flex justify-center items-center cursor-pointer bg-gray-400 hover:bg-gray-500"
                           >
