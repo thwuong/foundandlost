@@ -23,26 +23,16 @@ function CommentItem(props) {
   const user = useSelector((state) => state.auth.user);
   const comments = useSelector((state) => state.comment.commentList);
   const replyId = parentId ? parentId : comment?.id;
-  const isEdit =
-    activeComment &&
-    activeComment.id === comment.id &&
-    activeComment.type === "edit";
-  const isReply =
-    activeComment &&
-    activeComment.id === comment.id &&
-    activeComment.type === "reply";
+  const isEdit = activeComment && activeComment.id === comment.id && activeComment.type === "edit";
+  const isReply = activeComment && activeComment.id === comment.id && activeComment.type === "reply";
   return (
     <>
       <div className={`flex gap-2 mt-4`}>
         <figure>
-          <img
-            className="w-8 h-8 rounded-full object-cover"
-            src={comment?.author?.avatar}
-            alt=""
-          />
+          <img className="w-8 h-8 rounded-full object-cover" src={comment?.author?.avatar} alt="" />
         </figure>
         <div className="">
-          <div className="p-2 rounded-2xl bg-white">
+          <div className="p-2 rounded-2xl bg-white max-w-md">
             <div className="flex justify-between">
               <p className="font-medium">{comment?.author?.fullName}</p>
             </div>
@@ -58,13 +48,13 @@ function CommentItem(props) {
                   onClick={() => {
                     setActiveComment(null);
                   }}
-                  className="text-sm text-gray-500 cursor-pointer font-bold"
+                  className="text-sm text-caption cursor-pointer font-bold"
                 >
                   Hủy
                 </span>
               </div>
             )}
-            {!isEdit && <span>{comment?.content}</span>}
+            {!isEdit && <p className="leading-5">{comment?.content}</p>}
           </div>
           <div className="">
             {user.id !== comment?.userId ? (
@@ -73,23 +63,20 @@ function CommentItem(props) {
                   setActiveComment({ id: comment.id, type: "reply" });
                 }}
                 htmlFor="idInput"
-                className="text-sm text-white cursor-pointer font-bold hover:underline"
+                className="text-sm text-caption cursor-pointer font-bold hover:underline"
               >
                 Phản hồi
               </label>
             ) : (
               <>
-                <span
-                  onClick={onOpen}
-                  className="text-sm text-white ml-2 cursor-pointer"
-                >
+                <span onClick={onOpen} className="text-sm text-caption ml-2 cursor-pointer">
                   Xóa
                 </span>
                 <span
                   onClick={() => {
                     setActiveComment({ id: comment?.id, type: "edit" });
                   }}
-                  className="text-sm text-white ml-2 cursor-pointer"
+                  className="text-sm text-caption ml-2 cursor-pointer"
                 >
                   Sửa
                 </span>
@@ -109,16 +96,9 @@ function CommentItem(props) {
               </>
             )}
 
-            <span className="text-sm text-white ml-2">
-              {moment(comment?.createdAt).fromNow()}
-            </span>
+            <span className="text-sm text-caption ml-2">{moment(comment?.createdAt).fromNow()}</span>
           </div>
-          {isReply && (
-            <CommentInput
-              idInput={"idInput"}
-              handleSubmit={(content) => addComment(content, replyId)}
-            />
-          )}
+          {isReply && <CommentInput idInput={"idInput"} handleSubmit={(content) => addComment(content, replyId)} />}
         </div>
       </div>
       {replies.length > 0 && (

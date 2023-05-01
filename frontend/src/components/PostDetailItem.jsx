@@ -23,7 +23,7 @@ function PostItem(props) {
   }, [item]);
   return (
     <>
-      <div className="lg:flex-row flex-col-reverse flex gap-5 p-4 bg-black/10 rounded-lg">
+      <div className="lg:flex-row flex-col-reverse flex gap-5 p-4 bg-gray-200 shadow rounded-lg">
         <div className="lg:w-1/2">
           <figure>
             <img
@@ -45,7 +45,7 @@ function PostItem(props) {
                         setImageActive(image);
                       }}
                       key={index}
-                      className={`${imageActive === image ? "border-2" : ""}`}
+                      className={`${imageActive === image ? "border-2 border-black/20" : ""}`}
                     >
                       <img
                         className="w-16 h-16 object-cover cursor-pointer"
@@ -84,16 +84,16 @@ function PostItem(props) {
           </div>
           <h2 className="mt-2 text-2xl font-bold">{item?.title}</h2>
           <div className="mt-2 flex items-center gap-2">
-            <box-icon name="map" color="#E5E7EB"></box-icon>
-            <span className="text-sm text-gray-200">{item?.location}</span>
+            <box-icon name="map" color="#6E798C"></box-icon>
+            <span className="text-sm text-date">{item?.location}</span>
           </div>
           <div className="mt-2 flex items-center gap-2">
-            <box-icon name="time" color="#E5E7EB"></box-icon>
-            <span className="text-sm text-gray-200">{moment(item?.createdAt).fromNow()}</span>
+            <box-icon name="time" color="#6E798C"></box-icon>
+            <span className="text-sm text-date">{moment(item?.createdAt).fromNow()}</span>
           </div>
           <div className="mt-2 flex items-center justify-between">
             <Badge variant="outline" colorScheme={renderTypePost(item?.typePost)}>
-              Found item
+              {item?.postType === "Found Item" ? "Tìm thấy" : "Bị mất"}
             </Badge>
             <span className="text-primary text-sm font-bold">#{item?.category?.typeName}</span>
           </div>
@@ -104,8 +104,8 @@ function PostItem(props) {
           <p className="mt-2 font-bold">Liên hệ: </p>
           <div className="flex justify-between flex-wrap">
             <div className="flex items-center gap-2">
-              <box-icon name="phone" color="#E5E7EB"></box-icon>
-              <span className="text-sm text-gray-200">{item?.author?.phone}</span>
+              <box-icon name="phone" color="#6E798C"></box-icon>
+              <span className="text-sm text-date">{item?.author?.phone}</span>
             </div>
             <div className="flex items-center gap-2">
               <box-icon name="envelope" color="#E5E7EB"></box-icon>

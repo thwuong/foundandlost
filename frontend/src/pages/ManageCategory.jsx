@@ -11,7 +11,7 @@ function ManageCategory() {
 
   return (
     <>
-      <div className="bg-main bg-no-repeat bg-cover">
+      <div className="bg-main-light bg-no-repeat bg-cover">
         <div className="h-full sm:px-0 px-2 sm:w-11/12 w-full mx-auto overflow-hidden min-h-screen">
           <Header activeTab="manage" />
           <h1 className="my-6 text-primary text-3xl text-center font-bold">QUẢN LÝ DANH MỤC ĐỒ VẬT</h1>
@@ -28,7 +28,7 @@ function ManageCategory() {
                 <span className="font-bold text-white">Tạo Danh mục</span>
                 <box-icon name="user-plus" color="white"></box-icon>
               </div>
-              <div className="bg-white/20 rounded-lg max-h-full overflow-y-auto">
+              <div className="bg-white/20 rounded-lg shadow-xl max-h-full overflow-y-auto">
                 <CategogyTable />
               </div>
             </div>

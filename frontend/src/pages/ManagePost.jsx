@@ -15,10 +15,10 @@ function ManagePost() {
     fetchAllPost({ sort });
   }, [sort]);
   return (
-    <div className="bg-main bg-no-repeat bg-cover min-h-screen">
+    <div className="bg-main-light bg-no-repeat bg-cover min-h-screen">
       <div className="h-full sm:px-0 px-2 sm:w-11/12 w-full mx-auto overflow-hidden min-h-screen">
         <Header activeTab="manage" />
-        <h1 className="my-6 text-primary text-3xl text-center font-bold">QUẢN LÝ ĐỒ VẬT</h1>
+        <h1 className="my-6 text-primary text-3xl text-center font-bold">QUẢN LÝ HỒ SƠ ĐỒ VẬT</h1>
 
         <div className="xl:flex-row flex flex-col gap-5 mt-4 h-3/5">
           <div className="xl:w-1/5">
@@ -37,7 +37,7 @@ function ManagePost() {
                 <option value="ASC">Cũ nhất</option>
               </Select>
             </div>
-            <div className=" bg-white/20 rounded-lg max-h-full overflow-y-auto">
+            <div className=" bg-white/20 rounded-lg shadow-xl max-h-full overflow-y-auto">
               <PostTable />
             </div>
           </div>

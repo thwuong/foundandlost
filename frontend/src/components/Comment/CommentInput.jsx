@@ -5,7 +5,7 @@ function CommentInput(props) {
   const [content, setContent] = useState("");
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    if (content) {
+    if (content.trim()) {
       handleSubmit(content);
       setContent("");
     }
@@ -21,10 +21,7 @@ function CommentInput(props) {
     }
   }, [editInput]);
   return (
-    <form
-      className={`mt-2 relative flex items-center bg-white rounded-lg`}
-      onSubmit={handleOnSubmit}
-    >
+    <form className={`mt-2 relative flex items-center bg-white rounded-lg`} onSubmit={handleOnSubmit}>
       <input
         name="comment"
         id={idInput}

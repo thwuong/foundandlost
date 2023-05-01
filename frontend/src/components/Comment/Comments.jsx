@@ -13,9 +13,7 @@ function Comments() {
   const dispatch = useDispatch();
   const [activeComment, setActiveComment] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const parentComments = comments.filter(
-    (comment) => comment.parentId === null
-  );
+  const parentComments = comments.filter((comment) => comment.parentId === null);
   const getReplies = (commentList, parentId) => {
     return commentList
       .filter((commentItem) => commentItem.parentId === parentId)
@@ -56,8 +54,8 @@ function Comments() {
   };
   return (
     <>
-      <div className="bg-black/10 rounded-lg p-4 max-h-[600px] overflow-y-auto">
-        <p className="text-white">{comments && comments.length} bình luận</p>
+      <div className="bg-gray-200 shadow rounded-lg p-4 max-h-[600px] overflow-y-auto">
+        <p className="text-caption">{comments && comments.length} bình luận</p>
         <CommentInput handleSubmit={addComment} />
 
         {parentComments && parentComments.length > 0 ? (
@@ -80,7 +78,7 @@ function Comments() {
             );
           })
         ) : (
-          <p className="m-1 text-gray-100">Chưa có bình luận....</p>
+          <p className="m-1 text-caption">Chưa có bình luận....</p>
         )}
         <div ref={bottomAnchor} className="anchor-bottom"></div>
       </div>

@@ -53,11 +53,11 @@ function HomePage() {
   }, [filters]);
 
   return (
-    <div className="bg-main bg-no-repeat bg-cover min-h-screen overflow-hidden">
+    <div className="bg-main-light bg-no-repeat bg-cover min-h-screen overflow-hidden">
       <div className="sm:w-4/5 sm:px-0 px-2 w-full mx-auto">
         <div className="container ">
           <Header activeTab="home" />
-          <h1 className="text-5xl mt-8 text-primary font-bold text-center">Found & Lost List</h1>
+          <h1 className="text-4xl mt-8 text-primary font-bold text-center">Danh sách đồ vật thất lạc và tìm thấy</h1>
           <div className="mt-8 grid xl:grid-cols-12 gap-5 p-2 bg-white shadow-xl rounded-xl">
             <div className="xl:col-span-3 md:col-span-3">
               <TabPostType onTabChange={handleTabChange} />

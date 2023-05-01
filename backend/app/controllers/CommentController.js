@@ -62,7 +62,6 @@ class CommentController {
   async deleteComment(req, res, next) {
     const id = req.params.commentId;
     try {
-      await db.Comment.update({ parentId: null }, { where: { parentId: id } });
       await db.Comment.destroy({ where: { id } });
       res.status(200).json({
         success: true,

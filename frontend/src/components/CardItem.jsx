@@ -2,22 +2,24 @@ import React, { useState } from "react";
 import ExtraImage from "../assets/PlaceholderImage.png";
 import { Link } from "react-router-dom";
 import { Badge, useDisclosure } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment/moment";
 import { renderTypePost } from "../utils/renderColorStatus";
 import InstanceModal from "../components/Modal/InstanceModal";
 import VerifyModal from "../components/Modal/VerifyModal";
+import { deleteItem } from "../api/postAPI";
 function CardItem(props) {
   const user = useSelector((state) => state.auth.user);
   const { item } = props;
   const [option, setOption] = useState(false);
+  const dispatch = useDispatch();
   const { isOpen: isOpenVerifyModal, onOpen: onOpenVerifyModal, onClose: onCloseVerifyModal } = useDisclosure();
-  const handleRemove = (status) => {
-    console.log(status);
+  const handleRemove = async (status, id) => {
+    status && (await deleteItem(dispatch, id));
   };
   return (
     <>
-      <div className=" sm:h-[240px] sm:flex-row bg-white rounded-lg flex flex-col h-[400px]">
+      <div className=" sm:h-[240px] sm:flex-row bg-white rounded-lg shadow flex flex-col h-[400px]">
         <figure className="sm:w-2/5 sm:h-full h-1/2 relative">
           <img
             src={item?.images.length > 0 ? item?.images[0] : ""}
@@ -36,9 +38,9 @@ function CardItem(props) {
         <div className="sm:w-3/5 h-full p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <Badge variant="outline" colorScheme={renderTypePost(item?.postType)}>
-              {item?.postType}
+              {item?.postType === "Found Item" ? "Tìm thấy" : "Bị mất"}
             </Badge>
-            <span className="text-sm text-date ">{moment(item?.createdAt).fromNow()}</span>
+            <span className="text-sm text-date ">{moment(item?.createdAt).locale("vi").fromNow()}</span>
           </div>
 
           <h3 className="my-2 font-bold text-2xl truncate">{item?.title}</h3>
@@ -89,7 +91,12 @@ function CardItem(props) {
         modalName={"Xác nhận"}
         hide={onCloseVerifyModal}
         content={
-          <VerifyModal hide={onCloseVerifyModal} title={"Chắc chắn xóa bài viết này!"} handleVerify={handleRemove} />
+          <VerifyModal
+            hide={onCloseVerifyModal}
+            title={"Chắc chắn xóa bài viết này!"}
+            handleVerify={handleRemove}
+            selectedId={item.id}
+          />
         }
       />
     </>

@@ -9,7 +9,7 @@ function Navigate(props) {
     await logout(dispatch);
   };
   return (
-    <ul className="p-4 bg-white/20 rounded-lg flex xl:flex-col justify-around  gap-5">
+    <ul className="p-4 bg-gray-200 rounded-lg flex xl:flex-col justify-around  gap-5">
       <Link to={"/manage/account"}>
         <li
           className={`my-2 py-2 px-4 text-sm flex items-center duration-300 xl:justify-between gap-5 bg-primary cursor-pointer rounded  
@@ -20,10 +20,7 @@ function Navigate(props) {
           }`}
         >
           <span className="sm:block hidden font-bold">Quản lý Tài khoản</span>
-          <box-icon
-            name="user"
-            color={activeNav === "account" ? "#2457C5" : "white"}
-          ></box-icon>
+          <box-icon name="user" color={activeNav === "account" ? "#2457C5" : "white"}></box-icon>
         </li>
       </Link>
       <Link to={"/manage/post"}>
@@ -35,11 +32,8 @@ function Navigate(props) {
               : "text-white hover:bg-gray-500/50 hover:-translate-y-1 hover:shadow-xl"
           }`}
         >
-          <span className="sm:block hidden font-bold">Quản lý Đồ vật</span>
-          <box-icon
-            name="news"
-            color={activeNav === "post" ? "#2457C5" : "white"}
-          ></box-icon>
+          <span className="sm:block hidden font-bold">Quản lý Hồ sơ đồ vật</span>
+          <box-icon name="news" color={activeNav === "post" ? "#2457C5" : "white"}></box-icon>
         </li>
       </Link>
       <Link to={"/manage/category"}>
@@ -52,10 +46,7 @@ function Navigate(props) {
           }`}
         >
           <span className="sm:block hidden font-bold">Quản lý Danh mục</span>
-          <box-icon
-            name="category"
-            color={activeNav === "category" ? "#2457C5" : "white"}
-          ></box-icon>
+          <box-icon name="category" color={activeNav === "category" ? "#2457C5" : "white"}></box-icon>
         </li>
       </Link>
       <li

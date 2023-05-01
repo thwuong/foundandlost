@@ -9,7 +9,7 @@ function ManageAccount() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <div className="bg-main bg-no-repeat bg-cover min-h-screen h-full">
+      <div className="bg-main-light bg-no-repeat bg-cover min-h-screen h-full">
         <div className="h-full sm:px-0 px-2 sm:w-11/12 w-full mx-auto overflow-hidden min-h-screen">
           <Header activeTab="manage" />
           <h1 className="my-6 text-primary text-3xl text-center font-bold">QUẢN LÝ TÀI KHOẢN</h1>

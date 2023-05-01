@@ -166,24 +166,6 @@ class PostController {
     }
   }
   // DESC [delete a post]
-  // @URL [DELETE] /api/post/:postId/comfirmed
-  // params : [postId]
-  async deleteConfirmedPost(req, res, next) {
-    const id = req.params.postId;
-    try {
-      const deletedPost = await db.Post.destroy({
-        where: { id, status: "confirmed" },
-      });
-      res.status(200).json({
-        success: true,
-        message: "Đã xóa đồ vật",
-        deletedPost,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-  // DESC [delete a post]
   // @URL [DELETE] /api/post/:postId
   // params : [postId]
   // body [status]

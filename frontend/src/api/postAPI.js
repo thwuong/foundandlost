@@ -1,12 +1,6 @@
 import axiosClient from "./axiosClient";
 import showStoats from "../utils/showToast";
-import {
-  savePostList,
-  savePostItem,
-  addNewPost,
-  removePost,
-  updatePost,
-} from "../stores/PostSlice";
+import { savePostList, savePostItem, addNewPost, removePost, updatePost } from "../stores/PostSlice";
 import { saveProfilePosts } from "../stores/UserSlice";
 
 export const postItem = async (dispatch, payload) => {
@@ -23,7 +17,7 @@ export const deleteItem = async (dispatch, postId) => {
   try {
     const data = await axiosClient.delete(`/api/post/${postId}`);
     dispatch(removePost(postId));
-    showStoats("success", data);
+    showStoats("success", data.message);
   } catch (error) {
     showStoats("error", error.message);
   }
@@ -65,15 +59,6 @@ export const getItemList = async (dispatch, params) => {
   try {
     const data = await axiosClient.get(`/api/post/`, { params });
     dispatch(savePostList(data));
-  } catch (error) {
-    showStoats("error", error.message);
-  }
-};
-export const deleteComfirmedItem = async (dispatch, postId) => {
-  try {
-    const data = await axiosClient.delete(`/api/post/${postId}/confirmed`);
-    dispatch(removePost(postId));
-    showStoats("success", data);
   } catch (error) {
     showStoats("error", error.message);
   }

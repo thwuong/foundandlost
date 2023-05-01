@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import { createConversation, getConversationList } from "../api/conversationAPI";
 import { selectConversation, unSelectConversation } from "../stores/ConversationSlice";
 import { findUsers } from "../api/userAPI";
+import { deleteConversation } from "../api/conversationAPI";
 
 function ChatPage() {
   const { auth, conversation } = useSelector((state) => state);
@@ -38,6 +39,10 @@ function ChatPage() {
   //selected chat
   const handleSelectedChat = async (recieverId) => {
     await createConversation(dispatch, { reciever: recieverId });
+  };
+  // remove conversation
+  const removeConversation = async (conversationId) => {
+    await deleteConversation(dispatch, conversationId);
   };
   //get all user conversation
   useEffect(() => {
@@ -131,6 +136,7 @@ function ChatPage() {
                         conversation={conversation}
                         currentConversation={currentConversation}
                         selectedUser={selectedUser}
+                        removeConversation={removeConversation}
                       />
                     );
                   })}

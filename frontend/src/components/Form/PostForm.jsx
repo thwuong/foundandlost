@@ -111,7 +111,7 @@ function PostForm(props) {
         categoryId: post?.categoryId,
       });
     post?.images?.length > 0 && setOldImages(post?.images);
-  }, [isEdit, post]);
+  }, [post]);
   return (
     <>
       <h1 className="text-3xl text-primary text-center font-bold">
@@ -125,7 +125,7 @@ function PostForm(props) {
               <Input
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.title || " "}
+                value={values.title}
                 id="title"
                 name="title"
                 type="text"
@@ -139,7 +139,7 @@ function PostForm(props) {
               <Textarea
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.desc || " "}
+                value={values.desc}
                 className="h-[130px]"
                 as="textarea"
                 id="desc"
@@ -158,11 +158,11 @@ function PostForm(props) {
                   placeholder="Chọn Loại bài viết"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.postType || ""}
+                  value={values.postType}
                   name="postType"
                 >
-                  <option value={"Found item"}>Found Item</option>
-                  <option value={"Lost item"}>Lost Item</option>
+                  <option value={"Found item"}>Tìm thấy</option>
+                  <option value={"Lost item"}>Bị mất</option>
                 </Select>
                 {errors.postType && touched.postType && <FormErrorMessage>{errors.postType}</FormErrorMessage>}
               </FormControl>
@@ -172,7 +172,7 @@ function PostForm(props) {
                   placeholder="Chọn danh mục"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.categoryId || " "}
+                  value={values.categoryId}
                   name="categoryId"
                 >
                   {categories && categories.length > 0
@@ -194,7 +194,7 @@ function PostForm(props) {
               <Input
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.location || ""}
+                value={values.location}
                 id="location"
                 name="location"
                 type="text"

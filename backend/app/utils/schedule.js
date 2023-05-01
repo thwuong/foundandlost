@@ -12,30 +12,11 @@ module.exports.followPostExpried = async () => {
       raw: true,
     });
     for (const post of postsExpried) {
-      await db.Comment.update(
-        { parentId: null },
-        { where: { postId: post.id } }
-      );
-
-      const c = await db.Comment.destroy({
-        where: {
-          postId: post.id,
-        },
-      });
-      const r = await db.Request.destroy({
-        where: {
-          postId: post.id,
-        },
-      });
       const p = await db.Post.destroy({
         where: {
           id: post.id,
         },
       });
-
-      console.log("comments", c);
-      console.log("request", r);
-      console.log("post", p);
     }
   } catch (error) {
     console.log(error);

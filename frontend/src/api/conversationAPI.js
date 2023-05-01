@@ -1,5 +1,5 @@
 import axiosClient from "./axiosClient";
-import showStoats from "../utils/showToast";
+import showToast from "../utils/showToast";
 import {
   saveConversations,
   addConversation,
@@ -11,7 +11,7 @@ export const createConversation = async (dispatch, payload) => {
     const data = await axiosClient.post("/api/conversation/", payload);
     dispatch(addConversation(data));
   } catch (error) {
-    showStoats("error", error.message);
+    showToast("error", error.message);
   }
 };
 export const getConversation = async (dispatch, senderId) => {
@@ -19,7 +19,7 @@ export const getConversation = async (dispatch, senderId) => {
     const data = await axiosClient.get(`/api/conversation/${senderId}`);
     await dispatch(selectConversation(data.conversation.id));
   } catch (error) {
-    showStoats("error", error.message);
+    showToast("error", error.message);
   }
 };
 export const getConversationList = async (dispatch) => {
@@ -27,14 +27,15 @@ export const getConversationList = async (dispatch) => {
     const data = await axiosClient.get(`/api/conversation/`);
     dispatch(saveConversations(data));
   } catch (error) {
-    showStoats("error", error.message);
+    showToast("error", error.message);
   }
 };
 export const deleteConversation = async (dispatch, conversationId) => {
   try {
-    const data = await axiosClient.get(`/api/conversation/${conversationId}`);
+    const data = await axiosClient.delete(`/api/conversation/${conversationId}`);
     dispatch(saveConversationAfterDelete(conversationId));
+    showToast("success", data.message);
   } catch (error) {
-    showStoats("error", error.message);
+    showToast("error", error.message);
   }
 };

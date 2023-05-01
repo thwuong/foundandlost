@@ -14,7 +14,7 @@ function PostDetail() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSelectedChat = async (receiverId) => {
-    await createConversation(dispatch, { receiver: receiverId });
+    await createConversation(dispatch, { reciever: receiverId });
     navigate("/chat");
   };
 
@@ -29,7 +29,7 @@ function PostDetail() {
     fetchComment(postId);
   }, [postId]);
   return (
-    <div className="bg-main bg-no-repeat bg-cover min-h-screen">
+    <div className="bg-main-light bg-no-repeat bg-cover min-h-screen">
       <div className="sm:w-4/5 sm:px-0 px-2 w-full mx-auto overflow-hidden pb-4 h-full">
         <Header />
         <h1 className="mt-6 text-3xl text-primary text-center font-bold">CHI TIẾT ĐỒ VẬT</h1>
