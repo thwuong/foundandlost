@@ -38,7 +38,7 @@ function CardItem(props) {
         <div className="sm:w-3/5 h-full p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <Badge variant="outline" colorScheme={renderTypePost(item?.postType)}>
-              {item?.postType === "Found Item" ? "Tìm thấy" : "Bị mất"}
+              {item?.postType === "Found item" ? "Tìm thấy" : "Bị mất"}
             </Badge>
             <span className="text-sm text-date ">{moment(item?.createdAt).locale("vi").fromNow()}</span>
           </div>

@@ -15,6 +15,7 @@ import ChatPage from "./pages/ChatPage";
 import ManageAccount from "./pages/ManageAccount";
 import ManagePost from "./pages/ManagePost";
 import ManageCategory from "./pages/ManageCategory";
+import StatisticPage from "./pages/StatisticPage";
 import NotFound from "./pages/NotFound";
 import UnAuthorized from "./pages/UnAuthorized";
 import AdminRoutes from "./utils/AdminRoutes";
@@ -35,10 +36,7 @@ function App() {
           <Route element={<StudentRoutes />}>
             <Route index path="/" element={<HomePage />}></Route>
             <Route path="/post/create-post" element={<CreatePost />}></Route>
-            <Route
-              path="/post/:postId/edit-post"
-              element={<EditPost />}
-            ></Route>
+            <Route path="/post/:postId/edit-post" element={<EditPost />}></Route>
             <Route path="/post/:postId" element={<PostDetail />}></Route>
             <Route path="/profile" element={<ProfilePage />}></Route>
             <Route path="/profile/:userId" element={<ProfilePage />}></Route>
@@ -46,6 +44,7 @@ function App() {
             <Route path="/chat" element={<ChatPage />}></Route>
           </Route>
           <Route element={<AdminRoutes />}>
+            <Route path="/manage" element={<StatisticPage />}></Route>
             <Route path="/manage/account" element={<ManageAccount />}></Route>
             <Route path="/manage/post" element={<ManagePost />}></Route>
             <Route path="/manage/category" element={<ManageCategory />}></Route>

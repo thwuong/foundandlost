@@ -9,7 +9,20 @@ function Navigate(props) {
     await logout(dispatch);
   };
   return (
-    <ul className="p-4 bg-gray-200 rounded-lg flex xl:flex-col justify-around  gap-5">
+    <ul className="p-4 bg-gray-200 rounded-lg flex xl:flex-col flex-wrap gap-4">
+      <Link to={"/manage"}>
+        <li
+          className={`my-2 py-2 px-4 text-sm flex items-center duration-300 xl:justify-between gap-5 bg-primary cursor-pointer rounded  
+          ${
+            activeNav === "statistic"
+              ? "text-primary bg-white"
+              : "text-white hover:bg-gray-500/50 hover:-translate-y-1 hover:shadow-xl"
+          }`}
+        >
+          <span className="sm:block hidden font-bold">Thống Kê</span>
+          <box-icon name="dashboard" type="solid" color={activeNav === "statistic" ? "#2457C5" : "white"}></box-icon>
+        </li>
+      </Link>
       <Link to={"/manage/account"}>
         <li
           className={`my-2 py-2 px-4 text-sm flex items-center duration-300 xl:justify-between gap-5 bg-primary cursor-pointer rounded  

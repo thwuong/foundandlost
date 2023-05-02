@@ -93,7 +93,7 @@ function PostItem(props) {
           </div>
           <div className="mt-2 flex items-center justify-between">
             <Badge variant="outline" colorScheme={renderTypePost(item?.typePost)}>
-              {item?.postType === "Found Item" ? "Tìm thấy" : "Bị mất"}
+              {item?.postType === "Found item" ? "Tìm thấy" : "Bị mất"}
             </Badge>
             <span className="text-primary text-sm font-bold">#{item?.category?.typeName}</span>
           </div>
