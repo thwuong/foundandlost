@@ -7,9 +7,7 @@ import { pushNotify } from "../../api/notifyAPI";
 function Conversation(props) {
   const user = useSelector((state) => state.auth.user);
   const socket = useSelector((state) => state.instanceSocket.socket);
-  const currentConversation = useSelector(
-    (state) => state.conversation.currentConversation
-  );
+  const currentConversation = useSelector((state) => state.conversation.currentConversation);
   const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -29,7 +27,7 @@ function Conversation(props) {
   };
   // send message
   const sendMessage = async () => {
-    if (newMessage !== "") {
+    if (newMessage.trim() !== "") {
       const message = {
         senderId: user.id,
         message: newMessage,
@@ -71,22 +69,14 @@ function Conversation(props) {
   useEffect(() => {
     if (!currentConversation) return;
     fetchMessages(currentConversation.id);
-    setReciever(
-      [currentConversation?.firstUser, currentConversation?.secondUser].find(
-        (u) => u?.id !== user.id
-      )
-    );
+    setReciever([currentConversation?.firstUser, currentConversation?.secondUser].find((u) => u?.id !== user.id));
     compareConversation.current = currentConversation.id;
   }, [currentConversation]);
   return (
     <div className="h-full">
       <div className="px-12 h-[12%] flex items-center bg-white shadow-xl">
         <figure>
-          <img
-            className="w-8 h-8 object-cover rounded-full"
-            src={reciever?.avatar}
-            alt=""
-          />
+          <img className="w-8 h-8 object-cover rounded-full" src={reciever?.avatar} alt="" />
         </figure>
         <p className="ml-4 font-medium">{reciever?.fullName}</p>
         <p
@@ -117,18 +107,14 @@ function Conversation(props) {
             onKeyDown={handleKeyDown}
             type="text"
             className="w-full outline-none"
-            placeholder="Type something"
+            placeholder="gõ một cái gì đó"
           />
           <button className="flex items-center" onClick={sendMessage}>
             <box-icon name="send" type="solid" color="#2457C5"></box-icon>
           </button>
         </div>
         <figure>
-          <img
-            className="w-8 h-8 object-cover rounded-full"
-            src={user.avatar}
-            alt=""
-          />
+          <img className="w-8 h-8 object-cover rounded-full" src={user.avatar} alt="" />
         </figure>
       </div>
     </div>

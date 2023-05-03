@@ -17,7 +17,7 @@ function ProfilePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSelectedChat = async (receiverId) => {
-    await createConversation(dispatch, { receiver: receiverId });
+    await createConversation(dispatch, { reciever: receiverId });
     navigate("/chat");
   };
 

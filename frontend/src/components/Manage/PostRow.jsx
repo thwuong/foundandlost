@@ -3,31 +3,20 @@ import { Badge, Tr, Td, useDisclosure } from "@chakra-ui/react";
 import moment from "moment";
 import InstanceModal from "../Modal/InstanceModal";
 import VerifyModal from "../Modal/VerifyModal";
-import {
-  renderTypePost,
-  renderStatusPost,
-} from "../../utils/renderColorStatus";
+import { renderTypePost, renderStatusPost } from "../../utils/renderColorStatus";
 function PostRow(props) {
   const { post, handleRemove } = props;
-  const {
-    isOpen: isOpenVerifyModal,
-    onOpen: onOpenVerifyModal,
-    onClose: onCloseVerifyModal,
-  } = useDisclosure();
+  const { isOpen: isOpenVerifyModal, onOpen: onOpenVerifyModal, onClose: onCloseVerifyModal } = useDisclosure();
   return (
     <Tr>
       <Td>
         <Badge variant="outline" colorScheme={renderTypePost(post.postType)}>
-          {post.postType}
+          {post.postType === "Found item" ? "Tìm thấy" : "Bị mất"}
         </Badge>
       </Td>
       <Td>
         <div className="flex gap-1 items-center">
-          <img
-            src={post.author.avatar}
-            alt=""
-            className="w-8 h-8 rounded-full"
-          />
+          <img src={post.author.avatar} alt="" className="w-8 h-8 rounded-full" />
           <div>
             <p className="font-semibold">{post.author.fullName}</p>
             <p className="text-sm text-gray-500">{post.author.email}</p>
@@ -36,7 +25,7 @@ function PostRow(props) {
       </Td>
       <Td>
         <Badge variant="solid" colorScheme={renderStatusPost(post.status)}>
-          {post.status}
+          {post.status === "pending" ? "Đang đợi duyệt" : "Đã xác minh"}
         </Badge>
       </Td>
       <Td>{moment(post.createdAt).fromNow()}</Td>
@@ -44,23 +33,15 @@ function PostRow(props) {
 
       <Td>
         <ul className="flex items-center gap-2">
-          {post.status === "comfirmed" ? (
-            <li className="cursor-pointer" onClick={onOpenVerifyModal}>
-              <box-icon name="trash" color="#7286D3"></box-icon>
-            </li>
-          ) : null}
+          <li className="cursor-pointer" onClick={onOpenVerifyModal}>
+            <box-icon name="trash" color="#7286D3"></box-icon>
+          </li>
         </ul>
         <InstanceModal
           show={isOpenVerifyModal}
           modalName={"Xác nhận"}
           hide={onCloseVerifyModal}
-          content={
-            <VerifyModal
-              hide={onCloseVerifyModal}
-              title={"Xóa đồ vật này!"}
-              handleVerify={handleRemove}
-            />
-          }
+          content={<VerifyModal hide={onCloseVerifyModal} title={"Xóa đồ vật này!"} handleVerify={handleRemove} />}
         />
       </Td>
     </Tr>

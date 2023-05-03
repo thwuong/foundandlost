@@ -40,10 +40,10 @@ function UserChat(props) {
           <box-icon name="dots-vertical-rounded"></box-icon>
         </span>
         {showOption && (
-          <ul className="bg-white p-1 absolute right-5">
+          <ul className="bg-white absolute right-5 z-50 rounded">
             <li
               onClick={handleRemoveConversation}
-              className="flex items-center gap-4 bg-gray-400 hover:bg-gray-300 rounded py-1 px-2 text-white"
+              className="flex items-center gap-4 bg-gray-400 hover:bg-gray-300 rounded py-1 px-2 text-white "
             >
               <box-icon name="trash-alt" color="white"></box-icon>
               Xóa

@@ -30,9 +30,10 @@ function PostForm(props) {
       title: Yup.string()
         .required("Vui lòng nhập tiêu đề bài viết!")
         .min(15, "Đồ dài nhỏ nhất nhất 15 kí tự")
-        .max(150, "Đồ dài tối đa 150 kí tự!"),
-      desc: Yup.string().max(255, "Đồ dài tối đa 255 kí tự!"),
-      location: Yup.string().required("Vui lòng nhập địa điểm!"),
+        .max(150, "Đồ dài tối đa 150 kí tự!")
+        .trim(),
+      desc: Yup.string().max(255, "Đồ dài tối đa 255 kí tự!").trim(),
+      location: Yup.string().required("Vui lòng nhập địa điểm!").trim(),
       postType: Yup.string().required("Vui lòng chọn loại bài viết!"),
       categoryId: Yup.string().required("Vui lòng chọn danh mục đồ vật!"),
     }),

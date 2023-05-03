@@ -103,8 +103,10 @@ function StatisticPage() {
                   </Card>
                 </div>
                 {posts && posts.length > 0 ? (
-                  <div className="my-4 w-52 flex items-center justify-center ">
-                    <Doughnut data={data} />
+                  <div className="w-full p-4 flex items-center  justify-center">
+                    <div className="w-56">
+                      <Doughnut data={data} />
+                    </div>
                   </div>
                 ) : null}
               </div>

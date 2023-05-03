@@ -60,10 +60,15 @@ function Header(props) {
   }, []);
   return (
     <div className="h-28 flex justify-between items-center z-40 relative">
-      <Link to={"/"} className="h-full w-28">
-        <figure className="block">
-          <img src={logo} alt="logo" />
-        </figure>
+      <Link to={"/"} className="flex-1">
+        <div className="h-28 xl:w-2/4 w-full flex items-center">
+          <figure className="lg:w-2/6 sm:w-2/3 w-1/4">
+            <img src={logo} alt="logo" className="object-cover" />
+          </figure>
+          <h1 className="xl:block hidden font-bold text-sm xl:w-2/5 italic">
+            Chia sẻ hồ sơ đồ vật thất lạc cho sinh viên
+          </h1>
+        </div>
       </Link>
       <div className="relative">
         <p

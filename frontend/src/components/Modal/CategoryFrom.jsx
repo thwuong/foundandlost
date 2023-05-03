@@ -1,37 +1,19 @@
 import React, { useEffect } from "react";
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
+import { Button, FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  createCategory,
-  editCategory,
-  getCategory,
-} from "../../api/categoryAPI";
+import { createCategory, editCategory, getCategory } from "../../api/categoryAPI";
 import { useDispatch, useSelector } from "react-redux";
 function CategoryFrom(props) {
   const { hide, isEdit, selectedId } = props;
   const category = useSelector((state) => state.category.category);
   const dispatch = useDispatch();
-  const {
-    values,
-    touched,
-    errors,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    setValues,
-  } = useFormik({
+  const { values, touched, errors, handleBlur, handleChange, handleSubmit, setValues } = useFormik({
     initialValues: {
       typeName: "",
     },
     validationSchema: Yup.object().shape({
-      typeName: Yup.string().required("Vui lòng nhập tên danh mục!"),
+      typeName: Yup.string().required("Vui lòng nhập tên danh mục!").trim(),
     }),
     onSubmit: (values) => {
       if (!isEdit) {
@@ -68,10 +50,7 @@ function CategoryFrom(props) {
   }, [category]);
   return (
     <form onSubmit={handleSubmit}>
-      <FormControl
-        className="mt-4"
-        isInvalid={errors.typeName && touched.typeName}
-      >
+      <FormControl className="mt-4" isInvalid={errors.typeName && touched.typeName}>
         <FormLabel htmlFor="typeName">Tên Danh mục:</FormLabel>
         <Input
           onBlur={handleBlur}
@@ -82,9 +61,7 @@ function CategoryFrom(props) {
           type="text"
           placeholder="Nhập tên danh mục"
         />
-        {errors.typeName && touched.typeName && (
-          <FormErrorMessage>{errors.typeName}</FormErrorMessage>
-        )}
+        {errors.typeName && touched.typeName && <FormErrorMessage>{errors.typeName}</FormErrorMessage>}
       </FormControl>
 
       <div className="mt-4">

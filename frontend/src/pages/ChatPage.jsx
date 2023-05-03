@@ -72,7 +72,7 @@ function ChatPage() {
             ) : currentConversation ? (
               <Conversation />
             ) : (
-              <p className="text-date text-5xl text-center mt-[30%]">Open a conversation to start to chat.</p>
+              <p className="text-date text-5xl text-center mt-[30%]">Mở một cuộc trò chuyện để bắt đầu trò chuyện.</p>
             )}
           </div>
           <p
@@ -102,7 +102,7 @@ function ChatPage() {
                   }}
                 />
                 {showUserList && (
-                  <ul className={`absolute top-14 right-0 w-full bg-gray-200 shadow-xl duration-300 rounded py-2`}>
+                  <ul className={`absolute top-14 right-0 w-full bg-gray-200 shadow-xl duration-300 rounded py-2 z-20`}>
                     {userList && userList.length > 0 ? (
                       userList.map((user) => {
                         return (

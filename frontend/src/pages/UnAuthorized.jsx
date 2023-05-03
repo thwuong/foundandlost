@@ -1,7 +1,10 @@
 import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import unAuthorizred from "../assets/401ErrorUnauthorized.png";
+import { useSelector } from "react-redux";
 function UnAuthorized() {
+  const user = useSelector((state) => state.auth.user);
+  const path = user && user.isAdmin ? "/manage" : "/";
   return (
     <div className="w-4/5 h-[80vh] mx-auto">
       <div className="container mx-auto">
@@ -12,7 +15,7 @@ function UnAuthorized() {
             <p className="my-4 text-center font-medium">
               Chúng tôi xin lỗi. Tài khoản của bạn không có quyền truy cập vào trang bạn yêu cầu
             </p>
-            <Link to={-1}>
+            <Link to={path}>
               <Button colorScheme={"messenger"}>Quay về</Button>
             </Link>
           </div>

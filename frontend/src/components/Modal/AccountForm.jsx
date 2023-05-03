@@ -24,8 +24,8 @@ function AccountForm(props) {
       idNumber: Yup.string()
         .required("Vui lòng mã số!")
         .matches(/([a-z])+([0-9]{7})\b/, "Mã số không hợp lệ!"),
-      password: Yup.string().required("Vui lòng nhập mật khẩu!").min(8, "Ít nhất 8 kí tự"),
-      fullName: Yup.string().required("Vui lòng nhập tên đầy đủ!"),
+      password: Yup.string().required("Vui lòng nhập mật khẩu!").min(8, "Ít nhất 8 kí tự").trim(),
+      fullName: Yup.string().required("Vui lòng nhập tên đầy đủ!").trim(),
     }),
     onSubmit: (values) => {
       selectedId ? handleEditAccount(values, selectedId) : handleAddAccount(values);

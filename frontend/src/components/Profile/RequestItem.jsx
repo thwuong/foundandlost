@@ -36,7 +36,11 @@ function RequestItem(props) {
             </div>
 
             <Badge variant="solid" colorScheme={renderStatusRequest(request?.status)}>
-              {request?.status}
+              {request?.status === "pending"
+                ? "Đang chờ duyệt"
+                : request?.status === "confirmed"
+                ? "Đã xác minh"
+                : "Đã từ chối"}
             </Badge>
           </div>
           {user?.id === request?.userId && (
@@ -71,21 +75,21 @@ function RequestItem(props) {
         {user.id !== request?.userId && request.status === "pending" && (
           <div className="mt-2 flex gap-2">
             <Button
+              className="flex items-center"
               onClick={() => {
                 handleRespone("accepted", request?.postId, request?.id);
               }}
               size="sm"
-              leftIcon={<box-icon name="check" color="white"></box-icon>}
-              colorScheme="whatsapp"
+              colorScheme="teal"
             >
               Đồng ý
             </Button>
             <Button
+              className="flex items-center"
               onClick={() => {
                 handleRespone("refused", request?.postId, request?.id);
               }}
               size="sm"
-              leftIcon={<box-icon name="x" color="#D53F8C"></box-icon>}
               colorScheme="pink"
               variant="outline"
             >
