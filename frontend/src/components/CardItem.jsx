@@ -31,7 +31,9 @@ function CardItem(props) {
           />
           {item.status === "comfirmed" && (
             <div className="absolute top-0 w-full h-full bg-black/25 rounded-lg flex justify-center items-center">
-              <h1 className="text-xl font-bold text-white rotate-45">Đã xác nhận</h1>
+              <h1 className="text-xl font-bold text-white rotate-45">
+                {item?.postType === "Found item" ? "Đã trả cho người mất" : "Đã tìm thấy đồ vật"}
+              </h1>
             </div>
           )}
         </figure>

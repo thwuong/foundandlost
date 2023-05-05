@@ -24,7 +24,7 @@ function CardList() {
                   <AccordionItem border={"none"}>
                     <AccordionButton>
                       <Box as="span" flex="1" textAlign="left" className="font-bold">
-                        Yêu cầu bài viết
+                        Yêu cầu hồ sơ đồ vật
                       </Box>
                       <AccordionIcon />
                     </AccordionButton>

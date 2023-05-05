@@ -109,6 +109,28 @@ class PostController {
       next(error);
     }
   }
+  async getAllPostForStatistic(req, res, next) {
+    const { selected } = req.query;
+    const time = Number(selected);
+    try {
+      const posts = await db.Post.findAll({
+        where: {
+          createdAt: {
+            [Op.gte]: new Date(Date.now() - 60 * 60 * 24 * 1000 * time),
+          },
+        },
+        raw: true,
+      });
+      console.log(posts);
+      res.status(200).json({
+        success: true,
+        message: "Successful",
+        posts,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
   // DESC [get all my post]
   // @URL [GET] /api/post/mypost
   async getMyPost(req, res, next) {

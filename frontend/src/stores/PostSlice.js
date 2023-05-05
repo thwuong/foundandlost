@@ -12,6 +12,9 @@ const postSlice = createSlice({
       state.posts = actions.payload.posts.rows;
       state.totalPost = actions.payload.posts.count;
     },
+    saveRecords: (state, actions) => {
+      state.posts = actions.payload.posts;
+    },
     savePostItem: (state, actions) => {
       state.post = actions.payload.post;
     },
@@ -34,11 +37,5 @@ const postSlice = createSlice({
   },
 });
 
-export const {
-  savePostList,
-  savePostItem,
-  addNewPost,
-  removePost,
-  updatePost,
-} = postSlice.actions;
+export const { savePostList, savePostItem, addNewPost, removePost, updatePost, saveRecords } = postSlice.actions;
 export default postSlice.reducer;

@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 import showStoats from "../utils/showToast";
-import { savePostList, savePostItem, addNewPost, removePost, updatePost } from "../stores/PostSlice";
+import { savePostList, savePostItem, addNewPost, removePost, updatePost, saveRecords } from "../stores/PostSlice";
 import { saveProfilePosts } from "../stores/UserSlice";
 
 export const postItem = async (dispatch, payload) => {
@@ -63,12 +63,20 @@ export const getItemList = async (dispatch, params) => {
     showStoats("error", error.message);
   }
 };
-
 export const editItem = async (dispatch, postId, payload) => {
   try {
     const data = await axiosClient.put(`/api/post/${postId}`, payload);
     showStoats("success", data.message);
     return data;
+  } catch (error) {
+    showStoats("error", error.message);
+  }
+};
+
+export const getRecords = async (dispatch, params) => {
+  try {
+    const data = await axiosClient.get(`/api/post/statistical`, { params });
+    dispatch(saveRecords(data));
   } catch (error) {
     showStoats("error", error.message);
   }

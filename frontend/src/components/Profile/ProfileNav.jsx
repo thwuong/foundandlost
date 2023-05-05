@@ -11,21 +11,17 @@ function ProfileNav(props) {
       <Link to={"/profile"}>
         <li
           className={`relative duration-300 px-3 py-3 rounded cursor-pointer font-medium  ${
-            activeTab === "post"
-              ? " text-primary after-active"
-              : "hover:bg-gray-200 text-gray-500"
+            activeTab === "post" ? " text-primary after-active" : "hover:bg-gray-200 text-gray-500"
           }`}
         >
-          <span> Bài viết</span>
+          <span> Hồ sơ đồ vật</span>
         </li>
       </Link>
       {user.id === profile.id ? (
         <Link to={"/profile/request"}>
           <li
             className={`relative duration-300  px-3 py-3 rounded cursor-pointer font-medium  ${
-              activeTab === "request"
-                ? "text-primary after-active"
-                : "hover:bg-gray-200 text-gray-500"
+              activeTab === "request" ? "text-primary after-active" : "hover:bg-gray-200 text-gray-500"
             }`}
           >
             <span> Yêu cầu</span>
