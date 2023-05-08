@@ -23,6 +23,7 @@ function PostForm(props) {
       title: "",
       desc: "",
       location: "",
+      dateFoundLost: "",
       postType: "",
       categoryId: "",
     },
@@ -36,6 +37,7 @@ function PostForm(props) {
       location: Yup.string().required("Vui lòng nhập địa điểm!").trim(),
       postType: Yup.string().required("Vui lòng chọn loại bài viết!"),
       categoryId: Yup.string().required("Vui lòng chọn danh mục đồ vật!"),
+      dateFoundLost: Yup.date().default(),
     }),
     onSubmit: (values) => {
       if (!errUpload) {
@@ -45,6 +47,7 @@ function PostForm(props) {
         formData.append("categoryId", values.categoryId);
         formData.append("location", values.location);
         formData.append("postType", values.postType);
+        formData.append("dateFoundLost", values.dateFoundLost);
         if (files.length > 0) {
           for (const file of files) {
             formData.append("images", file);
@@ -110,6 +113,7 @@ function PostForm(props) {
         location: post?.location,
         postType: post?.postType,
         categoryId: post?.categoryId,
+        dateFoundLost: post?.dateFoundLost,
       });
     post?.images?.length > 0 && setOldImages(post?.images);
   }, [post]);
@@ -150,6 +154,20 @@ function PostForm(props) {
               />
               {errors.desc && touched.desc && <FormErrorMessage>{errors.desc}</FormErrorMessage>}
             </FormControl>
+            <FormControl className="mt-4" isInvalid={errors.location && touched.location}>
+              <FormLabel htmlFor="location">Địa điểm</FormLabel>
+
+              <Input
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.location}
+                id="location"
+                name="location"
+                type="text"
+                placeholder="Địa điểm đồ vật được tìm thấy hoặc thất lạc"
+              />
+              {errors.location && touched.location && <FormErrorMessage>{errors.location}</FormErrorMessage>}
+            </FormControl>
           </div>
           <div className="xl:w-2/5 lg:w-2/4">
             <div className="flex gap-5">
@@ -189,19 +207,24 @@ function PostForm(props) {
                 {errors.categoryId && touched.categoryId && <FormErrorMessage>{errors.categoryId}</FormErrorMessage>}
               </FormControl>
             </div>
-            <FormControl className="mt-4" isInvalid={errors.location && touched.location}>
-              <FormLabel htmlFor="location">Địa điểm</FormLabel>
+
+            <FormControl className="mt-4" isInvalid={errors.dateFoundLost && touched.dateFoundLost}>
+              <FormLabel htmlFor="dateFoundLost">
+                {values?.postType === "Found item" ? "Ngày tìm thấy" : "Ngày bị mất"}{" "}
+              </FormLabel>
 
               <Input
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.location}
-                id="location"
-                name="location"
-                type="text"
-                placeholder="Địa điểm đồ vật được tìm thấy hoặc thất lạc"
+                value={values.dateFoundLost}
+                id="dateFoundLost"
+                name="dateFoundLost"
+                type="date"
+                placeholder="Ngày tìm thấy hoặc bị mất"
               />
-              {errors.location && touched.location && <FormErrorMessage>{errors.location}</FormErrorMessage>}
+              {errors.dateFoundLost && touched.dateFoundLost && (
+                <FormErrorMessage>{errors.dateFoundLost}</FormErrorMessage>
+              )}
             </FormControl>
           </div>
         </div>

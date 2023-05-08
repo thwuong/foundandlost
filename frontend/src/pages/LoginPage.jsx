@@ -24,8 +24,9 @@ function LoginPage() {
       <div className="container">
         <main className="flex justify-center items-center">
           <div className="sm:w-2/4 xl:w-2/5 w-full">
-            <h1 className="sm:text-5xl sm:text-left font-bold text-primary leading-tight text-6xl text-center">
-              Welcome to FOUND&LOST SYSTEM
+            <h1 className="sm:text-5xl sm:text-left font-bold text-primary leading-tight text-4xl text-center uppercase">
+              Hệ thống <br /> Tìm đồ thất lạc <br />
+              <span className="text-yellow-500 font-serif">FOUND&LOST</span>
             </h1>
             <h4 className="mt-12 text-2xl text-primary font-medium text-center">Đăng nhập tài khoản</h4>
             <form className="mt-8 w-full mx-auto">
@@ -39,10 +40,10 @@ function LoginPage() {
                   onChange={(e) => {
                     setIdNumber(e.target.value);
                   }}
-                  className="w-full py-2 px-4 outline-primary rounded shadow-xl"
+                  className="w-full py-3 px-4 outline-primary bg-gray-100 border-gray-500/20 border rounded shadow-lg"
                 />
               </div>
-              <div className="mt-8">
+              <div className="mt-6">
                 <input
                   id="password"
                   type="password"
@@ -52,10 +53,10 @@ function LoginPage() {
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
-                  className="w-full py-2 px-4 outline-primary rounded shadow-xl"
+                  className="w-full py-3 px-4 outline-primary bg-gray-100 border-gray-500/20 border rounded shadow-lg"
                 />
               </div>
-              <button onClick={handleSubmit} className="w-full mt-16 py-2 px-4 bg-primary text-white rounded">
+              <button onClick={handleSubmit} className="w-full mt-12 py-3 px-4 bg-primary text-white rounded">
                 Đăng nhập
               </button>
             </form>

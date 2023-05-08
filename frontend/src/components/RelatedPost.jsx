@@ -39,7 +39,7 @@ function RelatedPost(props) {
                     <div className="w-2/3">
                       <div className="flex items-center gap-2">
                         <Badge variant="outline" colorScheme={renderTypePost(postItem?.postType)}>
-                          {postItem?.postType}
+                          {postItem?.postType === "Found item" ? "Tìm thấy" : "Bị mất"}
                         </Badge>
                         <span className="text-sm text-date">{moment(postItem?.createdAt).fromNow()}</span>
                       </div>

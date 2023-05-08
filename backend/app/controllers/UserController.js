@@ -20,6 +20,7 @@ class UserController {
     if (!fullName) {
       return next(createError(400, "Vui lòng nhập tên đầy đủ"));
     }
+
     try {
       const oldUser = await db.User.findOne({
         where: { idNumber },
@@ -30,7 +31,7 @@ class UserController {
       }
       const cryptr = new Cryptr(process.env.HASH_KEY);
       const hashPassword = cryptr.encrypt(password);
-
+      console.log("password", password, "hash", hashPassword);
       const newUser = await db.User.create({
         idNumber: idNumber.toLowerCase(),
         password: hashPassword,
@@ -68,7 +69,9 @@ class UserController {
       const cryptr = new Cryptr(process.env.HASH_KEY);
       const hashPassword = cryptr.encrypt(password);
 
-      const updatedUser = await db.User.update(
+      console.log("password", password, "hash", hashPassword);
+
+      await db.User.update(
         {
           password: hashPassword,
           fullName,
@@ -78,7 +81,6 @@ class UserController {
         { where: { id: userId } }
       );
       const user = await db.User.findByPk(userId, { raw: true });
-      console.log(user);
       res.status(200).json({
         success: true,
         message: `Đã cập nhật tài khoản ${user.idNumber}`,

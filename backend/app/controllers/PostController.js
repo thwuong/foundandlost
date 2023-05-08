@@ -8,7 +8,7 @@ class PostController {
   // body [categoryId, title, desc, location, postType]
   async createPost(req, res, next) {
     const userId = req.user.userId;
-    const { categoryId, title, desc, location, postType } = req.body;
+    const { categoryId, title, desc, location, postType, dateFoundLost } = req.body;
     const images = [];
     if (!title) return next(createError(400, "Vui lòng nhập tiêu đề"));
     if (!postType) return next(createError(400, "Vui lòng chọn loại bài viết"));
@@ -27,6 +27,7 @@ class PostController {
         title,
         desc,
         location,
+        dateFoundLost,
         postType,
         images,
       });
@@ -213,10 +214,10 @@ class PostController {
   // files [images]
   async editPost(req, res, next) {
     const id = req.params.postId;
-    const { categoryId, title, desc, location, postType, oldImages } = req.body;
+    const { categoryId, title, desc, location, postType, oldImages, dateFoundLost } = req.body;
     const stringToArr = oldImages.split(",");
     const images = [];
-
+    console.log(dateFoundLost);
     try {
       if (req.files) {
         for (const file of req.files) {
@@ -229,6 +230,7 @@ class PostController {
         title,
         desc,
         location,
+        dateFoundLost,
         postType,
         images: images.concat(stringToArr),
       };

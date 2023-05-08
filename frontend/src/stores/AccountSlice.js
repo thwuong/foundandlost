@@ -15,7 +15,7 @@ const accountSlice = createSlice({
     },
     saveAccount: (state, actions) => {
       state.accounts = state.accounts.map((acc) => {
-        if (acc.id === actions.payload.id) {
+        if (acc.id === actions.payload.user.id) {
           acc = actions.payload.user;
         }
         return acc;

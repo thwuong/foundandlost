@@ -89,7 +89,9 @@ function PostItem(props) {
           </div>
           <div className="mt-2 flex items-center gap-2">
             <box-icon name="time" color="#6E798C"></box-icon>
-            <span className="text-sm text-date">{moment(item?.createdAt).fromNow()}</span>
+            <span className="text-sm text-date">
+              {item?.dateFoundLost ? moment(item?.dateFoundLost).format("MM/DD/YYYY") : "Không rõ thời gian"}
+            </span>
           </div>
           <div className="mt-2 flex items-center justify-between">
             <Badge variant="outline" colorScheme={renderTypePost(item?.typePost)}>

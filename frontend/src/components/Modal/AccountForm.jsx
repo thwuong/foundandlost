@@ -19,13 +19,13 @@ function AccountForm(props) {
     },
 
     validationSchema: Yup.object().shape({
-      phone: Yup.string().matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, "Số điện thoại không hợp lệ!"),
-      email: Yup.string().required("Vui lòng nhập email").email("email không hợp lệ!"),
+      phone: Yup.string().matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, "Số điện thoại không hợp lệ"),
+      email: Yup.string().required("Vui lòng nhập email").email("email không hợp lệ"),
       idNumber: Yup.string()
-        .required("Vui lòng mã số!")
-        .matches(/([a-z])+([0-9]{7})\b/, "Mã số không hợp lệ!"),
-      password: Yup.string().required("Vui lòng nhập mật khẩu!").min(8, "Ít nhất 8 kí tự").trim(),
-      fullName: Yup.string().required("Vui lòng nhập tên đầy đủ!").trim(),
+        .required("Vui lòng mã số")
+        .matches(/([a-zA-Z])+([0-9]{7})\b/, "Mã số không hợp lệ"),
+      password: Yup.string().required("Vui lòng nhập mật khẩu").min(8, "Ít nhất 8 kí tự").trim(),
+      fullName: Yup.string().required("Vui lòng nhập tên đầy đủ").trim(),
     }),
     onSubmit: (values) => {
       selectedId ? handleEditAccount(values, selectedId) : handleAddAccount(values);
@@ -85,7 +85,7 @@ function AccountForm(props) {
         {errors.password && touched.password && <FormErrorMessage>{errors.password}</FormErrorMessage>}
       </FormControl>
       <FormControl className="mt-4" isInvalid={errors.fullName && touched.fullName}>
-        <FormLabel htmlFor="fullName">Số tên đầy đủ:</FormLabel>
+        <FormLabel htmlFor="fullName">Tên đầy đủ:</FormLabel>
         <Input
           onBlur={handleBlur}
           onChange={handleChange}

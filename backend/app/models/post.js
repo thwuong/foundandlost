@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       desc: DataTypes.STRING,
       location: DataTypes.STRING,
+      dateFoundLost: DataTypes.DATE,
       postType: DataTypes.ENUM("Found item", "Lost item"),
       images: DataTypes.ARRAY(DataTypes.STRING),
       status: DataTypes.ENUM("pending", "comfirmed"),

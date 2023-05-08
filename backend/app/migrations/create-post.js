@@ -41,6 +41,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      dateFoundLost: {
+        type: Sequelize.DATE,
+      },
       images: {
         type: Sequelize.JSON(Sequelize.STRING),
         defaultValue: [],
