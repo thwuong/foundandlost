@@ -37,7 +37,6 @@ function PostForm(props) {
       location: Yup.string().required("Vui lòng nhập địa điểm!").trim(),
       postType: Yup.string().required("Vui lòng chọn loại bài viết!"),
       categoryId: Yup.string().required("Vui lòng chọn danh mục đồ vật!"),
-      dateFoundLost: Yup.date().default(),
     }),
     onSubmit: (values) => {
       if (!errUpload) {

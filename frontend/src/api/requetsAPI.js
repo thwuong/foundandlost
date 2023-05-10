@@ -1,12 +1,8 @@
 import axiosClient from "./axiosClient";
 import showStoats from "../utils/showToast";
 // import silce
-import { saveProfileRequets, removeMyRequest } from "../stores/UserSlice";
-import {
-  saveRequests,
-  addRequest,
-  updateRequest,
-} from "../stores/RequestSlice";
+import { saveProfileRequets, removeMyRequest, updateStatusPost } from "../stores/UserSlice";
+import { saveRequests, addRequest, updateRequest } from "../stores/RequestSlice";
 export const postRequest = async (dispatch, payload) => {
   try {
     const data = await axiosClient.post("/api/request/", payload);
@@ -31,6 +27,10 @@ export const editStatusRequest = async (dispatch, payload, requestId) => {
     console.log(payload);
     const data = await axiosClient.put(`/api/request/${requestId}`, payload);
     dispatch(updateRequest({ ...payload, requestId }));
+    const { status, postId } = payload;
+    if (status === "accepted") {
+      dispatch(updateStatusPost(postId));
+    }
     showStoats("success", data.message);
   } catch (error) {
     showStoats("error", error.message);

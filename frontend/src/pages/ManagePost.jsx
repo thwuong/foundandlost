@@ -18,7 +18,7 @@ function ManagePost() {
     <div className="bg-main-light bg-no-repeat bg-cover min-h-screen">
       <div className="h-full sm:px-0 px-2 sm:w-11/12 w-full mx-auto overflow-hidden min-h-screen">
         <Header activeTab="manage" />
-        <h1 className="my-6 text-primary text-3xl text-center font-bold">QUẢN LÝ HỒ SƠ ĐỒ VẬT</h1>
+        <h1 className="my-6 text-primary text-3xl text-center font-bold">DANH SÁCH HỒ SƠ ĐỒ VẬT</h1>
 
         <div className="xl:flex-row flex flex-col gap-5 mt-4 h-3/5">
           <div className="xl:w-1/5">

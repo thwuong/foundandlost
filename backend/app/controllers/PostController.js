@@ -27,7 +27,7 @@ class PostController {
         title,
         desc,
         location,
-        dateFoundLost,
+        dateFoundLost: dateFoundLost || null,
         postType,
         images,
       });
@@ -217,7 +217,6 @@ class PostController {
     const { categoryId, title, desc, location, postType, oldImages, dateFoundLost } = req.body;
     const stringToArr = oldImages.split(",");
     const images = [];
-    console.log(dateFoundLost);
     try {
       if (req.files) {
         for (const file of req.files) {
@@ -230,7 +229,7 @@ class PostController {
         title,
         desc,
         location,
-        dateFoundLost,
+        dateFoundLost: dateFoundLost || null,
         postType,
         images: images.concat(stringToArr),
       };

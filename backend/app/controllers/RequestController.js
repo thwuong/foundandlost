@@ -30,7 +30,7 @@ class RequestController {
   async updateStatusRequest(req, res, next) {
     const requestId = req.params.requestId;
     const { status, postId } = req.body;
-    console.log(status);
+    console.log(status, postId, requestId);
     try {
       await db.Request.update(
         { status },
@@ -39,7 +39,7 @@ class RequestController {
         }
       );
       if (status === "accepted") {
-        await db.Post.update({ status: "confirmed" }, { where: { id: postId } });
+        await db.Post.update({ status: "comfirmed" }, { where: { id: postId } });
       }
 
       res.status(200).json({

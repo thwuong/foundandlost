@@ -45,7 +45,7 @@ function Navigate(props) {
               : "text-white hover:bg-gray-500/50 hover:-translate-y-1 hover:shadow-xl"
           }`}
         >
-          <span className="sm:block hidden font-bold">Quản lý Hồ sơ đồ vật</span>
+          <span className="sm:block hidden font-bold">Danh sách hồ sơ đồ vật</span>
           <box-icon name="news" color={activeNav === "post" ? "#2457C5" : "white"}></box-icon>
         </li>
       </Link>

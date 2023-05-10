@@ -31,7 +31,7 @@ function StatisticPage() {
     ],
   });
   const nowMonth = new Date().getMonth();
-  const [selected, setSelected] = useState("365");
+  const [selected, setSelected] = useState("90");
   const labels =
     selected === "365"
       ? [
@@ -173,9 +173,9 @@ function StatisticPage() {
                       setSelected(e.target.value);
                     }}
                   >
-                    <option value="90">3 Tháng</option>
-                    <option value="180">6 Tháng</option>
-                    <option value="365">12 Tháng</option>
+                    <option value="90">3 Tháng gần đây</option>
+                    <option value="180">6 Tháng gần đây</option>
+                    <option value="365">12 Tháng gần đây</option>
                   </Select>
                 </div>
                 <div className="grid md:grid-cols-4 gap-4 p-4">

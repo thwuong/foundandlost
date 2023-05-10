@@ -38,7 +38,7 @@ function RequestItem(props) {
             <Badge variant="solid" colorScheme={renderStatusRequest(request?.status)}>
               {request?.status === "pending"
                 ? "Đang chờ duyệt"
-                : request?.status === "confirmed"
+                : request?.status === "accepted"
                 ? "Đã xác minh"
                 : "Đã từ chối"}
             </Badge>
@@ -107,7 +107,7 @@ function RequestItem(props) {
             hide={onCloseVefiryModal}
             title={"Chắc chắn xóa yêu cầu này!"}
             handleVerify={handleRemove}
-            idSelected={request?.id}
+            selectedId={request?.id}
           />
         }
       />

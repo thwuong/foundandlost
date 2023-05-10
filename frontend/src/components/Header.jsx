@@ -60,7 +60,7 @@ function Header(props) {
   }, []);
   return (
     <div className="h-28 flex justify-between items-center z-40 relative">
-      <Link to={"/"} className="flex-1">
+      <Link to={user?.isAdmin ? "/manage" : "/"} className="flex-1">
         <div className="h-28 xl:w-2/4 w-full flex items-center">
           <figure className="lg:w-2/6 sm:w-2/3 w-1/4">
             <img src={logo} alt="logo" className="object-cover" />
@@ -87,7 +87,7 @@ function Header(props) {
         >
           <ul className="mr-10 flex sm:flex-row flex-col sm:gap-10 gap-2">
             {user?.isAdmin ? (
-              <Link to={"/manage/account"}>
+              <Link to={"/manage"}>
                 <li className={`text-lg font-medium  ${activeTab === "manage" ? "text-primary" : "text-black"}`}>
                   Quản Trị viên
                 </li>

@@ -110,8 +110,8 @@ function PostItem(props) {
               <span className="text-sm text-date">{item?.author?.phone}</span>
             </div>
             <div className="flex items-center gap-2">
-              <box-icon name="envelope" color="#E5E7EB"></box-icon>
-              <span className="text-sm text-gray-200">{item?.author?.email}</span>
+              <box-icon name="envelope" color="#6E798C"></box-icon>
+              <span className="text-sm text-date">{item?.author?.email}</span>
             </div>
           </div>
           {user && user.id !== item?.ownerId ? (

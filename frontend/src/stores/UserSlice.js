@@ -22,18 +22,19 @@ const userSlice = createSlice({
       state.myRequests = actions.payload.requests;
     },
     removeMyRequest: (state, actions) => {
-      state.myRequests = state.myRequests.filter(
-        (request) => request.id !== actions.payload
-      );
+      state.myRequests = state.myRequests.filter((request) => request.id !== actions.payload);
+    },
+    updateStatusPost: (state, actions) => {
+      state.myPosts = state.myPosts.map((post) => {
+        if (post.id === actions.payload) {
+          post.status = "comfirmed";
+        }
+        return post;
+      });
     },
   },
 });
 
-export const {
-  saveProfile,
-  changeProfile,
-  saveProfilePosts,
-  saveProfileRequets,
-  removeMyRequest,
-} = userSlice.actions;
+export const { saveProfile, changeProfile, saveProfilePosts, saveProfileRequets, removeMyRequest, updateStatusPost } =
+  userSlice.actions;
 export default userSlice.reducer;
