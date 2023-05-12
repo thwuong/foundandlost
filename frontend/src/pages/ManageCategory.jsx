@@ -16,7 +16,7 @@ function ManageCategory() {
           <Header activeTab="manage" />
           <h1 className="my-6 text-primary text-3xl text-center font-bold">QUẢN LÝ DANH MỤC ĐỒ VẬT</h1>
 
-          <div className="xl:flex-row flex flex-col gap-5 mt-4 h-3/5">
+          <div className="xl:flex-row flex flex-col gap-5 mt-4 h-[65vh]">
             <div className="xl:w-1/5">
               <Navigate activeNav="category" />
             </div>

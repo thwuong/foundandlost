@@ -30,10 +30,10 @@ function PostForm(props) {
     validationSchema: Yup.object({
       title: Yup.string()
         .required("Vui lòng nhập tiêu đề bài viết!")
-        .min(15, "Đồ dài nhỏ nhất nhất 15 kí tự")
+        .min(10, "Đồ dài nhỏ nhất nhất 0 kí tự")
         .max(150, "Đồ dài tối đa 150 kí tự!")
         .trim(),
-      desc: Yup.string().max(255, "Đồ dài tối đa 255 kí tự!").trim(),
+      desc: Yup.string().max(500, "Đồ dài tối đa 500 kí tự!").trim(),
       location: Yup.string().required("Vui lòng nhập địa điểm!").trim(),
       postType: Yup.string().required("Vui lòng chọn loại bài viết!"),
       categoryId: Yup.string().required("Vui lòng chọn danh mục đồ vật!"),
@@ -144,7 +144,7 @@ function PostForm(props) {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.desc}
-                className="h-[130px]"
+                rows={6}
                 as="textarea"
                 id="desc"
                 name="desc"

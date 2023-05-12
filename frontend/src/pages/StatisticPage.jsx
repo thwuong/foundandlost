@@ -11,6 +11,7 @@ import { getRecords } from "../api/postAPI";
 import { getAllAccount } from "../api/accountAPI";
 import { getAllCategory } from "../api/categoryAPI";
 import { getRequestList } from "../api/requetsAPI";
+import { convertMonth } from "../utils/convertMonth";
 function StatisticPage() {
   const { post, category, account, request } = useSelector((state) => state);
   const posts = post.posts;
@@ -30,55 +31,52 @@ function StatisticPage() {
       },
     ],
   });
-  const nowMonth = new Date().getMonth();
   const [selected, setSelected] = useState("90");
   const labels =
     selected === "365"
       ? [
-          "Tháng 1",
-          "Tháng 2",
-          "Tháng 3",
-          "Tháng 4",
-          "Tháng 5",
-          "Tháng 6",
-          "Tháng 7",
-          "Tháng 8",
-          "Tháng 9",
-          "Tháng 10",
-          "Tháng 11",
-          "Tháng 12",
+          `Tháng ${convertMonth(11)}`,
+          `Tháng ${convertMonth(10)}`,
+          `Tháng ${convertMonth(9)}`,
+          `Tháng ${convertMonth(8)}`,
+          `Tháng ${convertMonth(7)}`,
+          `Tháng ${convertMonth(6)}`,
+          `Tháng ${convertMonth(5)}`,
+          `Tháng ${convertMonth(4)}`,
+          `Tháng ${convertMonth(3)}`,
+          `Tháng ${convertMonth(2)}`,
+          `Tháng ${convertMonth(1)}`,
+          `Tháng ${convertMonth(0)}`,
         ]
       : selected === "180"
       ? [
-          `Tháng ${nowMonth - 4 === 0 ? 12 : nowMonth - 4 === 13 ? 1 : nowMonth - 4}`,
-          `Tháng ${nowMonth - 3 === 0 ? 12 : nowMonth - 3 === 13 ? 1 : nowMonth - 3}`,
-          `Tháng ${nowMonth - 2 === 0 ? 12 : nowMonth - 2 === 13 ? 1 : nowMonth - 2}`,
-          `Tháng ${nowMonth - 1 === 0 ? 12 : nowMonth - 1 === 13 ? 1 : nowMonth - 1}`,
-          `Tháng ${nowMonth === 0 ? 12 : nowMonth === 13 ? 1 : nowMonth}`,
-          `Tháng ${nowMonth + 1 === 0 ? 12 : nowMonth + 1 === 13 ? 1 : nowMonth + 1}`,
+          `Tháng ${convertMonth(5)}`,
+          `Tháng ${convertMonth(4)}`,
+          `Tháng ${convertMonth(3)}`,
+          `Tháng ${convertMonth(2)}`,
+          `Tháng ${convertMonth(1)}`,
+          `Tháng ${convertMonth(0)}`,
         ]
-      : [
-          `Tháng ${nowMonth - 1 === 0 ? 12 : nowMonth - 1 === 13 ? 1 : nowMonth - 1}`,
-          `Tháng ${nowMonth === 0 ? 12 : nowMonth === 13 ? 1 : nowMonth}`,
-          `Tháng ${nowMonth + 1 === 0 ? 12 : nowMonth + 1 === 13 ? 1 : nowMonth + 1}`,
-        ];
+      : [`Tháng ${convertMonth(2)}`, `Tháng ${convertMonth(1)}`, `Tháng ${convertMonth(0)}`];
   const conditions =
     selected === "365"
-      ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-      : selected === "180"
       ? [
-          `${nowMonth - 4 === 0 ? 12 : nowMonth - 4 === 13 ? 1 : nowMonth - 4}`,
-          `${nowMonth - 3 === 0 ? 12 : nowMonth - 3 === 13 ? 1 : nowMonth - 3}`,
-          `${nowMonth - 2 === 0 ? 12 : nowMonth - 2 === 13 ? 1 : nowMonth - 2}`,
-          `${nowMonth - 1 === 0 ? 12 : nowMonth - 1 === 13 ? 1 : nowMonth - 1}`,
-          `${nowMonth === 0 ? 12 : nowMonth === 13 ? 1 : nowMonth}`,
-          `${nowMonth + 1 === 0 ? 12 : nowMonth + 1 === 13 ? 1 : nowMonth + 1}`,
+          convertMonth(11),
+          convertMonth(10),
+          convertMonth(9),
+          convertMonth(8),
+          convertMonth(7),
+          convertMonth(6),
+          convertMonth(5),
+          convertMonth(4),
+          convertMonth(3),
+          convertMonth(2),
+          convertMonth(1),
+          convertMonth(0),
         ]
-      : [
-          `${nowMonth - 1 === 0 ? 12 : nowMonth - 1 === 13 ? 1 : nowMonth - 1}`,
-          `${nowMonth === 0 ? 12 : nowMonth === 13 ? 1 : nowMonth}`,
-          `${nowMonth + 1 === 0 ? 12 : nowMonth + 1 === 13 ? 1 : nowMonth + 1}`,
-        ];
+      : selected === "180"
+      ? [convertMonth(5), convertMonth(4), convertMonth(3), convertMonth(2), convertMonth(1), convertMonth(0)]
+      : [convertMonth(2), convertMonth(1), convertMonth(0)];
   const options = {
     responsive: true,
     plugins: {

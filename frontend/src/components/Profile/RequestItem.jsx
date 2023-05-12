@@ -55,9 +55,9 @@ function RequestItem(props) {
               </p>
               {option && (
                 <ul className="absolute top-full right-0 bg-white p-1 rounded-lg flex gap-2 z-10">
-                  <li className="flex items-center cursor-pointer" title="Chỉnh sửa">
+                  {/* <li className="flex items-center cursor-pointer" title="Chỉnh sửa">
                     <box-icon name="pencil" color="#3364C9"></box-icon>
-                  </li>
+                  </li> */}
                   <li className="flex items-center cursor-pointer" title="Xóa" onClick={onOpenVerifyModal}>
                     <box-icon name="trash" color="#3364C9"></box-icon>
                   </li>

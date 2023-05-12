@@ -25,7 +25,7 @@ function PostItem(props) {
     <>
       <div className="lg:flex-row flex-col-reverse flex gap-5 p-4 bg-gray-200 shadow rounded-lg">
         <div className="lg:w-1/2">
-          <figure>
+          <figure className="relative">
             <img
               className="w-full h-[380px] object-center"
               src={imageActive}
@@ -34,6 +34,13 @@ function PostItem(props) {
                 e.target.src = ExtraImage;
               }}
             />
+            {item?.status === "comfirmed" && (
+              <div className="absolute top-0 w-full h-full bg-black/25 rounded-lg flex justify-center items-center">
+                <h1 className="text-xl font-bold text-white rotate-45">
+                  {item?.postType === "Found item" ? "Đã trả cho người mất" : "Đã tìm thấy đồ vật"}
+                </h1>
+              </div>
+            )}
           </figure>
 
           <div className="mt-6 flex justify-center items-center gap-5">

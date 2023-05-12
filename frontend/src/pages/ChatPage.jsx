@@ -43,6 +43,7 @@ function ChatPage() {
   // remove conversation
   const removeConversation = async (conversationId) => {
     await deleteConversation(dispatch, conversationId);
+    dispatch(unSelectConversation());
   };
   //get all user conversation
   useEffect(() => {

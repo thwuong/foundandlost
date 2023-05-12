@@ -28,7 +28,6 @@ function Header(props) {
   const handleMarkRead = async (notificationId, senderId) => {
     await readNotify(dispatch, notificationId);
     await getConversation(dispatch, senderId);
-    console.log(notificationId, senderId);
     navigate("/chat");
   };
   const removeNotice = async (notificationId) => {

@@ -1,10 +1,4 @@
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
+import { Button, FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateProfile } from "../../api/userAPI";
@@ -14,6 +8,7 @@ function UpdateAvatar(props) {
   const [avatar, setAvatar] = useState("");
   const [err, setError] = useState("");
   const [preview, setPreview] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const handleChange = (e) => {
     if (!e.target.files[0]) return;
@@ -30,7 +25,9 @@ function UpdateAvatar(props) {
     if (!err) {
       const formData = new FormData();
       formData.append("avatar", avatar);
+      setIsLoading(true);
       await updateProfile(formData, dispatch);
+      setIsLoading(false);
       hide();
     }
   };
@@ -66,9 +63,7 @@ function UpdateAvatar(props) {
             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
               <span className="font-semibold">Nhấn để tải ảnh lên</span>
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              JPEG, PNG, JPG
-            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">JPEG, PNG, JPG</p>
           </div>
         </FormLabel>
         <Input
@@ -83,14 +78,10 @@ function UpdateAvatar(props) {
       </FormControl>
       {preview ? (
         <figure className="my-4">
-          <img
-            src={preview}
-            alt="preview"
-            className="mx-auto w-28 h-28 object-cover rounded-full"
-          />
+          <img src={preview} alt="preview" className="mx-auto w-28 h-28 object-cover rounded-full" />
         </figure>
       ) : null}
-      <Button type="submit" colorScheme={"messenger"}>
+      <Button type="submit" colorScheme={"messenger"} isLoading={isLoading}>
         Cập nhật
       </Button>
       <Button onClick={hide} ml={4} colorScheme={"pink"} variant="outline">
