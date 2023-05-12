@@ -13,7 +13,7 @@ function RequestForm(props) {
     },
 
     validationSchema: Yup.object().shape({
-      desc: Yup.string().required("Vui lòng nhập mô tả yêu cầu!").max(255, "Không được quá 255 kí tự"),
+      desc: Yup.string().required("Vui lòng nhập mô tả yêu cầu!").max(500, "Không được quá 500 kí tự"),
     }),
     onSubmit: (values) => {
       values.postId = postId;
@@ -31,10 +31,9 @@ function RequestForm(props) {
       <FormControl className="mt-4" isInvalid={errors.desc && touched.desc}>
         <FormLabel htmlFor="desc">Tôi muốn nhận đồ vật này</FormLabel>
         <FormHelperText className="my-4">
-          Vui lòng cho biết tại sao mặt hàng này là của bạn Vui lòng mô tả càng nhiều chi tiết về mặt hàng không hiển
-          thị hoặc không được mô tả để công cụ tìm có thể nhận ra bạn là chủ sở hữu. Và nếu có thể, hãy cung cấp càng
-          nhiều thông tin càng tốt về nơi bạn làm mất đồ (ví dụ: thời gian và địa điểm). Hãy cẩn thận khi chia sẻ thông
-          tin cá nhân.
+          Vui lòng mô tả càng nhiều chi tiết về mặt hàng không hiển thị hoặc không được mô tả để công cụ tìm có thể nhận
+          ra bạn là chủ sở hữu. Và nếu có thể, hãy cung cấp càng nhiều thông tin càng tốt về nơi bạn làm mất đồ (ví dụ:
+          thời gian và địa điểm). Hãy cẩn thận khi chia sẻ thông tin cá nhân.
         </FormHelperText>
         <Textarea
           onBlur={handleBlur}
@@ -43,6 +42,7 @@ function RequestForm(props) {
           size={"md"}
           as="textarea"
           id="desc"
+          rows={8}
           name="desc"
           placeholder="Nhập mô tả yêu cầu"
           resize="none"

@@ -136,7 +136,7 @@ function StatisticPage() {
   useEffect(() => {
     posts &&
       setDataDoughnut({
-        labels: ["Đang chờ xác thực", "Đã được xác thực"],
+        labels: ["Hồ sơ đang chờ xác minh", "Hồ sơ đã được xác minh"],
         datasets: [
           {
             data: [
@@ -150,7 +150,6 @@ function StatisticPage() {
         ],
       });
   }, [posts]);
-  console.log(posts);
   return (
     <>
       <div className="bg-main-light bg-no-repeat bg-cover min-h-screen h-full">
