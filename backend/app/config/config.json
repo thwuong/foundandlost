@@ -16,10 +16,10 @@
     "port": "3306"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "usuozqxh1ybktjv6",
+    "password": "usuozqxh1ybktjv6",
+    "database": "bggyvynkvb8kbtix2chq",
+    "host": "bggyvynkvb8kbtix2chq-mysql.services.clever-cloud.com",
     "dialect": "mysql",
     "port": "3306"
   }
