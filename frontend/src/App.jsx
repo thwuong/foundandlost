@@ -26,7 +26,9 @@ function App() {
   const dispatch = useDispatch();
   const url = import.meta.env.MODE === "development" ? "https://localhost:5000" : "https://foundandlost.vercel.app";
   useEffect(() => {
-    const socket = io(url);
+    const socket = io(url, {
+      transports: ["websocket"],
+    });
     dispatch(saveSocket(socket));
   }, []);
   return (
