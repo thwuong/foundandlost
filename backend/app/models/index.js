@@ -36,15 +36,3 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 module.exports = db;
-// edit
-module.exports = {
-  async connectDB() {
-    try {
-      await sequelize.authenticate();
-      console.log("Connection has been established successfully.");
-    } catch (error) {
-      console.error("Unable to connect to the database:", error);
-    }
-  },
-  sequelize,
-};
