@@ -8,6 +8,9 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
   ...config,
   dialectModule: mysql2,
   logging: false,
+  pool: {
+    maxUses: 20,
+  },
 });
 
 module.exports = {

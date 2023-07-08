@@ -13,6 +13,10 @@ const { createRoute } = require("./app/routes/index");
 const { socketServer } = require("./socketServer");
 const { createError } = require("./app/utils/createError");
 const { followPostExpried } = require("./app/utils/schedule");
+
+const env = process.env.NODE_ENV || "development";
+const rootUrl = env === "production" ? "http://localhost:5000" : "https://foundandlost.vercel.app";
+console.log(env);
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,7 +36,7 @@ app.all("*", (req, res, next) => {
 app.use(errorHandler);
 const io = new Server(http, {
   cors: {
-    origin: "*",
+    origin: rootUrl,
     methods: ["GET", "POST"],
   },
 });
