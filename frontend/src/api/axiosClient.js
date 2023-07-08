@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 import { updateToken } from "../stores/AuthSlice";
 import { store } from "../stores/index";
 
-const url = import.meta.env.MODE === "development" ? "https://localhost:5000" : "https://foundandlost.vercel.app/";
+const url = import.meta.env.MODE === "development" ? "https://localhost:5000" : "https://foundandlost.vercel.app";
 const axiosClient = axios.create({
   baseURL: url,
   headers: {
@@ -23,7 +23,7 @@ axiosClient.interceptors.request.use(async (config) => {
     let date = new Date();
     if (decodedToken.exp < date.getTime() / 1000) {
       try {
-        const { data } = await axios.post("/api/auth/refresh");
+        const { data } = await axios.post(`${url}/api/auth/refresh`);
         store.dispatch(updateToken(data));
         config.headers.authorization = `Bearer ${data.accessToken}`;
       } catch (error) {

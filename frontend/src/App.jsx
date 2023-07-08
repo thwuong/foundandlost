@@ -24,7 +24,7 @@ import RequireAuth from "./utils/RequireAuth";
 
 function App() {
   const dispatch = useDispatch();
-  const url = import.meta.env.MODE === "development" ? "http://localhost:5000" : "https://foundandlost.vercel.app/";
+  const url = import.meta.env.MODE === "development" ? "https://localhost:5000" : "https://foundandlost.vercel.app";
   useEffect(() => {
     const socket = io(url);
     dispatch(saveSocket(socket));
