@@ -1,8 +1,11 @@
+require("dotenv").config();
 const { Sequelize } = require("sequelize");
-import mysql2 from "mysql2";
-const sequelize = new Sequelize("foundandlost", "root", "chiast123", {
-  host: "localhost",
-  dialect: "mysql",
+const env = process.env.NODE_ENV || "development";
+const config = require(__dirname + "/../config/config.json")[env];
+
+const mysql2 = require("mysql2");
+const sequelize = new Sequelize(config.database, config.username, config.password, {
+  ...config,
   dialectModule: mysql2,
   logging: false,
 });
