@@ -6,11 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5001,
-    proxy: {
-      "/api": {
-        target: "https://foundandlost.vercel.app/",
-        changeOrigin: true,
-      },
-    },
+    // proxy: {
+    //   "/api": {
+    //     target: "https://foundandlost.vercel.app/",
+    //     changeOrigin: true,
+    //   },
+    // },
   },
 });

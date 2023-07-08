@@ -2,7 +2,10 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { updateToken } from "../stores/AuthSlice";
 import { store } from "../stores/index";
+
+const url = import.meta.env.MODE === "development" ? "https://localhost:5000" : "https://foundandlost.vercel.app/";
 const axiosClient = axios.create({
+  baseURL: url,
   headers: {
     "Content-Type": "application/json",
     "Content-Type": "application/x-www-form-urlencoded",
@@ -10,10 +13,7 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(async (config) => {
-  if (
-    config.url.indexOf("/api/auth/login") >= 0 ||
-    config.url.indexOf("/api/auth/logout") >= 0
-  ) {
+  if (config.url.indexOf("/api/auth/login") >= 0 || config.url.indexOf("/api/auth/logout") >= 0) {
     return config;
   }
   const token = store.getState().auth.token;
