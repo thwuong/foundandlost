@@ -15,8 +15,7 @@ const { createError } = require("./app/utils/createError");
 const { followPostExpried } = require("./app/utils/schedule");
 
 const env = process.env.NODE_ENV || "development";
-const rootUrl = env === "production" ? "http://localhost:5000" : "https://foundandlost.vercel.app";
-console.log(env);
+const rootUrl = env === "development" ? "http://localhost:5000" : "https://foundandlost.vercel.app";
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -44,8 +43,6 @@ io.on("connection", (socket) => {
   socketServer(socket);
 });
 cron.schedule("*/10 * * * *", () => {
-  console.log("running a task every 10 second");
-  // write your login here, delete your records
   try {
     followPostExpried();
   } catch (error) {
