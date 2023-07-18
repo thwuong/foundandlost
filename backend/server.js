@@ -15,7 +15,7 @@ const { createError } = require("./app/utils/createError");
 const { followPostExpried } = require("./app/utils/schedule");
 
 const env = process.env.NODE_ENV || "development";
-const rootUrl = env === "development" ? "http://localhost:5000" : "https://foundandlost.vercel.app";
+// const rootUrl = env === "development" ? "http://localhost:5000" : "https://foundandlost.vercel.app";
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,12 +33,13 @@ app.all("*", (req, res, next) => {
 });
 
 app.use(errorHandler);
-const io = new Server(http, {
-  cors: {
-    origin: rootUrl,
-    methods: ["GET", "POST"],
-  },
-});
+const io = new Server(http);
+// const io = new Server(http, {
+//   cors: {
+//     origin: rootUrl,
+//     methods: ["GET", "POST"],
+//   },
+// });
 io.on("connection", (socket) => {
   socketServer(socket);
 });
