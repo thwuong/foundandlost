@@ -15,7 +15,7 @@ const { createError } = require("./app/utils/createError");
 const { followPostExpried } = require("./app/utils/schedule");
 
 const env = process.env.NODE_ENV || "development";
-const rootUrl = env === "development" ? "http://localhost:5000" : "http://foundandlost.vercel.app";
+const rootUrl = env === "development" ? "http://localhost:5000" : "https://foundandlost.vercel.app";
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
